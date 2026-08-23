@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 — Exam 1 Practice Exam Part 2 (Module 1)</title>
+<style>
+  :root {
+    --navy: #1b3a5c;
+    --navy-deep: #12283f;
+    --teal: #2c7a7b;
+    --teal-light: #eaf3f3;
+    --amber: #b7791f;
+    --amber-bg: #fdf3e1;
+    --green: #2f855a;
+    --green-bg: #eafaf1;
+    --red: #9b2c2c;
+    --red-bg: #fdecec;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --line: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+
+  header.top {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+  }
+  header.top .kicker {
+    font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #9fc6e0; font-weight: 700; margin-bottom: 6px;
+  }
+  header.top h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; letter-spacing: -0.01em; }
+  header.top p { margin: 0; color: #d8e6f0; font-size: 14.5px; }
+
+  .progress-row {
+    display: flex; align-items: center; gap: 12px;
+    margin: 18px 0 4px;
+  }
+  .progress-track {
+    flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal), var(--navy));
+    width: 2%; transition: width 0.25s ease;
+  }
+  .progress-label { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+  .section-tag {
+    display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--teal); background: var(--teal-light);
+    padding: 4px 10px; border-radius: 99px; margin-bottom: 14px;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px 26px 22px; box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+  }
+  .prompt { font-size: 17px; line-height: 1.55; font-weight: 600; margin: 0 0 20px; color: var(--ink); }
+
+  .option {
+    display: flex; align-items: flex-start; gap: 12px;
+    width: 100%; text-align: left; background: #fff;
+    border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 13px 16px; margin-bottom: 10px; cursor: pointer;
+    font-size: 15px; line-height: 1.45; color: var(--ink);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .option:hover:not(.locked) { border-color: var(--teal); background: #fbfefe; }
+  .option .letter {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg); border: 1.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-weight: 700; color: var(--muted);
+  }
+  .option.selected:not(.locked) { border-color: var(--navy); background: #f3f7fb; }
+  .option.selected:not(.locked) .letter { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  .option.locked { cursor: default; }
+  .option.correct-answer { border-color: var(--green); background: var(--green-bg); }
+  .option.correct-answer .letter { background: var(--green); border-color: var(--green); color: #fff; }
+  .option.wrong-answer { border-color: var(--red); background: var(--red-bg); }
+  .option.wrong-answer .letter { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .submit-row { margin-top: 18px; display: flex; gap: 10px; }
+  button.btn {
+    font-family: inherit; font-size: 14.5px; font-weight: 700;
+    padding: 11px 20px; border-radius: 9px; border: none; cursor: pointer;
+    transition: opacity 0.15s, transform 0.05s;
+  }
+  button.btn:active { transform: scale(0.98); }
+  button.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--navy-deep); }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--navy); }
+
+  .rationale-box {
+    margin-top: 18px; padding: 16px 18px; border-radius: 10px;
+    border-left: 4px solid var(--teal); background: var(--teal-light);
+    font-size: 14.5px; line-height: 1.55;
+  }
+  .rationale-box.correct { border-left-color: var(--green); background: var(--green-bg); }
+  .rationale-box.incorrect { border-left-color: var(--red); background: var(--red-bg); }
+  .rationale-box .verdict {
+    font-weight: 800; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.03em;
+    margin-bottom: 6px; display: block;
+  }
+  .rationale-box.correct .verdict { color: var(--green); }
+  .rationale-box.incorrect .verdict { color: var(--red); }
+
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 22px;
+  }
+  .nav-row .spacer { flex: 1; }
+
+  /* Results screen */
+  .results-card { text-align: center; padding: 40px 28px; }
+  .score-ring {
+    width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    background: conic-gradient(var(--teal) calc(var(--pct) * 1%), var(--line) 0);
+  }
+  .score-ring-inner {
+    width: 112px; height: 112px; border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .score-ring-inner .big { font-size: 30px; font-weight: 800; color: var(--navy); }
+  .score-ring-inner .small { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .results-card h2 { margin: 0 0 6px; font-size: 22px; color: var(--ink); }
+  .results-card p.sub { color: var(--muted); margin: 0 0 28px; font-size: 14.5px; }
+
+  .section-breakdown { text-align: left; margin: 0 0 28px; }
+  .section-breakdown .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px;
+  }
+  .section-breakdown .row:last-child { border-bottom: none; }
+  .section-breakdown .row .name { color: var(--ink); font-weight: 600; }
+  .section-breakdown .row .frac { color: var(--muted); font-weight: 700; }
+
+  .review-list { text-align: left; margin-top: 8px; }
+  .review-item {
+    padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-item .qnum { font-weight: 700; color: var(--muted); margin-right: 6px; }
+  .review-item .tag {
+    display: inline-block; font-size: 11px; font-weight: 800; padding: 2px 8px;
+    border-radius: 99px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.02em;
+  }
+  .review-item .tag.correct { background: var(--green-bg); color: var(--green); }
+  .review-item .tag.incorrect { background: var(--red-bg); color: var(--red); }
+
+  footer.credit {
+    text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 28px;
+  }
+
+  @media (max-width: 480px) {
+    header.top { padding: 22px 18px 18px; }
+    .card { padding: 20px 18px 18px; }
+    .prompt { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">NURS 5230 — Advanced Psychiatric Care Across the Lifespan</div>
+    <h1>Exam 1 Practice Exam — Part 2</h1>
+    <p>Module 1 (Weeks 1–2) — 50 additional vignette-style questions covering material NOT tested in Part 1: MSE frameworks, legal frameworks, epidemiology, all three schizophrenia neurobiology hypotheses, FDA timelines, and Wheeler's general psychotherapy framework.</p>
+  </header>
+
+  <div id="quiz-area"></div>
+
+  <footer class="credit">Sources: Dulcan · Boland &amp; Verduin · Wheeler · DSM-5 · course PowerPoints — built for personal exam prep.</footer>
+
+</div>
+
+<script>
+const QUESTIONS = [
+{s:"Evaluation & Development", q:"During a pediatric MSE, a clinician documents the child's attention, persistence, frustration tolerance, and impulsivity, along with a clinical estimate of intelligence and an assessment of judgment and insight. Whose MSE framework most closely matches this organization?",
+ o:["Boland's framework (general description, language/speech, thought, mood/affect, insight/judgment, cognition)","Dulcan's framework (appearance, interaction, motor activity, mood/affect, attention/impulsivity, aggression, speech, hallucinations, intelligence estimate, judgment/insight)","The DSM-5 cross-cutting symptom measure","The Vanderbilt Rating Scale"], c:1,
+ r:"Dulcan's pediatric MSE framework explicitly includes attention, persistence, frustration tolerance, impulsivity, oppositionality, and a clinical estimate of intelligence alongside judgment/insight — a more granular breakdown than Boland's six-domain structure."},
+{s:"Evaluation & Development", q:"A clinician is asked to justify why a psychiatric evaluation includes a physical and neurological exam. What is the best rationale?",
+ o:["It is only required by insurance billing codes","It helps rule out medical or organic contributors to the presenting psychiatric symptoms","It replaces the need for any psychiatric interview","It is only necessary for children under age 2"], c:1,
+ r:"A physical and neurological exam is part of a complete pediatric work-up specifically to rule out medical or organic contributors to psychiatric symptoms before finalizing a DSM-5 diagnosis."},
+{s:"Evaluation & Development", q:"A clinical psychologist is asked to formally assess a child's intellectual potential, cognitive skills, fund of knowledge, and adaptive functioning as part of a work-up. This is best described as:",
+ o:["The clinical MSE estimate of intelligence","Formal standardized psychological testing","A semi-structured interview like CAPA","A broadband rating scale like the CBCL"], c:1,
+ r:"Formal psychological testing is a distinct, standardized process performed by a clinical psychologist — separate from the clinician's own clinical/MSE-based estimate of intelligence during the interview."},
+{s:"Evaluation & Development", q:"When two treatment options for a child both carry reasonable evidence, which factor should NOT be the deciding consideration in treatment planning?",
+ o:["Risk of physical harm to the child or others","Which symptoms are most urgent to address","The clinician's convenience in scheduling follow-up visits","Whether the family is motivated or resistant to a given approach"], c:2,
+ r:"Treatment planning factors include risk of harm, symptom urgency, treatment-accessibility of symptoms, and family motivation/resistance — not clinician scheduling convenience."},
+{s:"Evaluation & Development", q:"A resident asks whether it's acceptable to prescribe an SSRI to an 8-year-old for an indication that isn't FDA-approved for that age group. What is the most accurate response?",
+ o:["This is never acceptable under any circumstances","This is common and expected practice, since most pediatric psychiatric medications are used off-label, though it raises the bar for informed consent","This requires a court order","This is only acceptable if the child is enrolled in a clinical trial"], c:1,
+ r:"Off-label prescribing is expected practice in pediatric psychopharmacology since few medications are FDA-labeled specifically for children — but it raises (not eliminates) the bar for informed consent and documentation."},
+{s:"Evaluation & Development", q:"A 15-month-old explores objects primarily through mouthing, banging, and physical manipulation, with no evidence yet of symbolic play or language-based reasoning. Which Piagetian stage is this?",
+ o:["Sensorimotor","Preoperational","Concrete operational","Formal operational"], c:0,
+ r:"The sensorimotor stage (birth–2 years) is defined by learning through the senses and motor action, before symbolic or language-based thought emerges."},
+{s:"Evaluation & Development", q:"A 4-year-old insists that a tall, narrow glass has 'more' juice than a short, wide glass containing the same volume, and cannot be reasoned out of this belief despite watching the liquid poured between the two. This reflects which Piagetian stage?",
+ o:["Sensorimotor","Preoperational","Concrete operational","Formal operational"], c:1,
+ r:"The preoperational stage (2–7 years) is marked by symbolic thought and egocentrism, and a lack of conservation — the classic glass/volume test the 4-year-old fails here."},
+{s:"Evaluation & Development", q:"A 16-year-old can reason through multiple hypothetical outcomes of a decision she hasn't yet made, weighing abstract trade-offs. Which Piagetian stage best fits?",
+ o:["Sensorimotor","Preoperational","Concrete operational","Formal operational"], c:3,
+ r:"Formal operational thought (11–19 years) is defined by the capacity for abstract and hypothetical reasoning, which this scenario demonstrates."},
+{s:"Neurodevelopmental Disorders", q:"A child's intellectual disability is ultimately traced to lead exposure at age 3. This is classified as which type of cause?",
+ o:["Genetic cause","Prenatal cause","Perinatal cause","A cause arising in infancy/childhood"], c:3,
+ r:"Lead exposure occurring in childhood (rather than during pregnancy or around birth) is classified as a cause arising in infancy/childhood, alongside brain infections, head trauma, and malnutrition at that stage."},
+{s:"Neurodevelopmental Disorders", q:"A child's ID is traced to hyperbilirubinemia-related encephalopathy shortly after a traumatic vaginal delivery. This is classified as which type of cause?",
+ o:["Genetic cause","Prenatal cause","Perinatal cause","Postnatal infectious cause"], c:2,
+ r:"Hyperbilirubinemia-related encephalopathy occurring around the time of birth is a classic perinatal cause of intellectual disability, alongside extreme prematurity, birth trauma, and anoxia/asphyxia."},
+{s:"Neurodevelopmental Disorders", q:"Which law requires public school systems to provide appropriate educational services to children with disabilities, predating the 'least restrictive environment' standard?",
+ o:["IDEA (1990)","PL 94-142 (1975)","ADA (1990)","Section 504 (1973)"], c:1,
+ r:"Public Law 94-142 (1975) was the original law requiring appropriate public education for children with disabilities; IDEA (1990) later established the least restrictive environment standard."},
+{s:"Neurodevelopmental Disorders", q:"A 5-year-old has poor articulation that makes his speech difficult for unfamiliar listeners to understand, but his vocabulary, grammar, and social use of language are all age-appropriate. What is the most likely diagnosis?",
+ o:["Language disorder","Speech sound disorder","Social (pragmatic) communication disorder","Childhood-onset fluency disorder"], c:1,
+ r:"Speech sound disorder involves persistent difficulty producing speech sounds clearly enough to be understood, distinct from language disorder (which affects vocabulary/grammar/discourse)."},
+{s:"Neurodevelopmental Disorders", q:"A child has significant, persistent difficulty with vocabulary, sentence structure, and forming coherent discourse, substantially below age expectations, interfering with academics. Articulation itself is clear and intelligible. What is the most likely diagnosis?",
+ o:["Language disorder","Speech sound disorder","Childhood-onset fluency disorder","Social (pragmatic) communication disorder"], c:0,
+ r:"Language disorder involves difficulty with vocabulary, sentence structure, and discourse specifically, distinct from speech sound disorder (articulation) or fluency disorder (stuttering)."},
+{s:"Neurodevelopmental Disorders", q:"By what age does language ability become stable enough to reliably predict a child's later language outcomes?",
+ o:["Age 2","Age 4","Age 6","Age 9"], c:1,
+ r:"By age 4, language ability is stable enough to be predictive of later outcomes — an important benchmark when counseling families about prognosis."},
+{s:"Neurodevelopmental Disorders", q:"Between receptive and expressive language impairments, which carries a worse long-term prognosis?",
+ o:["Expressive-only impairments carry a worse prognosis","Receptive impairments carry a worse prognosis","Both carry identical prognosis","Prognosis cannot be predicted for either type"], c:1,
+ r:"Receptive language impairments carry a worse prognosis than expressive-only impairments — a detail worth remembering when counseling families."},
+{s:"Neurodevelopmental Disorders", q:"Approximately what fraction of children with autism spectrum disorder are male?",
+ o:["About half","About 4 out of 5","Roughly equal to females","Almost none"], c:1,
+ r:"ASD shows a male predominance of roughly 4:1, meaning about 4 out of every 5 diagnosed children are male."},
+{s:"Neurodevelopmental Disorders", q:"A clinician explains that autism spectrum disorder severity specifiers for Criterion A and Criterion B are rated separately, ranging from Level 1 to Level 3. What determines the level assigned?",
+ o:["The total number of symptoms present","The age at which symptoms first appeared","The amount of support the individual needs","Whether the child also has an intellectual disability"], c:2,
+ r:"ASD severity levels (1–3, 'requiring support' through 'requiring very substantial support') are based on the level of support needed, not on a raw symptom count."},
+{s:"Neurodevelopmental Disorders", q:"A 9-year-old with specific learning disorder in reading has been receiving direct remedial reading instruction for a year and shows steady, though slow, improvement. His parents ask about the value of also screening for other conditions. Why might this be worthwhile?",
+ o:["It isn't worthwhile — specific learning disorder never co-occurs with other conditions","Specific learning disorder commonly co-occurs with ADHD, communication disorders, conduct disorder, and depressive disorders","Only autism spectrum disorder needs to be ruled out","Screening is unnecessary once remediation has started"], c:1,
+ r:"Specific learning disorder commonly co-occurs with ADHD, communication disorders, conduct disorder, and depressive disorders, so screening for these is clinically worthwhile even once remediation is underway."},
+{s:"Neurodevelopmental Disorders", q:"Approximately what percentage of school-age children are affected by developmental coordination disorder?",
+ o:["Less than 1%","5–6%","15–20%","Over 30%"], c:1,
+ r:"Developmental coordination disorder affects roughly 5–6% of school-age children, and about half also have comorbid ADHD or dyslexia."},
+{s:"Neurodevelopmental Disorders", q:"A clinician is describing severity in stereotypic movement disorder to a family. What distinguishes 'mild' from 'severe' severity in this diagnosis?",
+ o:["Mild movements are rhythmic while severe movements are not","Mild behavior is easily suppressed by distraction, while severe behavior requires continuous monitoring/protective measures to prevent injury","Severity is based solely on the number of different movements present","Severity is determined by the child's IQ"], c:1,
+ r:"Severity in stereotypic movement disorder ranges from mild (easily suppressed by distraction) to severe (requiring continuous monitoring and protective measures to prevent serious injury)."},
+{s:"Neurodevelopmental Disorders", q:"DSM-IV previously required ADHD symptoms to be present before what age, which DSM-5 later revised upward?",
+ o:["Age 5, revised to age 7","Age 7, revised to age 12","Age 10, revised to age 14","Age 3, revised to age 6"], c:1,
+ r:"DSM-IV required symptom onset before age 7; DSM-5 revised this threshold upward to before age 12, reflecting evidence that later-recognized presentations are still valid ADHD."},
+{s:"Neurodevelopmental Disorders", q:"A clinician explains to a resident that mixed amphetamine salts and lisdexamfetamine both belong to which pharmacologic class?",
+ o:["Methylphenidate-based agents","Amphetamine-based agents","Alpha-2 adrenergic agonists","Selective norepinephrine reuptake inhibitors"], c:1,
+ r:"Mixed amphetamine salts and lisdexamfetamine are both amphetamine-based stimulants, distinct from the methylphenidate-based class (methylphenidate, dexmethylphenidate)."},
+{s:"Neurodevelopmental Disorders", q:"The NIMH MTA study is best known for demonstrating which finding about ADHD treatment?",
+ o:["Behavioral therapy alone outperformed medication for all symptom domains","Optimally titrated methylphenidate alone outperformed intensive behavioral therapy alone for core ADHD symptoms, and combined treatment outperformed either alone","Medication provided no benefit beyond placebo","Atomoxetine was superior to all stimulants"], c:1,
+ r:"The landmark NIMH MTA study found that optimally titrated methylphenidate alone outperformed intensive behavioral therapy alone for core ADHD symptoms, with combined treatment outperforming either alone."},
+{s:"Neurodevelopmental Disorders", q:"A child with ADHD is switched from an immediate-release stimulant formulation to a long-acting formulation. What is the most likely clinical reason for this change?",
+ o:["Long-acting formulations work faster than immediate-release","Long-acting formulations provide more consistent coverage over a longer duration (6–12+ hours vs. 3–4 hours for IR), reducing dosing frequency","Long-acting formulations are less likely to cause any side effects","Long-acting formulations are only available as a nonstimulant"], c:1,
+ r:"Long-acting stimulant formulations extend coverage to 6–12+ hours compared to 3–4 hours for immediate-release forms, reducing the need for multiple daily doses while onset remains similarly fast."},
+{s:"Neurodevelopmental Disorders", q:"A family asks how common oppositional defiant disorder is among children with predominantly inattentive-presentation ADHD (as opposed to combined presentation). What is the most accurate answer?",
+ o:["It occurs in about half of cases, the same as combined presentation","It occurs in about a quarter of cases, somewhat less than in combined presentation","It never co-occurs with inattentive presentation","It occurs in nearly all cases"], c:1,
+ r:"ODD co-occurs in roughly a quarter of inattentive-presentation ADHD cases, compared to about half of combined-presentation cases."},
+{s:"Neurodevelopmental Disorders", q:"Which of the following is an approved use for guanfacine and clonidine beyond ADHD augmentation?",
+ o:["First-line treatment of schizophrenia","Treatment of tic disorders","First-line treatment of specific learning disorder","Treatment of intellectual disability itself"], c:1,
+ r:"Guanfacine and clonidine, as alpha-2 adrenergic agonists, are also a mainstay treatment for tic disorders, in addition to their use as second-/third-line ADHD agents."},
+{s:"Neurodevelopmental Disorders", q:"Approximately what percentage of children are affected by tic disorders overall?",
+ o:["About 3%","About 15%","About 30%","Less than 0.1%"], c:0,
+ r:"Tic disorders affect roughly 3% of children, with Tourette's disorder specifically being about 4 times more common in males."},
+{s:"Neurodevelopmental Disorders", q:"Which two conditions show the highest rates of comorbidity with Tourette's disorder?",
+ o:["Intellectual disability and Rett syndrome","OCD and ADHD","Schizophrenia and bipolar disorder","Fragile X syndrome and Prader-Willi syndrome"], c:1,
+ r:"Tourette's disorder shows high comorbidity with both OCD and ADHD — a classic tested pairing."},
+{s:"Neurodevelopmental Disorders", q:"A clinician is asked which neurotransmitter systems are most implicated in the pathophysiology of tic disorders. What is the best answer?",
+ o:["GABA, serotonin, and dopamine","Only acetylcholine","Only glutamate","Histamine and norepinephrine exclusively"], c:0,
+ r:"GABA, serotonin, and dopamine systems are all implicated in the neurochemistry of tic disorders."},
+{s:"Neurodevelopmental Disorders", q:"A 3-year-old girl with a known FMR1 premutation is being evaluated. Her parents ask about typical associated features beyond intellectual disability. Which of the following is a commonly associated feature of Fragile X syndrome?",
+ o:["Post-pubertal macroorchidism and hyperextensible joints","Compulsive hyperphagia","Regression of purposeful hand use with hand-wringing","Weak newborn Moro reflex"], c:0,
+ r:"Post-pubertal macroorchidism and hyperextensible joints, along with a long head and short stature, are classic Fragile X features — the other options describe Prader-Willi, Rett syndrome, and Trisomy 21 respectively."},
+{s:"Neurodevelopmental Disorders", q:"Which of the following is classified under the DSM-5 Neurodevelopmental Disorders category?",
+ o:["Disruptive mood dysregulation disorder","Oppositional defiant disorder","Motor disorders, including developmental coordination disorder and stereotypic movement disorder","Generalized anxiety disorder"], c:2,
+ r:"Motor disorders (developmental coordination disorder, stereotypic movement disorder) fall under DSM-5 Neurodevelopmental Disorders, alongside ID, communication disorders, ASD, ADHD, specific learning disorder, and tic disorders. DMDD, ODD, and GAD are classified elsewhere."},
+
+{s:"Schizophrenia", q:"A study finds that a medication's clinical antipsychotic potency correlates strongly with how tightly it binds and blocks the D2 dopamine receptor. This finding is the classic evidence supporting which hypothesis?",
+ o:["Serotonin hypothesis","Dopamine hypothesis","GABA hypothesis","Glutamate hypothesis"], c:1,
+ r:"Antipsychotic potency correlating with D2 receptor antagonism is the classic evidence supporting the dopamine hypothesis of schizophrenia."},
+{s:"Schizophrenia", q:"Clozapine's particular effectiveness against positive symptoms, attributed to its strong serotonin-receptor antagonism, is cited as evidence for which etiologic hypothesis of schizophrenia?",
+ o:["Dopamine hypothesis","Serotonin hypothesis","GABA hypothesis","Neural circuit / disconnect hypothesis"], c:1,
+ r:"Clozapine's strong serotonin-antagonist activity and particular effectiveness against positive symptoms support the serotonin hypothesis of schizophrenia."},
+{s:"Schizophrenia", q:"Some patients with schizophrenia show a loss of inhibitory neurons in the hippocampus, theorized to disinhibit dopamine neurons and contribute to dopaminergic hyperactivity. Which neurotransmitter system does this describe?",
+ o:["Dopamine","Serotonin","GABA","Glutamate"], c:2,
+ r:"This describes the GABA hypothesis — loss of inhibitory GABAergic neurons in the hippocampus may disinhibit dopamine neurons, contributing to dopaminergic hyperactivity."},
+{s:"Schizophrenia", q:"A more recent model of schizophrenia frames it less as damage isolated to a single brain region and more as a disorder of interconnected pathways spanning the frontal lobes, basal ganglia, and cerebellum. This model is best described as the:",
+ o:["Dopamine hypothesis","Serotonin hypothesis","Neural circuit / 'disconnect' hypothesis","GABA hypothesis"], c:2,
+ r:"The neural circuit or 'disconnect' hypothesis reframes schizophrenia as a disorder of interconnected circuits (frontal lobe–basal ganglia–cerebellum) rather than damage to a single region."},
+{s:"Schizophrenia", q:"By approximately what factor does the incidence of schizophrenia increase from childhood-onset rates to adolescent rates?",
+ o:["No meaningful increase","Roughly 5-fold","Roughly 50-fold","Roughly 500-fold"], c:2,
+ r:"Incidence increases roughly 50-fold from childhood-onset rates (fewer than 1 in 40,000) to adolescent rates, reflecting how rare true childhood-onset disease is compared to adolescent-onset."},
+{s:"Schizophrenia", q:"A clinician notes that boys with childhood-onset schizophrenia tend to be identified at a younger age than girls with the same diagnosis. What is the approximate overall male-to-female ratio in childhood-onset schizophrenia?",
+ o:["1:1 (equal)","Roughly 1.67:1 (male predominance)","Roughly 4:1 (male predominance)","Roughly 1:4 (female predominance)"], c:1,
+ r:"Childhood-onset schizophrenia shows a slight male predominance of roughly 1.67:1, with boys typically identified at a younger age than girls."},
+{s:"Schizophrenia", q:"A 10-year-old with schizophrenia reports experiencing hallucinations involving unusual smells that aren't present. Compared to adult-onset disease, what does the literature say about this symptom type in childhood-onset schizophrenia?",
+ o:["Olfactory hallucinations are never seen in schizophrenia at any age","Children with COS show unexpectedly high rates of tactile, olfactory, and visual hallucinations compared to adults, though auditory remains most common overall","This symptom is diagnostic of a medical cause, never schizophrenia","Olfactory hallucinations only occur in adult-onset disease"], c:1,
+ r:"While auditory hallucinations are most common overall, children with childhood-onset schizophrenia show unexpectedly high rates of tactile, olfactory, and visual hallucinations compared with adults."},
+{s:"Schizophrenia", q:"Which of the following is associated with a POORER prognosis in childhood-onset schizophrenia?",
+ o:["Later, more acute onset with clear precipitating stressors","Strong premorbid functioning and no family history","A longer duration of untreated first episode","Female sex"], c:2,
+ r:"A longer duration of untreated first episode, along with younger/insidious onset, developmental delay, lower premorbid functioning, and family history of schizophrenia, is associated with poorer prognosis."},
+{s:"Schizophrenia", q:"Besides risperidone and aripiprazole (2007), which pair of second-generation antipsychotics received FDA approval for adolescent schizophrenia in 2009?",
+ o:["Lurasidone and paliperidone","Olanzapine and quetiapine","Clozapine and haloperidol","Ziprasidone and thioridazine"], c:1,
+ r:"Olanzapine and quetiapine received FDA approval for adolescent schizophrenia in 2009, following risperidone/aripiprazole in 2007 and preceding lurasidone/paliperidone in 2017."},
+{s:"Schizophrenia", q:"A patient with schizophrenia is doing well symptomatically on an antipsychotic but has gained significant weight with minimal extrapyramidal symptoms. Which medication is most consistent with this side-effect pattern?",
+ o:["Olanzapine","Haloperidol","Ziprasidone alone","Pimozide"], c:0,
+ r:"Olanzapine is associated with significant sedation and weight gain but generally lower rates of extrapyramidal symptoms compared to risperidone or first-generation agents."},
+
+{s:"Psychotherapy Foundations", q:"Which of the following best reflects a 'resiliency orientation' as an underlying assumption of child psychotherapy?",
+ o:["Focusing exclusively on the child's deficits and problems","A strength-based stance of therapeutic optimism, paralleling the 'recovery' framework used in adult mental health","Assuming children cannot recover from psychiatric illness","Focusing solely on medication management"], c:1,
+ r:"A resiliency orientation is a strength-based, therapeutic-optimism stance — the pediatric parallel to the 'recovery' framework in adult mental health — in contrast to a purely problem-focused approach."},
+{s:"Psychotherapy Foundations", q:"A child with severe conduct problems is being treated with an approach that intervenes across the family, school, and peer group simultaneously, rather than in individual sessions alone. This reflects which underlying assumption of child psychotherapy?",
+ o:["Developmental considerations","Attention to the child's surrounding systems (a multi-systemic approach)","Resiliency orientation","Egocentric thinking"], c:1,
+ r:"Attention to the child's surrounding systems — family, school, peers, community — is a core assumption of child psychotherapy; significant conduct problems often call for a multi-systemic approach intervening across several systems at once."},
+{s:"Psychotherapy Foundations", q:"CBT and interpersonal psychotherapy (IPT) share the same core therapeutic mechanisms in children as in adults, but implementation differs. What is the key adaptation required for younger children?",
+ o:["Sessions become entirely unstructured and unguided","Tasks must be pitched to the child's developmental level and oriented to the here-and-now, given more limited abstract/verbal capacity","Family involvement must be eliminated entirely","Medication must always be added"], c:1,
+ r:"While the core mechanisms are shared, implementation must be adapted to the child's developmental level, with a here-and-now orientation given more limited abstract reasoning and verbal capacity at younger ages."},
+{s:"Psychotherapy Foundations", q:"Which factor is described as one of the strongest predictors of change across every psychotherapy modality used with children?",
+ o:["The specific manualized protocol chosen","The therapeutic alliance built with both the child and the family, requiring warmth, empathy, and affective attunement","The length of each individual session","The clinician's years of experience alone"], c:1,
+ r:"The therapeutic alliance — built with both the child and the family — is described as one of the strongest predictors of change across modalities, requiring warmth, empathy, and affective attunement."},
+{s:"Neurodevelopmental Disorders", q:"A school-based accommodation plan is formally documented with individualized goals and services for a child with ADHD. What is this plan called?",
+ o:["CAPA","IEP (Individualized Education Program)","AIMS","ADI-R"], c:1,
+ r:"An Individualized Education Program (IEP) is the school-based mechanism for formal, individualized accommodations and services."},
+{s:"Neurodevelopmental Disorders", q:"A clinician wants to differentiate between a tool used for initial ADHD diagnosis versus one used to track treatment response over time. Which pairing is correct?",
+ o:["Vanderbilt scale for diagnosis; CAP Rating Scale for monitoring response over time","CAP Rating Scale for diagnosis; Vanderbilt scale for monitoring response","Both are used interchangeably for diagnosis only","Neither tool is validated for pediatric ADHD"], c:0,
+ r:"The Vanderbilt ADHD Diagnostic Rating Scale is used at the diagnostic stage, while the Child Attention Problems (CAP) Rating Scale is specifically used to track treatment response over time."},
+{s:"Schizophrenia", q:"A 15-year-old presents with hallucinations that emerged shortly after a history of severe abuse and neglect, are self-limited, and occur in an otherwise nonpsychotic clinical picture. What should top the differential?",
+ o:["Definite childhood-onset schizophrenia","PTSD / severe stress or trauma-related hallucinations","Substance-induced psychosis","Bipolar I disorder with psychotic features"], c:1,
+ r:"Hallucinations that are self-limited and tied to abuse, neglect, or loss in an otherwise nonpsychotic child point toward PTSD/trauma-related phenomena rather than a primary psychotic disorder like schizophrenia."},
+{s:"Schizophrenia", q:"An adolescent presents with a sudden, flagrant onset of psychotic symptoms after reported drug use at a party. Which category should be high on the differential, given the abrupt onset?",
+ o:["Childhood-onset schizophrenia","Substance-induced psychosis (e.g., amphetamines, LSD, PCP)","Rett syndrome","Developmental coordination disorder"], c:1,
+ r:"Substance-induced psychosis should be strongly considered in adolescents with sudden, flagrant-onset psychotic symptoms, particularly with a history of amphetamine, LSD, or PCP use."},
+{s:"Psychotherapy Foundations", q:"A clinic wants to increase family engagement in a child's individual therapy, even though the family itself isn't the direct target of treatment. What does the evidence suggest this will accomplish?",
+ o:["It will have no effect on treatment since the family isn't the target","It will improve outcomes and reduce treatment dropout, even within an individual therapy approach","It will only matter for children with autism spectrum disorder","It will delay treatment progress"], c:1,
+ r:"Strengthening family engagement has been shown to improve outcomes and reduce treatment dropout, even when the primary therapeutic approach is individual therapy with a family component layered on top."},
+];
+
+
+const LETTERS = ["A","B","C","D"];
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null); // stores selected index
+let locked = new Array(QUESTIONS.length).fill(false);
+
+const quizArea = document.getElementById('quiz-area');
+
+function render() {
+  if (current >= QUESTIONS.length) {
+    renderResults();
+    return;
+  }
+  const item = QUESTIONS[current];
+  const pct = Math.round(((current) / QUESTIONS.length) * 100);
+  const selected = answers[current];
+  const isLocked = locked[current];
+
+  let optionsHtml = '';
+  item.o.forEach((opt, i) => {
+    let cls = 'option';
+    if (isLocked) {
+      cls += ' locked';
+      if (i === item.c) cls += ' correct-answer';
+      else if (i === selected) cls += ' wrong-answer';
+    } else if (i === selected) {
+      cls += ' selected';
+    }
+    optionsHtml += `<button class="${cls}" onclick="selectOption(${i})" ${isLocked ? 'disabled' : ''}>
+      <span class="letter">${LETTERS[i]}</span><span>${opt}</span>
+    </button>`;
+  });
+
+  let rationaleHtml = '';
+  if (isLocked) {
+    const wasCorrect = selected === item.c;
+    rationaleHtml = `<div class="rationale-box ${wasCorrect ? 'correct' : 'incorrect'}">
+      <span class="verdict">${wasCorrect ? '✓ Correct' : '✗ Incorrect — correct answer: ' + LETTERS[item.c]}</span>
+      ${item.r}
+    </div>`;
+  }
+
+  quizArea.innerHTML = `
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">Question ${current + 1} of ${QUESTIONS.length}</div>
+    </div>
+    <span class="section-tag">${item.s}</span>
+    <div class="card">
+      <p class="prompt">${item.q}</p>
+      ${optionsHtml}
+      ${!isLocked ? `<div class="submit-row"><button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" ${selected === null ? 'disabled' : ''}>Submit Answer</button></div>` : ''}
+      ${rationaleHtml}
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goBack()" ${current === 0 ? 'disabled' : ''}>&larr; Back</button>
+        <div class="spacer"></div>
+        <button class="btn btn-primary" onclick="goNext()" ${!isLocked ? 'disabled' : ''}>${current === QUESTIONS.length - 1 ? 'Finish Exam' : 'Next →'}</button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(i) {
+  if (locked[current]) return;
+  answers[current] = i;
+  render();
+}
+
+function submitAnswer() {
+  if (answers[current] === null) return;
+  locked[current] = true;
+  render();
+}
+
+function goNext() {
+  if (!locked[current]) return;
+  current++;
+  render();
+}
+
+function goBack() {
+  if (current === 0) return;
+  current--;
+  render();
+}
+
+function renderResults() {
+  const total = QUESTIONS.length;
+  let correctCount = 0;
+  const bySection = {};
+  QUESTIONS.forEach((item, i) => {
+    const isCorrect = answers[i] === item.c;
+    if (isCorrect) correctCount++;
+    if (!bySection[item.s]) bySection[item.s] = { correct: 0, total: 0 };
+    bySection[item.s].total++;
+    if (isCorrect) bySection[item.s].correct++;
+  });
+  const pct = Math.round((correctCount / total) * 100);
+
+  let sectionHtml = '';
+  Object.keys(bySection).forEach(sec => {
+    const d = bySection[sec];
+    sectionHtml += `<div class="row"><span class="name">${sec}</span><span class="frac">${d.correct} / ${d.total}</span></div>`;
+  });
+
+  let reviewHtml = '';
+  QUESTIONS.forEach((item, i) => {
+    const isCorrect = answers[i] === item.c;
+    reviewHtml += `<div class="review-item">
+      <span class="qnum">Q${i + 1}.</span>${item.q.length > 90 ? item.q.slice(0, 90) + '…' : item.q}
+      <span class="tag ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Missed'}</span>
+    </div>`;
+  });
+
+  quizArea.innerHTML = `
+    <div class="card results-card">
+      <div class="score-ring" style="--pct:${pct}">
+        <div class="score-ring-inner">
+          <span class="big">${pct}%</span>
+          <span class="small">${correctCount} / ${total}</span>
+        </div>
+      </div>
+      <h2>Exam complete</h2>
+      <p class="sub">Here's how you did across each section of Module 1.</p>
+      <div class="section-breakdown">${sectionHtml}</div>
+      <button class="btn btn-primary" onclick="restart()">Retake Exam</button>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <p class="prompt" style="margin-bottom:14px;">Question review</p>
+      <div class="review-list">${reviewHtml}</div>
+    </div>
+  `;
+}
+
+function restart() {
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  locked = new Array(QUESTIONS.length).fill(false);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
