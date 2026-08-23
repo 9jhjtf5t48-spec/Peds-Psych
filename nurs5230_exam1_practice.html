@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 — Exam 1 Practice Exam (Module 1)</title>
+<style>
+  :root {
+    --navy: #1b3a5c;
+    --navy-deep: #12283f;
+    --teal: #2c7a7b;
+    --teal-light: #eaf3f3;
+    --amber: #b7791f;
+    --amber-bg: #fdf3e1;
+    --green: #2f855a;
+    --green-bg: #eafaf1;
+    --red: #9b2c2c;
+    --red-bg: #fdecec;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --line: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+
+  header.top {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+  }
+  header.top .kicker {
+    font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #9fc6e0; font-weight: 700; margin-bottom: 6px;
+  }
+  header.top h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; letter-spacing: -0.01em; }
+  header.top p { margin: 0; color: #d8e6f0; font-size: 14.5px; }
+
+  .progress-row {
+    display: flex; align-items: center; gap: 12px;
+    margin: 18px 0 4px;
+  }
+  .progress-track {
+    flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal), var(--navy));
+    width: 2%; transition: width 0.25s ease;
+  }
+  .progress-label { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+  .section-tag {
+    display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--teal); background: var(--teal-light);
+    padding: 4px 10px; border-radius: 99px; margin-bottom: 14px;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px 26px 22px; box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+  }
+  .prompt { font-size: 17px; line-height: 1.55; font-weight: 600; margin: 0 0 20px; color: var(--ink); }
+
+  .option {
+    display: flex; align-items: flex-start; gap: 12px;
+    width: 100%; text-align: left; background: #fff;
+    border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 13px 16px; margin-bottom: 10px; cursor: pointer;
+    font-size: 15px; line-height: 1.45; color: var(--ink);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .option:hover:not(.locked) { border-color: var(--teal); background: #fbfefe; }
+  .option .letter {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg); border: 1.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-weight: 700; color: var(--muted);
+  }
+  .option.selected:not(.locked) { border-color: var(--navy); background: #f3f7fb; }
+  .option.selected:not(.locked) .letter { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  .option.locked { cursor: default; }
+  .option.correct-answer { border-color: var(--green); background: var(--green-bg); }
+  .option.correct-answer .letter { background: var(--green); border-color: var(--green); color: #fff; }
+  .option.wrong-answer { border-color: var(--red); background: var(--red-bg); }
+  .option.wrong-answer .letter { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .submit-row { margin-top: 18px; display: flex; gap: 10px; }
+  button.btn {
+    font-family: inherit; font-size: 14.5px; font-weight: 700;
+    padding: 11px 20px; border-radius: 9px; border: none; cursor: pointer;
+    transition: opacity 0.15s, transform 0.05s;
+  }
+  button.btn:active { transform: scale(0.98); }
+  button.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--navy-deep); }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--navy); }
+
+  .rationale-box {
+    margin-top: 18px; padding: 16px 18px; border-radius: 10px;
+    border-left: 4px solid var(--teal); background: var(--teal-light);
+    font-size: 14.5px; line-height: 1.55;
+  }
+  .rationale-box.correct { border-left-color: var(--green); background: var(--green-bg); }
+  .rationale-box.incorrect { border-left-color: var(--red); background: var(--red-bg); }
+  .rationale-box .verdict {
+    font-weight: 800; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.03em;
+    margin-bottom: 6px; display: block;
+  }
+  .rationale-box.correct .verdict { color: var(--green); }
+  .rationale-box.incorrect .verdict { color: var(--red); }
+
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 22px;
+  }
+  .nav-row .spacer { flex: 1; }
+
+  /* Results screen */
+  .results-card { text-align: center; padding: 40px 28px; }
+  .score-ring {
+    width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    background: conic-gradient(var(--teal) calc(var(--pct) * 1%), var(--line) 0);
+  }
+  .score-ring-inner {
+    width: 112px; height: 112px; border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .score-ring-inner .big { font-size: 30px; font-weight: 800; color: var(--navy); }
+  .score-ring-inner .small { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .results-card h2 { margin: 0 0 6px; font-size: 22px; color: var(--ink); }
+  .results-card p.sub { color: var(--muted); margin: 0 0 28px; font-size: 14.5px; }
+
+  .section-breakdown { text-align: left; margin: 0 0 28px; }
+  .section-breakdown .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px;
+  }
+  .section-breakdown .row:last-child { border-bottom: none; }
+  .section-breakdown .row .name { color: var(--ink); font-weight: 600; }
+  .section-breakdown .row .frac { color: var(--muted); font-weight: 700; }
+
+  .review-list { text-align: left; margin-top: 8px; }
+  .review-item {
+    padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-item .qnum { font-weight: 700; color: var(--muted); margin-right: 6px; }
+  .review-item .tag {
+    display: inline-block; font-size: 11px; font-weight: 800; padding: 2px 8px;
+    border-radius: 99px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.02em;
+  }
+  .review-item .tag.correct { background: var(--green-bg); color: var(--green); }
+  .review-item .tag.incorrect { background: var(--red-bg); color: var(--red); }
+
+  footer.credit {
+    text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 28px;
+  }
+
+  @media (max-width: 480px) {
+    header.top { padding: 22px 18px 18px; }
+    .card { padding: 20px 18px 18px; }
+    .prompt { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">NURS 5230 — Advanced Psychiatric Care Across the Lifespan</div>
+    <h1>Exam 1 Practice Exam</h1>
+    <p>Module 1 (Weeks 1–2) — 50 vignette-style questions. Submit each answer to see the rationale, then move on. Your score is tallied at the end.</p>
+  </header>
+
+  <div id="quiz-area"></div>
+
+  <footer class="credit">Sources: Dulcan · Boland &amp; Verduin · Wheeler · DSM-5 · course PowerPoints — built for personal exam prep.</footer>
+
+</div>
+
+<script>
+const QUESTIONS = [
+{s:"Evaluation & Development", q:"A 6-year-old is brought in for a psychiatric evaluation. The clinician wants to understand the child's cognitive stage per Piaget. The child can sort objects by concrete categories and understand conservation of volume, but cannot yet reason about hypothetical 'what if' scenarios. Which stage is this child in?",
+ o:["Sensorimotor","Preoperational","Concrete operational","Formal operational"], c:2,
+ r:"Concrete operational thinking (ages 7–11, though this child is on the early edge) involves logical reasoning about concrete events like conservation, but not yet abstract/hypothetical reasoning, which requires formal operational thought."},
+{s:"Evaluation & Development", q:"A PMHNP is conducting an intake evaluation on an 8-year-old with behavioral concerns. The parent wants to know why the clinician is asking about the parents' own psychiatric history and the couple's relationship history. What is the best explanation?",
+ o:["This information is required by insurance and has no clinical value","A comprehensive pediatric evaluation includes the psychosocial and psychiatric history of the parents and the family, since a child's presentation is understood in the context of the family system","This is only relevant if abuse is suspected","Parent history is gathered only when the child is under age 5"], c:1,
+ r:"A comprehensive pediatric evaluation explicitly includes psychosocial/psychiatric history of the parents, developmental history of the couple/family, and family medical history, because the child is evaluated within the family context."},
+{s:"Evaluation & Development", q:"A clinician wants to use a structured tool that both screens broadly across behavioral and emotional symptoms and can be completed by the adolescent themselves. Which tool fits this need?",
+ o:["CAPA","ADOS","Youth Self-Report (YSR)","ChIPS"], c:2,
+ r:"The Youth Self-Report (YSR) is a broadband rating scale completed by the youth themselves; CBCL is the parallel parent-report version. CAPA and ChIPS are clinician-administered interviews, and ADOS is autism-specific."},
+{s:"Evaluation & Development", q:"A mother asks the PMHNP to talk to her son's teacher about his behavior at school before any paperwork is signed. What should the clinician do?",
+ o:["Call the teacher immediately since the mother verbally agreed","Decline to involve the school at all","Obtain formal parental consent before contacting the school","Only involve the school if the child is failing academically"], c:2,
+ r:"School input requires parental consent — a verbal request in the room isn't sufficient; documented consent should be obtained before contacting the school."},
+{s:"Evaluation & Development", q:"A family and the treatment team disagree about whether to start medication for a 9-year-old with severe ADHD symptoms causing safety concerns at school. Which principle should guide the clinician's next step?",
+ o:["Proceed with medication regardless of parental concerns since safety is at risk","Treat consent as an ongoing, documented conversation about risks/benefits rather than a single decision point, and continue working toward shared understanding","Discharge the family from care immediately","Wait one year before revisiting the topic"], c:1,
+ r:"Consent should be treated as an ongoing conversation with documented risk/benefit discussion; disagreement between family and team should prompt continued collaborative discussion, not unilateral action or abandonment of care."},
+
+{s:"Neurodevelopmental Disorders", q:"A 6-year-old boy has an IQ of 68 and needs substantial daily support with dressing, safety awareness, and following multi-step directions at home and school. His parents ask how the severity of his intellectual disability is determined. What is the correct answer?",
+ o:["Severity is based solely on the IQ score of 68","Severity is based on adaptive functioning across conceptual, social, and practical domains, not on IQ alone","Severity cannot be determined until age 18","Severity is based on the presence of a known genetic cause"], c:1,
+ r:"DSM-5 severity specifiers for intellectual disability are based on adaptive functioning across three domains (conceptual, social, practical), not IQ score, since IQ is less valid at the lower end of the range."},
+{s:"Neurodevelopmental Disorders", q:"A newborn is noted to have a weak Moro reflex on exam. Genetic testing later reveals an extra copy of chromosome 21. The parents ask about the increased risk factor most associated with this condition. What should the clinician tell them?",
+ o:["Paternal age over 40","Maternal age over 32, with risk rising further with age","Prenatal alcohol exposure","In utero infection"], c:1,
+ r:"Trisomy 21 (Down syndrome) risk rises significantly with maternal age, from about 1:700 births overall to roughly 1:100 with maternal age over 32."},
+{s:"Neurodevelopmental Disorders", q:"A 6-year-old boy has a long head, short stature, hyperextensible joints, and mild intellectual disability. As he approaches puberty, the clinician notes macroorchidism. Genetic testing would most likely reveal a mutation in which gene?",
+ o:["FMR1 (Fragile X)","Chromosome 15 deletion (Prader-Willi)","MECP2 (Rett syndrome)","Trisomy 21"], c:0,
+ r:"This presentation — long head, short stature, hyperextensible joints, and post-pubertal macroorchidism — is classic for Fragile X syndrome, caused by an FMR1 gene mutation and the second most common cause of intellectual disability."},
+{s:"Neurodevelopmental Disorders", q:"A previously typically-developing 14-month-old girl begins to lose purposeful hand use and starts making repetitive hand-wringing movements. By 18 months she has lost most expressive language. What is the most likely diagnosis?",
+ o:["Autism spectrum disorder","Rett syndrome","Childhood disintegrative disorder","Landau-Kleffner syndrome"], c:1,
+ r:"Rett syndrome, caused by an X-chromosome mutation and occurring almost exclusively in females, presents with regression between 6–18 months, loss of purposeful hand use, and characteristic hand-wringing — this specific pattern distinguishes it from ASD."},
+{s:"Neurodevelopmental Disorders", q:"A 7-year-old presents with hyperphagia and food-seeking behavior, short stature, and small hands and feet. Chromosomal analysis reveals a deletion on chromosome 15. What is the diagnosis?",
+ o:["Angelman syndrome","Prader-Willi syndrome","Williams syndrome","Fragile X syndrome"], c:1,
+ r:"Prader-Willi syndrome results from a chromosome 15 deletion and classically presents with hyperphagia/compulsive eating, short stature, and small hands and feet."},
+{s:"Neurodevelopmental Disorders", q:"A 3-year-old with intrauterine growth restriction has characteristic facial features including a smooth philtrum and thin upper lip, along with mild intellectual disability. The mother reports drinking heavily during pregnancy. What category of cause does this represent?",
+ o:["Genetic cause","Perinatal cause","Prenatal (acquired/developmental) cause","Postnatal infectious cause"], c:2,
+ r:"Fetal alcohol syndrome results from prenatal alcohol exposure and is classified as an acquired/developmental (prenatal) cause of intellectual disability, distinct from genetic causes like chromosomal abnormalities."},
+{s:"Neurodevelopmental Disorders", q:"A 4-year-old has significantly delayed expressive and receptive language. His hearing screen is normal. His parents ask what test should be prioritized next in the work-up, given his history of new-onset unusual staring spells and language regression since age 3.",
+ o:["Repeat hearing test","EEG to evaluate for Landau-Kleffner syndrome or seizure activity","Autism-specific genetic panel only","No further work-up is needed since hearing is normal"], c:1,
+ r:"Language regression occurring after age 3, especially with new staring spells, warrants an EEG to rule out seizure activity or Landau-Kleffner syndrome, since hearing has already been ruled out."},
+{s:"Neurodevelopmental Disorders", q:"A 5-year-old has good structural language skills (vocabulary, grammar) but struggles significantly to use language appropriately in social contexts — he doesn't adjust his speech for the listener and misses conversational turn-taking cues. He shows no restricted or repetitive behaviors. What is the most likely diagnosis?",
+ o:["Autism spectrum disorder","Language disorder","Social (pragmatic) communication disorder","Selective mutism"], c:2,
+ r:"Social (pragmatic) communication disorder involves difficulty with the social use of communication without the restricted/repetitive behaviors that would indicate autism — the key differentiating feature here."},
+{s:"Neurodevelopmental Disorders", q:"A father asks whether his 9-year-old's stuttering, which began at age 5, will resolve. What should the clinician tell him, given it has now persisted for 4 years?",
+ o:["Stuttering always resolves by adolescence regardless of duration","Since it has persisted past age 8, it is likely to continue into adulthood","Stuttering that persists past age 5 requires immediate psychiatric hospitalization","This presentation is inconsistent with true stuttering"], c:1,
+ r:"While more than half of children who stutter recover, persistence past age 8 (as in this 9-year-old with 4 years of symptoms) suggests it's likely to continue into adulthood."},
+{s:"Neurodevelopmental Disorders", q:"An 18-month-old fails a universal developmental screen for social communication. On observation, she shows minimal eye contact, doesn't point to show interest, and repetitively lines up her toys. Her parents ask when they can expect a definitive diagnosis. What is the most accurate response?",
+ o:["ASD cannot be screened for before age 5","Universal screening at 18–24 months is appropriate, though the disorder may not be fully clinically apparent until around age 3","A diagnosis must wait until the child enters kindergarten","Screening at this age is not evidence-based"], c:1,
+ r:"Universal ASD screening is recommended at 18–24 months, which is exactly when this child was screened; full diagnostic clarity may take longer since ASD isn't always fully apparent until around age 3."},
+{s:"Neurodevelopmental Disorders", q:"A developmental pediatrician is evaluating a child for autism spectrum disorder. The child shows abnormal eye contact and body language, but has no other documented deficits in social-emotional reciprocity or relationship-building. Does this meet DSM-5 Criterion A for ASD?",
+ o:["Yes, one deficit is sufficient","No, all three domains under Criterion A (social-emotional reciprocity, nonverbal communication, and relationships) must be affected","Yes, but only if the child is under age 3","No, Criterion A requires only 2 of the 3 domains"], c:1,
+ r:"DSM-5 Criterion A for ASD requires deficits across ALL THREE domains — social-emotional reciprocity, nonverbal communicative behavior, AND developing/maintaining relationships — not just one."},
+{s:"Neurodevelopmental Disorders", q:"A 4-year-old boy shows insistence on sameness and lines up toys repetitively, but does not show any hyper/hypo-reactivity to sensory input, highly restricted interests, or other repetitive motor behaviors. Does he meet DSM-5 Criterion B for autism?",
+ o:["No, at least 2 of 4 restricted/repetitive patterns are required and he shows evidence of 2 (lining up toys = stereotyped behavior, insistence on sameness)","No, all 4 patterns are required","Yes, but only if he also has an intellectual disability","No, Criterion B requires 3 of 4 patterns"], c:0,
+ r:"Criterion B requires at least 2 of 4 restricted/repetitive patterns. Lining up toys repetitively counts as a stereotyped/repetitive behavior, and insistence on sameness is a second pattern — so he meets the 2-of-4 threshold."},
+{s:"Neurodevelopmental Disorders", q:"A child is being evaluated for possible autism. The clinician wants to use the gold-standard diagnostic instruments. Which combination should be used?",
+ o:["Vanderbilt scale and CAP Rating Scale","ADOS and ADI-R","CBCL and YSR","CAPA and ChIPS"], c:1,
+ r:"The Autism Diagnostic Observation Schedule (ADOS) and Autism Diagnostic Interview-Revised (ADI-R) are the gold-standard tools for autism diagnosis."},
+{s:"Neurodevelopmental Disorders", q:"A 6-year-old with ASD has a meltdown every time his bus route changes unexpectedly, but otherwise doesn't show impulsive interruption of others. A 6-year-old with ADHD has frequent outbursts when told to stop an activity and transition to a new one, driven by difficulty inhibiting impulses. How should the clinician differentiate the underlying mechanism of these tantrums?",
+ o:["Both are caused by the same underlying impulsivity mechanism","The ASD child's tantrum reflects a reaction to disrupted routine/sameness, while the ADHD child's reflects impulsivity-driven difficulty with transitions","Only the ADHD presentation is a true psychiatric symptom","Tantrums cannot be used to differentiate these two conditions"], c:1,
+ r:"ASD tantrums are typically a reaction to disrupted routines/insistence on sameness, while ADHD tantrums usually reflect impulsivity-driven difficulty with transitions and self-control — a key differentiator despite surface similarity."},
+{s:"Neurodevelopmental Disorders", q:"A 2-year-old exhibits repetitive hand-flapping and body rocking that are fixed, rhythmic, and prolonged. A 7-year-old exhibits brief, rapid, random eye-blinking and shoulder-shrugging that fluctuate over time. How should these movements be classified respectively?",
+ o:["Both are tics","The 2-year-old's movements are stereotypies; the 7-year-old's are tics","The 2-year-old's movements are tics; the 7-year-old's are stereotypies","Both are stereotypies"], c:1,
+ r:"Stereotypies have earlier onset (before age 3) and are fixed, rhythmic, and prolonged, matching the 2-year-old. Tics have later mean onset (5–7 years) and are brief, rapid, random, and fluctuating, matching the 7-year-old."},
+{s:"Neurodevelopmental Disorders", q:"A 9-year-old struggles significantly with reading fluency and comprehension despite an average IQ and appropriate classroom instruction for over a year. Standardized achievement testing confirms reading performance well below age expectations. What is the most likely diagnosis?",
+ o:["Intellectual disability","Specific learning disorder, with impairment in reading (dyslexia)","Autism spectrum disorder","Language disorder"], c:1,
+ r:"Specific learning disorder is diagnosed when a specific academic skill (here, reading) is substantially below age expectations despite adequate instruction and average intellectual ability — distinguishing it from intellectual disability, where the deficit would be global."},
+{s:"Neurodevelopmental Disorders", q:"Parents of a child newly diagnosed with specific learning disorder in mathematics ask what the primary treatment approach should be. What should the clinician recommend?",
+ o:["A trial of stimulant medication","Direct, systematic remedial instruction targeting the specific skill deficit, started as early as possible","Applied Behavior Analysis","A second-generation antipsychotic"], c:1,
+ r:"Treatment for specific learning disorder is educational/remedial — direct, systematic instruction in the deficient skill — not pharmacologic, though comorbid ADHD (if present) should be treated concurrently."},
+{s:"Neurodevelopmental Disorders", q:"A 6-year-old is noted to be clumsy, frequently drops objects, and struggles to use scissors or ride a bike compared to peers. A pediatric neurology exam and vision screen are both normal. What is the most likely diagnosis, and what should guide the timing of this diagnosis?",
+ o:["Cerebral palsy; can be diagnosed at any age","Developmental coordination disorder; typically not diagnosed before age 5 given normal motor variation","Stereotypic movement disorder; diagnosed only after age 8","Intellectual disability; requires IQ testing first"], c:1,
+ r:"With normal neuro and vision exams, this presentation fits developmental coordination disorder, which is typically not diagnosed before age 5 due to wide normal variation in motor skill acquisition at younger ages."},
+{s:"Neurodevelopmental Disorders", q:"A 5-year-old repeatedly hits his own head against furniture and bites his own hand in a rhythmic, driven-appearing pattern that has been present since early development, resulting in bruising. There is no evidence of OCD or trichotillomania. What is the most likely diagnosis?",
+ o:["Tourette's disorder","Provisional tic disorder","Stereotypic movement disorder, with self-injurious behavior","Developmental coordination disorder"], c:2,
+ r:"Repetitive, driven, apparently purposeless self-injurious motor behavior (head-banging, self-biting) beginning in early development, without another disorder to explain it, meets criteria for stereotypic movement disorder with self-injurious behavior specified."},
+
+{s:"ADHD", q:"A 10-year-old boy has 7 symptoms of inattention and 4 symptoms of hyperactivity-impulsivity, both present for over a year, in both home and school settings, with several symptoms documented since age 8. Which ADHD presentation does this best fit?",
+ o:["Combined presentation","Predominantly inattentive presentation","Predominantly hyperactive-impulsive presentation","Does not meet criteria — needs 6+ of 9 in both domains"], c:1,
+ r:"He meets the 6-of-9 threshold for inattention (7 symptoms) but not for hyperactivity-impulsivity (only 4, below the 6-of-9 threshold), so this fits predominantly inattentive presentation."},
+{s:"ADHD", q:"A father reports his 8-year-old daughter has had significant inattention symptoms only since starting a new school this year. Prior teachers never raised concerns, and symptoms are present only in the new classroom, not at home or with friends. Can ADHD be diagnosed at this visit?",
+ o:["Yes, one setting is sufficient if severe enough","No — DSM-5 requires several symptoms present before age 12 AND in 2 or more settings; this presentation only started recently and in one setting","Yes, since inattention is the core symptom regardless of onset","ADHD cannot be diagnosed in girls before puberty"], c:1,
+ r:"DSM-5 Criteria B and C require several symptoms present before age 12 and across 2+ settings. A recent-onset, single-setting presentation does not meet these criteria and warrants consideration of other causes (e.g., situational stress, learning mismatch)."},
+{s:"ADHD", q:"A 7-year-old has intense mood swings — happy one hour, screaming the next — that shift multiple times within a single day, without clear 4-day manic episodes with grandiosity. His pediatrician wonders if this represents pediatric bipolar disorder. What is the best clinical reasoning?",
+ o:["This is diagnostic of bipolar disorder given the mood instability","This pattern is more consistent with ADHD-related mood lability, since true mania requires a distinct 4+ day episode with elevated mood/grandiosity, and bipolar disorder is rare in preadolescents","Any irritability in a child under 10 confirms bipolar disorder","This rules out any psychiatric diagnosis"], c:1,
+ r:"Same-day mood lability is typical of ADHD, not mania, which requires a distinct period of ≥4 days with elevated mood and grandiosity. Bipolar disorder is genuinely rare in preadolescents even with severe irritability."},
+{s:"ADHD", q:"A PMHNP is preparing to start a stimulant for a 9-year-old with ADHD. The child has no personal or family history of cardiac disease, no chest pain, syncope, or palpitations, and a normal cardiac exam. According to current AAP/AACAP guidance, should a baseline ECG be obtained?",
+ o:["Yes, an ECG is mandatory before any stimulant is prescribed","No, a routine ECG is not required when there is no history or exam finding suggesting cardiac disease","Only if the child is female","Only after age 12"], c:1,
+ r:"Current AAP/AACAP guidance holds that a routine baseline ECG is not required for every patient — only when history or exam findings suggest a cardiac disorder, despite an older 2008 AHA statement recommending routine ECGs."},
+{s:"ADHD", q:"A mother of a 4-year-old with significant ADHD symptoms asks whether her child should start a stimulant now. What is the most appropriate first recommendation?",
+ o:["Start a low-dose stimulant immediately","Begin behavior modification/parent training first, before considering medication","Start atomoxetine as first-line","Refer for antipsychotic evaluation"], c:1,
+ r:"In preschool-age children, behavior modification is recommended before medication; stimulant response is more variable and side effects more common at this age."},
+{s:"ADHD", q:"A child has been on an appropriate methylphenidate trial for 6 weeks with good adherence but minimal symptom improvement and no significant side effects. What is the most appropriate next step per standard ADHD treatment algorithms?",
+ o:["Conclude the child does not have ADHD","Trial a medication from the amphetamine class before moving to a nonstimulant","Immediately start clozapine","Discontinue all treatment"], c:1,
+ r:"If one stimulant class fails or isn't tolerated, more than half of nonresponders will respond to the other stimulant class — this is worth trying before moving to a nonstimulant like atomoxetine."},
+{s:"ADHD", q:"A 10-year-old on atomoxetine develops jaundice and dark urine after several weeks of treatment. What is the most appropriate immediate action?",
+ o:["Continue the medication and monitor routinely","Stop the medication and obtain liver function tests","Increase the dose to compensate for hepatic clearance","Switch to a stimulant without further work-up"], c:1,
+ r:"Jaundice and dark urine are signs of the rare but severe hepatotoxicity carried as a black box warning for atomoxetine; the drug should be stopped and LFTs obtained immediately. Routine LFT monitoring isn't recommended, but these symptoms warrant immediate action."},
+{s:"ADHD", q:"A child with ADHD and comorbid motor tics is being considered for pharmacotherapy. Which medication is least likely to worsen the tics?",
+ o:["Dextroamphetamine","Methylphenidate","Atomoxetine","Mixed amphetamine salts"], c:2,
+ r:"Atomoxetine does not worsen tics, unlike stimulants which can worsen tics in susceptible individuals, making it a reasonable choice for comorbid ADHD and tic disorder."},
+{s:"ADHD", q:"A family wants to understand why their child's ADHD diagnosis makes physiologic sense given his impulsivity and poor executive functioning despite average intelligence. What brain-based explanation is most accurate?",
+ o:["Overactivity of the cerebellum","Delayed maturation of the prefrontal cortex, the brain region responsible for executive function and the last to fully mature","Damage to the occipital lobe","Early maturation of the amygdala only"], c:1,
+ r:"ADHD is associated with delayed maturation of the prefrontal cortex, the executive-function center and the last brain region to fully mature — explaining both symptoms and gradual improvement with age."},
+{s:"ADHD", q:"A child is diagnosed with ADHD, combined presentation. His parents ask about the likelihood of other coexisting conditions. Which comorbidity is most common in combined-presentation ADHD?",
+ o:["Oppositional defiant disorder, present in roughly half of combined-presentation cases","Schizophrenia, present in the majority of cases","Rett syndrome","No comorbidities are more common in ADHD than the general population"], c:0,
+ r:"Oppositional defiant disorder co-occurs in roughly half of combined-presentation ADHD cases and about a quarter of inattentive-presentation cases."},
+
+{s:"Tic Disorders", q:"A tic disorder is being evaluated in an 11-year-old. He has had motor tics (eye blinking, shoulder shrugging) and a vocal tic (throat clearing) present, not necessarily at the same time, for the past 18 months, with onset at age 9. What is the diagnosis?",
+ o:["Provisional tic disorder","Persistent (chronic) motor tic disorder","Tourette's disorder","Stereotypic movement disorder"], c:2,
+ r:"Tourette's disorder requires multiple motor tics AND at least one vocal tic (not necessarily concurrent), present more than 1 year since onset, with onset before age 18 — all of which are met here."},
+{s:"Tic Disorders", q:"A child has had only vocal tics (no motor tics) for 15 months and has never met criteria for Tourette's disorder. What is the correct diagnosis and specifier?",
+ o:["Provisional tic disorder","Persistent (chronic) vocal tic disorder","Tourette's disorder, vocal-only specifier","Stereotypic movement disorder"], c:1,
+ r:"With only one tic type (vocal) present for more than 1 year and Tourette's criteria never met, this is persistent (chronic) motor OR vocal tic disorder, specified as vocal-only."},
+{s:"Tic Disorders", q:"A child with severe, functionally impairing tics has not responded adequately to alpha-2 agonist therapy. What is the next most appropriate pharmacologic step?",
+ o:["A stimulant medication","An antipsychotic such as risperidone or ziprasidone","An SSRI","Clozapine as first-line"], c:1,
+ r:"When alpha-2 agonists are insufficient, antipsychotics such as risperidone or ziprasidone are used for more severe tics."},
+
+{s:"Schizophrenia", q:"A 12-year-old presents with a 7-month history of auditory hallucinations, disorganized speech, and a marked decline in academic and social functioning compared to his baseline a year prior. Symptoms have been continuously present for more than 6 months, including over a month of active hallucinations and disorganized speech. Substance use and medical causes have been ruled out. What diagnosis best fits, and what age-based classification applies?",
+ o:["Adult-onset schizophrenia","Childhood-onset schizophrenia (onset before age 13)","Brief psychotic disorder","Schizophreniform disorder"], c:1,
+ r:"With onset of psychotic symptoms at age 12 (before age 13) meeting full DSM-5 criteria (2+ of 5 symptoms including hallucinations/disorganized speech, 6-month duration, functional decline), this is childhood-onset schizophrenia (COS)."},
+{s:"Schizophrenia", q:"A child shows grossly disorganized behavior and negative symptoms (flat affect, avolition) for over a month, but has never experienced delusions, hallucinations, or disorganized speech. Does this meet DSM-5 Criterion A for schizophrenia?",
+ o:["Yes, 2 of 5 symptoms is sufficient regardless of which two","No — at least one of the two required symptoms must be delusions, hallucinations, or disorganized speech specifically","Yes, but only if the child is over age 13","No, all 5 symptoms are required"], c:1,
+ r:"While 2+ of 5 symptoms are required, at least one must be delusions, hallucinations, or disorganized speech specifically. Disorganized behavior plus negative symptoms alone does not meet Criterion A."},
+{s:"Schizophrenia", q:"A researcher notes that PCP, a glutamate/NMDA receptor antagonist, produces a syndrome closely resembling schizophrenia. This finding most directly supports which etiologic hypothesis?",
+ o:["Dopamine hypothesis","Serotonin hypothesis","GABA hypothesis","Glutamate hypothesis"], c:3,
+ r:"PCP's glutamate/NMDA antagonism producing a schizophrenia-like syndrome is the key evidence supporting the glutamate hypothesis of schizophrenia."},
+{s:"Schizophrenia", q:"A 4-year-old shows social withdrawal, minimal eye contact, and repetitive behaviors, all apparent since age 2. There have never been hallucinations, delusions, or formal thought disorder. His parents ask if this could be early-onset schizophrenia. What should the clinician explain?",
+ o:["Yes, this is classic early schizophrenia","This presentation is more consistent with ASD, since ASD is usually apparent by age 3 and lacks the core psychotic symptoms of schizophrenia, which typically presents later","Schizophrenia and autism cannot be differentiated in preschoolers","This confirms childhood-onset schizophrenia regardless of the absence of psychotic symptoms"], c:1,
+ r:"ASD is usually apparent by age 3 and lacks true hallucinations, delusions, or formal thought disorder; childhood-onset schizophrenia typically presents later (after age 5) with those specific psychotic symptoms."},
+{s:"Schizophrenia", q:"An 8-year-old is diagnosed with schizophrenia after a first psychotic episode. What should the family be told about diagnostic stability over time?",
+ o:["The diagnosis is permanently fixed and will never be reconsidered","Roughly a third of children initially diagnosed with schizophrenia are later found to have bipolar disorder in adolescence, so ongoing reassessment matters","Childhood schizophrenia diagnoses are never revised","There is no risk of misdiagnosis in pediatric psychosis"], c:1,
+ r:"Roughly a third of children initially diagnosed with schizophrenia are later found, in adolescence, to actually have bipolar disorder — underscoring the need for ongoing diagnostic reassessment."},
+{s:"Schizophrenia", q:"A 15-year-old with schizophrenia is being started on an antipsychotic. Her prescriber chooses ziprasidone. What baseline test is specifically indicated given this choice, beyond the standard metabolic work-up?",
+ o:["EEG","ECG, given QTc prolongation risk","Bone density scan","Renal ultrasound"], c:1,
+ r:"Ziprasidone (along with clozapine and pimozide) requires a baseline ECG due to QTc prolongation risk, in addition to the standard metabolic baseline work-up for any antipsychotic."},
+{s:"Schizophrenia", q:"A 16-year-old with treatment-resistant schizophrenia has failed adequate trials of two different second-generation antipsychotics. The prescriber is considering clozapine. What additional baseline test is uniquely required before starting clozapine (beyond what's needed for other antipsychotics)?",
+ o:["Baseline EEG, given seizure risk","Baseline bone scan","Baseline pulmonary function test","No additional testing is required for clozapine"], c:0,
+ r:"Clozapine requires a baseline EEG (given seizure risk) in addition to a baseline ECG, ongoing ANC monitoring for agranulocytosis, and more extensive informed consent under FDA REMS requirements."},
+{s:"Schizophrenia", q:"A patient on an antipsychotic is due for routine movement-disorder screening. She was started on the medication 4 months ago and has not been screened since baseline. What should happen at this visit?",
+ o:["No screening is needed until 12 months have passed","AIMS (Abnormal Involuntary Movement Scale) should be administered, since screening is recommended every 3–6 months","Only an ECG is needed at this point","Movement screening is only required if the patient reports symptoms"], c:1,
+ r:"AIMS should be administered at baseline and then every 3–6 months during antipsychotic treatment; at 4 months, this patient is due for reassessment."},
+{s:"Schizophrenia", q:"A family of a teen with first-episode psychosis is trying to decide on a treatment program. Which model has research (the NIMH RAISE project) shown to improve time in treatment, quality of life, and symptom outcomes?",
+ o:["Isolated pharmacotherapy without psychosocial support","Coordinated specialty care integrating supportive education/employment services with treatment","Long-term inpatient hospitalization as the sole intervention","Excluding the family from treatment planning"], c:1,
+ r:"The NIMH RAISE project demonstrated that coordinated specialty care — integrating supportive education and employment services with treatment — improves time in treatment, quality of life, and symptom outcomes for first-episode psychosis."},
+
+{s:"Psychotherapy Foundations", q:"A therapist is treating an 8-year-old and notices the child explains an adult's frustration purely in terms of how it affects the child himself, with no ability to consider the adult's independent perspective. How should the therapist interpret this at age 8?",
+ o:["This is normal for any age and requires no further attention","Since egocentric thinking is normal only up to about age 6, its persistence at age 8 raises diagnostic questions worth pursuing","This confirms a diagnosis of autism spectrum disorder","This is expected and typical through age 12"], c:1,
+ r:"Egocentric thinking is developmentally normal only up to about age 6; its persistence in an 8-year-old is a sign worth exploring further rather than dismissing as typical."},
+{s:"Psychotherapy Foundations", q:"A therapist is building a trauma narrative with a child using the TF-CBT model, having already covered psychoeducation, relaxation, affect modulation, and cognitive coping. Which PRACTICE component comes next?",
+ o:["In vivo mastery","Trauma narrative development","Conjoint sessions","Enhancing future safety"], c:1,
+ r:"In the TF-CBT PRACTICE sequence, Trauma narrative construction directly follows Psychoeducation, Relaxation, Affect modulation, and Cognitive coping, before moving to In vivo mastery, Conjoint sessions, and Enhancing future safety."},
+{s:"Psychotherapy Foundations", q:"A clinic without access to a fully manualized, diagnosis-specific therapy program wants to treat a child with overlapping anxiety and conduct problems using an evidence-informed approach. What model best fits this scenario?",
+ o:["A rigid single-diagnosis manualized protocol only","The common elements/transdiagnostic approach, combining shared components like psychoeducation and problem-solving flexibly across presentations","Pharmacotherapy alone, without psychotherapy","Referral elsewhere, since comorbidity precludes any evidence-based treatment"], c:1,
+ r:"The common elements/transdiagnostic approach flexibly combines components shared across evidence-based therapies (like FIRST) — ideal when a child's presentation doesn't fit neatly into one diagnostic protocol."},
+{s:"Psychotherapy Foundations", q:"A family therapist emphasizes engaging both parents early in treatment, even though the primary approach will be individual therapy with the child. What is the evidence-based rationale for this?",
+ o:["Family engagement has no proven effect on treatment outcomes","Strengthening family engagement has been shown to improve outcomes and reduce treatment dropout","Parents must always be the primary target of treatment","This approach is only relevant for children under age 5"], c:1,
+ r:"Strengthening family engagement — even within an individual therapy approach — has been shown to improve outcomes and reduce treatment dropout, one of the core assumptions distinguishing child psychotherapy from adult therapy."},
+];
+
+const LETTERS = ["A","B","C","D"];
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null); // stores selected index
+let locked = new Array(QUESTIONS.length).fill(false);
+
+const quizArea = document.getElementById('quiz-area');
+
+function render() {
+  if (current >= QUESTIONS.length) {
+    renderResults();
+    return;
+  }
+  const item = QUESTIONS[current];
+  const pct = Math.round(((current) / QUESTIONS.length) * 100);
+  const selected = answers[current];
+  const isLocked = locked[current];
+
+  let optionsHtml = '';
+  item.o.forEach((opt, i) => {
+    let cls = 'option';
+    if (isLocked) {
+      cls += ' locked';
+      if (i === item.c) cls += ' correct-answer';
+      else if (i === selected) cls += ' wrong-answer';
+    } else if (i === selected) {
+      cls += ' selected';
+    }
+    optionsHtml += `<button class="${cls}" onclick="selectOption(${i})" ${isLocked ? 'disabled' : ''}>
+      <span class="letter">${LETTERS[i]}</span><span>${opt}</span>
+    </button>`;
+  });
+
+  let rationaleHtml = '';
+  if (isLocked) {
+    const wasCorrect = selected === item.c;
+    rationaleHtml = `<div class="rationale-box ${wasCorrect ? 'correct' : 'incorrect'}">
+      <span class="verdict">${wasCorrect ? '✓ Correct' : '✗ Incorrect — correct answer: ' + LETTERS[item.c]}</span>
+      ${item.r}
+    </div>`;
+  }
+
+  quizArea.innerHTML = `
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">Question ${current + 1} of ${QUESTIONS.length}</div>
+    </div>
+    <span class="section-tag">${item.s}</span>
+    <div class="card">
+      <p class="prompt">${item.q}</p>
+      ${optionsHtml}
+      ${!isLocked ? `<div class="submit-row"><button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" ${selected === null ? 'disabled' : ''}>Submit Answer</button></div>` : ''}
+      ${rationaleHtml}
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goBack()" ${current === 0 ? 'disabled' : ''}>&larr; Back</button>
+        <div class="spacer"></div>
+        <button class="btn btn-primary" onclick="goNext()" ${!isLocked ? 'disabled' : ''}>${current === QUESTIONS.length - 1 ? 'Finish Exam' : 'Next →'}</button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(i) {
+  if (locked[current]) return;
+  answers[current] = i;
+  render();
+}
+
+function submitAnswer() {
+  if (answers[current] === null) return;
+  locked[current] = true;
+  render();
+}
+
+function goNext() {
+  if (!locked[current]) return;
+  current++;
+  render();
+}
+
+function goBack() {
+  if (current === 0) return;
+  current--;
+  render();
+}
+
+function renderResults() {
+  const total = QUESTIONS.length;
+  let correctCount = 0;
+  const bySection = {};
+  QUESTIONS.forEach((item, i) => {
+    const isCorrect = answers[i] === item.c;
+    if (isCorrect) correctCount++;
+    if (!bySection[item.s]) bySection[item.s] = { correct: 0, total: 0 };
+    bySection[item.s].total++;
+    if (isCorrect) bySection[item.s].correct++;
+  });
+  const pct = Math.round((correctCount / total) * 100);
+
+  let sectionHtml = '';
+  Object.keys(bySection).forEach(sec => {
+    const d = bySection[sec];
+    sectionHtml += `<div class="row"><span class="name">${sec}</span><span class="frac">${d.correct} / ${d.total}</span></div>`;
+  });
+
+  let reviewHtml = '';
+  QUESTIONS.forEach((item, i) => {
+    const isCorrect = answers[i] === item.c;
+    reviewHtml += `<div class="review-item">
+      <span class="qnum">Q${i + 1}.</span>${item.q.length > 90 ? item.q.slice(0, 90) + '…' : item.q}
+      <span class="tag ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Missed'}</span>
+    </div>`;
+  });
+
+  quizArea.innerHTML = `
+    <div class="card results-card">
+      <div class="score-ring" style="--pct:${pct}">
+        <div class="score-ring-inner">
+          <span class="big">${pct}%</span>
+          <span class="small">${correctCount} / ${total}</span>
+        </div>
+      </div>
+      <h2>Exam complete</h2>
+      <p class="sub">Here's how you did across each section of Module 1.</p>
+      <div class="section-breakdown">${sectionHtml}</div>
+      <button class="btn btn-primary" onclick="restart()">Retake Exam</button>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <p class="prompt" style="margin-bottom:14px;">Question review</p>
+      <div class="review-list">${reviewHtml}</div>
+    </div>
+  `;
+}
+
+function restart() {
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  locked = new Array(QUESTIONS.length).fill(false);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
