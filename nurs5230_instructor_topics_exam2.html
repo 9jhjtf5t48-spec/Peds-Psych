@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 — Exam 1 Practice Exam (Instructor Topics, Set 2)</title>
+<style>
+  :root {
+    --navy: #1b3a5c;
+    --navy-deep: #12283f;
+    --teal: #2c7a7b;
+    --teal-light: #eaf3f3;
+    --amber: #b7791f;
+    --amber-bg: #fdf3e1;
+    --green: #2f855a;
+    --green-bg: #eafaf1;
+    --red: #9b2c2c;
+    --red-bg: #fdecec;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --line: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+
+  header.top {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+  }
+  header.top .kicker {
+    font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #9fc6e0; font-weight: 700; margin-bottom: 6px;
+  }
+  header.top h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; letter-spacing: -0.01em; }
+  header.top p { margin: 0; color: #d8e6f0; font-size: 14.5px; }
+
+  .progress-row {
+    display: flex; align-items: center; gap: 12px;
+    margin: 18px 0 4px;
+  }
+  .progress-track {
+    flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal), var(--navy));
+    width: 2%; transition: width 0.25s ease;
+  }
+  .progress-label { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+  .section-tag {
+    display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--teal); background: var(--teal-light);
+    padding: 4px 10px; border-radius: 99px; margin-bottom: 14px;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px 26px 22px; box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+  }
+  .prompt { font-size: 17px; line-height: 1.55; font-weight: 600; margin: 0 0 20px; color: var(--ink); }
+
+  .option {
+    display: flex; align-items: flex-start; gap: 12px;
+    width: 100%; text-align: left; background: #fff;
+    border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 13px 16px; margin-bottom: 10px; cursor: pointer;
+    font-size: 15px; line-height: 1.45; color: var(--ink);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .option:hover:not(.locked) { border-color: var(--teal); background: #fbfefe; }
+  .option .letter {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg); border: 1.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-weight: 700; color: var(--muted);
+  }
+  .option.selected:not(.locked) { border-color: var(--navy); background: #f3f7fb; }
+  .option.selected:not(.locked) .letter { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  .option.locked { cursor: default; }
+  .option.correct-answer { border-color: var(--green); background: var(--green-bg); }
+  .option.correct-answer .letter { background: var(--green); border-color: var(--green); color: #fff; }
+  .option.wrong-answer { border-color: var(--red); background: var(--red-bg); }
+  .option.wrong-answer .letter { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .submit-row { margin-top: 18px; display: flex; gap: 10px; }
+  button.btn {
+    font-family: inherit; font-size: 14.5px; font-weight: 700;
+    padding: 11px 20px; border-radius: 9px; border: none; cursor: pointer;
+    transition: opacity 0.15s, transform 0.05s;
+  }
+  button.btn:active { transform: scale(0.98); }
+  button.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--navy-deep); }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--navy); }
+
+  .rationale-box {
+    margin-top: 18px; padding: 16px 18px; border-radius: 10px;
+    border-left: 4px solid var(--teal); background: var(--teal-light);
+    font-size: 14.5px; line-height: 1.55;
+  }
+  .rationale-box.correct { border-left-color: var(--green); background: var(--green-bg); }
+  .rationale-box.incorrect { border-left-color: var(--red); background: var(--red-bg); }
+  .rationale-box .verdict {
+    font-weight: 800; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.03em;
+    margin-bottom: 6px; display: block;
+  }
+  .rationale-box.correct .verdict { color: var(--green); }
+  .rationale-box.incorrect .verdict { color: var(--red); }
+
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 22px;
+  }
+  .nav-row .spacer { flex: 1; }
+
+  /* Results screen */
+  .results-card { text-align: center; padding: 40px 28px; }
+  .score-ring {
+    width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    background: conic-gradient(var(--teal) calc(var(--pct) * 1%), var(--line) 0);
+  }
+  .score-ring-inner {
+    width: 112px; height: 112px; border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .score-ring-inner .big { font-size: 30px; font-weight: 800; color: var(--navy); }
+  .score-ring-inner .small { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .results-card h2 { margin: 0 0 6px; font-size: 22px; color: var(--ink); }
+  .results-card p.sub { color: var(--muted); margin: 0 0 28px; font-size: 14.5px; }
+
+  .section-breakdown { text-align: left; margin: 0 0 28px; }
+  .section-breakdown .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px;
+  }
+  .section-breakdown .row:last-child { border-bottom: none; }
+  .section-breakdown .row .name { color: var(--ink); font-weight: 600; }
+  .section-breakdown .row .frac { color: var(--muted); font-weight: 700; }
+
+  .review-list { text-align: left; margin-top: 8px; }
+  .review-item {
+    padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-item .qnum { font-weight: 700; color: var(--muted); margin-right: 6px; }
+  .review-item .tag {
+    display: inline-block; font-size: 11px; font-weight: 800; padding: 2px 8px;
+    border-radius: 99px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.02em;
+  }
+  .review-item .tag.correct { background: var(--green-bg); color: var(--green); }
+  .review-item .tag.incorrect { background: var(--red-bg); color: var(--red); }
+
+  footer.credit {
+    text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 28px;
+  }
+
+  @media (max-width: 480px) {
+    header.top { padding: 22px 18px 18px; }
+    .card { padding: 20px 18px 18px; }
+    .prompt { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">NURS 5230 — Advanced Psychiatric Care Across the Lifespan</div>
+    <h1>Exam 1 Practice Exam — Instructor Topics (Set 2)</h1>
+    <p>Built from the instructor's key concept study guide — 50 additional vignette-style questions, zero overlap with Set 1, covering the same topic areas from different angles. Submit each answer to see the rationale.</p>
+  </header>
+
+  <div id="quiz-area"></div>
+
+  <footer class="credit">Sources: Dulcan · Boland &amp; Verduin · Wheeler · DSM-5 · course PowerPoints — built for personal exam prep.</footer>
+
+</div>
+
+<script>
+const QUESTIONS = [
+{s:"Language & Communication Disorders", q:"A father asks how early a formal language delay might reasonably be assessed in his son, who is not yet using single words at 20 months and has no phrases. What guidance is most accurate?",
+ o:["Assessment should wait until at least age 5","Children not using words by 18 months, or phrases by 2½–3 years, may need assessment — this child's presentation is reasonable to evaluate now","Language delay cannot be assessed before age 6","This presentation is entirely normal and requires no follow-up"], c:1,
+ r:"Delayed development of language is a common parental concern; children who do not use words by 18 months or phrases by 2½ to 3 years may need assessment — particularly if verbal cue comprehension also seems limited."},
+{s:"Language & Communication Disorders", q:"A child has persistent difficulty acquiring vocabulary, sentence structure, and discourse skills — both comprehension and production are affected — well below age expectations. There are no restricted or repetitive behaviors and hearing has been confirmed normal. What is the most likely diagnosis?",
+ o:["Autism spectrum disorder","Language disorder","Speech sound disorder","Selective mutism"], c:1,
+ r:"Language disorder involves persistent difficulty with the acquisition/use of language itself (vocabulary, grammar, discourse), distinguished from ASD by the absence of restricted/repetitive behaviors and from speech sound disorder by affecting language content rather than articulation."},
+{s:"Language & Communication Disorders", q:"A bilingual 4-year-old is delayed in both of the languages she is being raised with. Her pediatrician wants to know if bilingualism could be causing this. What is the accurate response?",
+ o:["Yes, bilingualism commonly causes true language disorders and this is expected","Bilingualism does NOT cause a true language disorder — a genuine disorder affects BOTH languages, so this presentation still warrants a full evaluation","Bilingual children should never be formally evaluated for language disorders","Bilingualism only affects the second language learned, never the first"], c:1,
+ r:"Bilingualism does not cause a true language disorder. However, because a genuine disorder affects both languages a bilingual child is learning, delay in both — as described here — still warrants full evaluation rather than being dismissed as a bilingual effect."},
+{s:"Language & Communication Disorders", q:"Parents of a 9-year-old who stutters ask about his long-term prognosis, given that his stuttering began at age 5 and has persisted without improvement. What should they be told?",
+ o:["Stuttering always resolves by adolescence regardless of duration","Since his stuttering has persisted past age 8, it is likely to continue into adulthood, though speech therapy remains valuable","Persistence past age 5 requires immediate psychiatric hospitalization","This presentation is inconsistent with true stuttering"], c:1,
+ r:"While more than half of children who stutter recover, persistence past age 8 (as in this 9-year-old with 4 years of symptoms) suggests it is likely to continue into adulthood — though treatment remains beneficial regardless."},
+{s:"Language & Communication Disorders", q:"A speech-language pathologist notes that a young child's receptive language impairment is more prominent than his expressive impairment. What does this suggest about prognosis?",
+ o:["Receptive impairments carry a WORSE prognosis than expressive-only impairments","Receptive impairments always resolve faster than expressive impairments","Receptive and expressive impairments carry identical prognoses in all cases","Prognosis cannot be predicted based on which domain is affected"], c:0,
+ r:"Receptive language impairments carry a worse prognosis than expressive-only impairments — an important detail when counseling families about expected trajectory."},
+{s:"Autism Spectrum Disorder", q:"A developmental pediatrician documents that a 3-year-old shows stereotyped hand movements, insistence on sameness, and unusual interest in the way light reflects off objects (sensory-seeking). How many of the four Criterion B categories does this represent?",
+ o:["1 of 4","2 of 4","3 of 4 — stereotyped movements, insistence on sameness, and unusual sensory interest","All 4 of 4"], c:2,
+ r:"This describes three of the four Criterion B categories: stereotyped/repetitive motor movements, insistence on sameness, and unusual interest in sensory aspects of the environment (hyper/hypo-reactivity) — meeting and exceeding the 2-of-4 threshold."},
+{s:"Autism Spectrum Disorder", q:"A clinician explains that ASD severity levels (1 through 3) are NOT based on which of the following?",
+ o:["The amount of support the individual needs","A raw count of how many symptoms are present","Separate ratings for the social-communication and restricted/repetitive-behavior domains","Clinical judgment integrated with observation"], c:1,
+ r:"ASD severity levels are based on the level of support needed, rated separately for the two domains — NOT on a raw symptom count. This is a frequently tested distinction."},
+{s:"Autism Spectrum Disorder", q:"Which statement correctly reflects the sex ratio for autism spectrum disorder per DSM-5-TR?",
+ o:["ASD is diagnosed equally in males and females","ASD is diagnosed 4 times more often in males than females","ASD is diagnosed more often in females than males","Sex ratio data does not exist for ASD"], c:1,
+ r:"DSM-5-TR states explicitly: \"Autism spectrum disorder is diagnosed four times more often in males than in females.\""},
+{s:"Autism Spectrum Disorder", q:"A clinician is discussing gold-standard versus practical diagnostic tools for ASD with a resident. Which statement is accurate?",
+ o:["ADI-R and ADOS are required for every clinical ASD diagnosis","CARS-2, based on clinical observation and parental recall, is commonly used in practice, while ADI-R/ADOS are considered the research gold standard but are not required clinically","CARS-2 is only used in research settings, never clinically","No standardized tools exist for ASD diagnosis"], c:1,
+ r:"CARS-2 is based on clinical observation and parental recall and is commonly used in practice. ADI-R and ADOS are the research \"gold standard\" instruments but are NOT required for a clinical diagnosis."},
+{s:"Autism Spectrum Disorder", q:"A 15-month-old girl shows normal early development, then begins to lose purposeful hand use and develops repetitive hand-wringing. What diagnosis should be strongly considered instead of ASD, given this specific pattern?",
+ o:["Childhood disintegrative disorder only","Rett syndrome — regression with hand-wringing, occurring almost exclusively in females","Stereotypic movement disorder","Social (pragmatic) communication disorder"], c:1,
+ r:"Rett syndrome occurs almost exclusively in females and is characterized by developmental regression with loss of purposeful hand use and characteristic hand-wringing — a distinct pattern from typical ASD presentation."},
+{s:"IDD vs. Specific Learning Disorder", q:"A child has average intellectual ability but a documented, isolated deficit in mathematical reasoning that has persisted for over a year despite targeted intervention. Which diagnosis is most appropriate, and why is it NOT intellectual disability?",
+ o:["Intellectual disability, because any academic deficit implies global impairment","Specific learning disorder with impairment in mathematics — because the deficit is domain-specific with otherwise average intellectual functioning, not global","Global developmental delay","Communication disorder"], c:1,
+ r:"Specific learning disorder is domain-specific with average or above-average IQ (\"unexpected underachievement\"), distinct from intellectual disability, which involves GLOBAL deficits in both intellectual and adaptive functioning."},
+{s:"IDD vs. Specific Learning Disorder", q:"Which best describes the explicit DSM-5 exclusion rule that separates specific learning disorder from intellectual disability?",
+ o:["SLD can never be diagnosed alongside any other neurodevelopmental disorder","SLD is specifically NOT diagnosed if the academic difficulty is better explained by intellectual disability — the problem must be out of proportion to general ability","ID is never diagnosed if a specific academic skill is affected","There is no exclusion rule between these two diagnoses"], c:1,
+ r:"SLD is specifically excluded if the difficulty is better explained by intellectual disability — the academic deficit must be disproportionate to the person's general intellectual ability, not simply a reflection of global impairment."},
+{s:"IDD vs. Specific Learning Disorder", q:"A clinician is asked the single best distinguishing question between intellectual disability and specific learning disorder. What is it?",
+ o:["\"Does the child have a genetic syndrome?\"","\"Is this child behind in EVERYTHING, or just in ONE specific academic skill despite otherwise normal-to-good general ability?\"","\"Is the child male or female?\"","\"Has the child ever repeated a grade?\""], c:1,
+ r:"The core distinguishing question is scope: global impairment across intellectual and adaptive functioning points to intellectual disability, while an isolated, skill-specific deficit with normal general ability points to specific learning disorder."},
+{s:"Pediatric Anxiety & Therapy", q:"Which of the following is NOT one of the 8 criteria symptoms for separation anxiety disorder?",
+ o:["Persistent reluctance to sleep away from home","Recurrent nightmares involving the theme of separation","Excessive worry about academic performance unrelated to separation","Physical complaints like stomachaches when separation occurs or is anticipated"], c:2,
+ r:"Excessive worry about academic performance unrelated to separation is not one of the 8 separation anxiety disorder symptoms — that pattern is more consistent with generalized anxiety disorder. The other three options are directly listed DSM-5 criteria."},
+{s:"Pediatric Anxiety & Therapy", q:"A clinician is evaluating an adolescent with marked fear of being observed while eating in public and giving a class presentation. This fits which diagnosis, and what duration is required?",
+ o:["Specific phobia; no duration requirement","Social anxiety disorder; 6-month duration required","Separation anxiety disorder; 4-week duration required","Generalized anxiety disorder; no duration requirement"], c:1,
+ r:"Social anxiety disorder involves fear of scrutiny/negative evaluation in social situations (being observed, performing in front of others) and requires a 6-month duration in DSM-5, with no separate pediatric criteria."},
+{s:"Pediatric Anxiety & Therapy", q:"A therapist treating a child with a dog phobia uses in vivo exposure, modeling of coping behavior, and positive reinforcement. What is this overall technique called?",
+ o:["Psychodynamic interpretation","Systematic desensitization","Parentification","Countertransference management"], c:1,
+ r:"Systematic desensitization — including in vivo (real-life) exposure, modeling of coping behavior, and contingency management (positive reinforcement) — is the CBT technique adapted for treating specific phobias in children."},
+{s:"Pediatric Anxiety & Therapy", q:"What is emphasized as a prerequisite for effective exposure-based anxiety treatment in children, beyond simply facing the feared situation?",
+ o:["The child must be sedated prior to exposure","The child must already have, or be taught, alternative coping skills BEFORE facing the feared situation, with active family/school involvement to avoid reinforcing avoidance","Exposure alone is always sufficient without any other component","Family involvement should be minimized during exposure treatment"], c:1,
+ r:"Effective anxiety treatment requires the child to have (or be taught) coping skills before exposure, plus active family/school involvement to eliminate any inadvertent reinforcement of avoidant behavior — exposure alone is not considered sufficient."},
+{s:"ADHD (Signs/Symptoms & Accommodations)", q:"Which of the following best exemplifies a hyperactivity-impulsivity symptom of ADHD, as opposed to an inattention symptom?",
+ o:["Frequently loses homework assignments","Blurts out answers before questions have been completed","Makes careless mistakes on schoolwork","Has difficulty organizing tasks and belongings"], c:1,
+ r:"Blurting out answers is a hyperactivity-impulsivity symptom. Losing items, careless mistakes, and disorganization are inattention symptoms."},
+{s:"ADHD (Signs/Symptoms & Accommodations)", q:"A 16-year-old is being evaluated for ADHD. How many symptoms of inattention are required for diagnosis at this age, compared to a 9-year-old?",
+ o:["6 or more of 9 symptoms, same as a 9-year-old","5 or more of 9 symptoms, since the threshold drops for those 17 and older — but at 16 the 6-of-9 threshold still applies","3 or more of 9 symptoms regardless of age","All 9 symptoms are required at every age"], c:1,
+ r:"The reduced threshold of 5-of-9 symptoms applies specifically to individuals age 17 and older. A 16-year-old still requires the standard 6-of-9 threshold used for children."},
+{s:"ADHD (Signs/Symptoms & Accommodations)", q:"A student with ADHD frequently loses track of assignments between school and home. Which accommodation most directly addresses this specific problem?",
+ o:["Seating the student near the teacher","A daily home-school communication notebook carried between teacher and parent","Reducing the difficulty level of all assignments","Eliminating all homework entirely"], c:1,
+ r:"A daily communication notebook documenting assignments and completion, carried between teacher and parent, directly addresses the problem of assignments getting lost in transition between school and home."},
+{s:"ADHD (Signs/Symptoms & Accommodations)", q:"Which of the following is an example of a Daily Report Card as a classroom accommodation?",
+ o:["A general reduction in all academic expectations with no monitoring","A tool targeting specific behaviors, completed by the teacher, with consequences delivered by the parent at home","A permanent record used only for college admissions","A medication administration log"], c:1,
+ r:"The Daily Report Card targets specific behaviors and is completed by the teacher, with consequences (rewards or consequences) provided by the parent at home — a structured, non-pharmacologic behavioral tool."},
+{s:"ADHD (Signs/Symptoms & Accommodations)", q:"A student with ADHD is easily overstimulated by classroom noise and nearby peer activity. Which seating accommodation would most directly help?",
+ o:["Seating at the very back of a large, open classroom","Seating near the teacher and away from disruptive peers or distractions","Seating in the busiest, most central part of the room","No seating accommodation is ever appropriate for ADHD"], c:1,
+ r:"Seating near the teacher and away from disruptive peers/distractions minimizes competing stimuli that pull attention away from the task — a direct, practical classroom accommodation."},
+{s:"Tics, Tourette's & Nervous Habits", q:"A child has had ONLY vocal tics (no motor tics) for 15 months and has never met criteria for Tourette's disorder. What is the correct diagnosis?",
+ o:["Provisional tic disorder","Persistent (chronic) tic disorder, vocal-only specifier","Tourette's disorder","A nervous habit"], c:1,
+ r:"With only one tic type (vocal) present for more than 1 year, and Tourette's criteria never met, this is persistent (chronic) motor OR vocal tic disorder, specified as vocal-only."},
+{s:"Tics, Tourette's & Nervous Habits", q:"A child has had motor and/or vocal tics for 8 months and has never previously met criteria for Tourette's or persistent tic disorder. What is the correct diagnosis?",
+ o:["Provisional tic disorder","Tourette's disorder","Persistent (chronic) tic disorder","Stereotypic movement disorder"], c:0,
+ r:"Provisional tic disorder applies when motor and/or vocal tics have been present for less than 1 year, and criteria for the other two tic disorders have never been met."},
+{s:"Tics, Tourette's & Nervous Habits", q:"Which neurotransmitter systems are implicated in the pathophysiology of tic disorders?",
+ o:["Only acetylcholine","GABA, serotonin, and dopamine","Only histamine","Only norepinephrine"], c:1,
+ r:"GABA, serotonin, and dopamine systems are all implicated in the neurochemistry underlying tic disorders."},
+{s:"Tics, Tourette's & Nervous Habits", q:"A clinician explains to a family that Tourette's disorder requires a very specific combination of tic types. What is the single most important diagnostic requirement to remember?",
+ o:["Only vocal tics are needed, motor tics are optional","BOTH multiple motor tics AND at least one vocal tic must be present (not necessarily concurrently)","Only a single motor tic is sufficient","Coprolalia (obscene language) is required for diagnosis"], c:1,
+ r:"Tourette's disorder specifically requires BOTH multiple motor tics AND at least one vocal tic (not necessarily occurring at the same time) — this is the single most-tested diagnostic requirement. Coprolalia is a popular misconception but is NOT required."},
+{s:"Mental Status Exam", q:"A clinician notes a patient's gait, freedom of movement, and presence of hand-wringing or pacing during the interview. Which MSE component does this describe?",
+ o:["Speech","Motor activity","Thought content","Insight and judgment"], c:1,
+ r:"Motor activity is described using terms like normal, slowed (bradykinesia), or agitated (hyperkinesia), and includes gait, freedom of movement, unusual postures, pacing, and hand-wringing."},
+{s:"Mental Status Exam", q:"A patient reports hearing a voice calling her name while lying in bed at the edge of sleep, a phenomenon that resolves upon full wakefulness and does not recur during the day. How should this most likely be classified?",
+ o:["A true hallucination indicative of psychosis","A hypnagogic hallucination, which may be a normal phenomenon at the interface of wakefulness and sleep","An illusion caused by a real external stimulus","Definitive evidence of schizophrenia"], c:1,
+ r:"Hypnagogic hallucinations, occurring at the interface of wakefulness and sleep, may be normal phenomena and are not automatically indicative of a primary psychotic disorder."},
+{s:"Mental Status Exam", q:"A patient describes feeling as though her surroundings have become strange, unfamiliar, and somehow unreal, though she recognizes intellectually that nothing has actually changed. What perceptual disturbance does this describe?",
+ o:["Hallucination","Illusion","Depersonalization","Derealization"], c:3,
+ r:"Derealization is a feeling that one's environment has changed in some strange way that is difficult to describe. Depersonalization, by contrast, is a feeling that one is not oneself."},
+{s:"Mental Status Exam", q:"Which of the following BEST distinguishes thought process from thought content on the MSE?",
+ o:["Thought process is WHAT the patient thinks about; thought content is HOW it's organized","Thought process is HOW thoughts are organized and expressed; thought content is WHAT the patient is thinking about","These terms are interchangeable and mean the same thing","Thought process only applies to psychotic patients"], c:1,
+ r:"Thought process describes HOW thoughts are organized and expressed (linear, circumstantial, tangential, looseness of association), while thought content describes WHAT the patient is actually thinking about (delusions, obsessions, suicidal ideation) — independent domains."},
+{s:"Mental Status Exam", q:"A patient with schizophrenia shows a severely restricted range of emotional expression, described using a specific clinical term. What is this term, and to which MSE component does it belong?",
+ o:["\"Euthymic\" mood","\"Flat\" affect, a severely restricted range of affect classically described in some schizophrenia presentations","\"Congruent\" thought content","\"Circumstantial\" speech"], c:1,
+ r:"\"Flat\" affect describes a severely restricted range of affect and is classically associated with some presentations of schizophrenia — it falls under the affect domain of the MSE, specifically the \"range\" element."},
+{s:"Talking With Children", q:"A therapist working with a young, minimally verbal child offers crayons and paper before beginning formal questions. What is the purpose of this approach?",
+ o:["To assess fine motor skills exclusively","To help the child feel comfortable enough to engage, since less verbal children may communicate more easily through drawing or play than through a formal interview","To delay the interview indefinitely","This approach has no clinical rationale"], c:1,
+ r:"For less verbal children, offering an opportunity to draw or engage with play materials helps them feel comfortable enough to engage in conversation — young children often communicate more easily this way than through a formal verbal interview."},
+{s:"Talking With Children", q:"During an initial evaluation, a clinician wants to determine why a teen is seeking help at this particular time. What is the best practice for obtaining this information?",
+ o:["Rely exclusively on the parent's explanation of the referral reason","Ask the teen directly and obtain the answer in the teen's own words, even though the parent may also provide input","Assume the reason based on the referral source alone","Avoid asking this question directly to prevent distress"], c:1,
+ r:"The evaluation should begin with a direct question about why the child/teen is meeting with a mental health specialist NOW, and it's important to get that answer in the child or teen's own words — not just the parent's framing."},
+{s:"Individual Therapy vs. Parent Involvement", q:"Before a child evaluation begins, a clinician invites the parents to share behavioral information privately, either by phone or before the child enters the room. What is the primary purpose of this practice?",
+ o:["To exclude the child from any part of the process","To shift to a positive approach so the child does not feel discouraged or criticized when entering the session","This practice has no clinical rationale and should be avoided","To avoid ever discussing the child's behavior at all"], c:1,
+ r:"Inviting parents to share information privately before the child enters allows the clinician to shift toward a positive approach, so the child doesn't feel discouraged or criticized walking into the room."},
+{s:"Individual Therapy vs. Parent Involvement", q:"A parent and teen conflict becomes the most pressing concern raised in ongoing individual therapy sessions with the teen. What should the therapist consider at this point?",
+ o:["Continuing individual therapy exclusively and ignoring the family conflict","Considering a referral for family therapy, since the parent/teen conflict itself has become the primary concern","Immediately discharging the teen from care","Refusing to see the parent under any circumstances"], c:1,
+ r:"If parent/teen/child conflict becomes the most pressing clinical concern, a referral for family therapy should be considered, rather than continuing to address it solely within individual therapy with the teen."},
+{s:"Therapy With an Angry Child", q:"A therapist working with an angry young child through play maintains a calm, soft tone and does not stop or judge aggressive doll play. What is the primary rationale for this approach?",
+ o:["To encourage the child to become more aggressive over time","To keep the playroom a safe place where the child can express feelings, fears, and anger freely","Because judging the child's play would violate confidentiality","There is no specific rationale; this is simply personal therapist preference"], c:1,
+ r:"The playroom is meant to function as a safe space for the child to freely express feelings, fears, and anger — a calm, non-judgmental therapist stance supports this safety, allowing the child's underlying emotions to be processed rather than suppressed."},
+{s:"Therapy With an Angry Child", q:"As children get older and gain more verbal ability in therapy, what typically becomes an explicit focus of session work related to anger?",
+ o:["Eliminating play entirely and switching only to verbal discussion","Self-regulation — helping the child put words to emotions like anger, fear, and jealousy while remaining in control","Avoiding any discussion of angry feelings","Exclusively medication management"], c:1,
+ r:"As children grow older and more verbally facile, self-regulation becomes an explicit focus — helping them put words to strong emotions like anger while learning to remain in control, often practiced through play activities the therapist positively reinforces."},
+{s:"Transference & Countertransference", q:"In a psychodynamic therapy approach specifically, how is negative transference typically addressed when it threatens the therapeutic alliance?",
+ o:["It is ignored entirely in psychodynamic approaches","It is treated as an \"alliance rupture\" and becomes the primary focus of the treatment work","The patient is immediately referred elsewhere","Negative transference cannot occur in psychodynamic therapy"], c:1,
+ r:"In psychodynamic approaches specifically, negative transference is treated as an alliance rupture, and addressing that rupture becomes the primary focus of the therapeutic work — distinct from approaches like CBT, where goals might simply be adjusted instead."},
+{s:"Transference & Countertransference", q:"Which of the following is described as a common sign that should alert a therapist to possible countertransference?",
+ o:["Ending every session exactly on time with every patient","Making special allowances for one particular patient that aren't extended to others","Maintaining consistent confidentiality practices with all patients","Following the standard intake protocol uniformly"], c:1,
+ r:"Making special allowances for a particular patient — along with extending sessions, being late, forgetting a session, feeling a patient is \"special,\" or having social contact outside sessions — are recognized signs that should alert a therapist to countertransference."},
+{s:"Transference & Countertransference", q:"Contemporary theory suggests countertransference can serve what clinical function, beyond simply being a therapist's personal reaction?",
+ o:["It has no clinical usefulness and should always be suppressed","It can function as a barometer, helping the self-aware therapist better understand the patient's own transference","It should always be disclosed directly to the patient","It only ever indicates therapist incompetence"], c:1,
+ r:"Contemporary theorists view countertransference as a response to the patient's transference, meaning a self-aware therapist can use it as a diagnostic barometer to better understand the patient, rather than simply as an error to be eliminated."},
+{s:"Transference & Countertransference", q:"A therapist notices she feels unusually exhausted after sessions with a particular patient who has narcissistic traits. What does this best illustrate?",
+ o:["This has no clinical relevance and is purely coincidental","Countertransference can manifest somatically, informing the therapist about the relational dynamic through their own bodily/emotional response","The therapist should immediately terminate treatment","This indicates the therapist is unfit to practice"], c:1,
+ r:"Countertransference reflects activation of the therapist's own state-dependent memories in relationship with the patient, and can be experienced somatically (e.g., unusual fatigue) — informing the therapist about the relational dynamic at play."},
+{s:"Boundaries vs. Enmeshment", q:"Which of the following is the best description of healthy family boundaries?",
+ o:["Rigid and impermeable, allowing no closeness between members","Clear and flexible, allowing personal identity and family connection to coexist without undue interference","Diffuse and permeable, encouraging total enmeshment for family unity","Boundaries are unnecessary in healthy families"], c:1,
+ r:"Healthy boundaries should be clear and flexible — regulating contact, maintaining individual identity, and modulating emotional closeness — while still allowing family connection, without either excessive rigidity or excessive diffuseness."},
+{s:"Boundaries vs. Enmeshment", q:"A family becomes extremely overwrought and reorganizes their entire week in response to a child bringing home a single poor grade, with parents inserting themselves into every aspect of the resulting minor conflict. This is an example of:",
+ o:["A disengaged family pattern","Enmeshment — parents overly intrusive and protective, hindering the child's development of independent problem-solving","A skewed coalition","Healthy, appropriately supportive parenting"], c:1,
+ r:"Excessive parental involvement in a child's minor problems, including overreacting to a single poor grade, is a classic example of enmeshment, where parents are overly intrusive/protective in ways that hinder the child's competency development."},
+{s:"Boundaries vs. Enmeshment", q:"In a family therapy session, one spouse consistently overfunctions to compensate for an underfunctioning spouse, in order to preserve the marriage and family unit. What is this pattern called?",
+ o:["A cross-generational coalition","A schism coalition","A skewed coalition","Disengagement"], c:2,
+ r:"A skewed coalition exists when one spouse overfunctions for an underfunctioning spouse in order to preserve the marriage and family — a distinct pattern from cross-generational or schism coalitions."},
+{s:"Boundaries vs. Enmeshment", q:"What is the overarching goal of structural family therapy when addressing either enmeshed or disengaged family patterns?",
+ o:["Eliminating all family rules entirely","Establishing a strong parental hierarchy, open/direct communication, fair and flexible rules, and clear (but not rigid) boundaries","Encouraging complete family disengagement to promote independence","Removing the parents from any decision-making role"], c:1,
+ r:"The most important goal of structural family therapy is to create an effective family structure with functional subsystems and clear, flexible boundaries — a strong parental hierarchy, open communication, fair rules, and flexible roles."},
+{s:"Interpersonal Patterns & Early Childhood", q:"Attachment research involving Harlow's monkeys and Bowlby's studies is cited as foundational evidence for which concept in psychotherapy?",
+ o:["That medication is always superior to psychotherapy","Parallels between early bonding behavior and long-term neurophysiology in both animals and humans, underpinning how early attachment shapes later relationships","That children cannot form meaningful attachments before age 5","That psychotherapy has no biological basis"], c:1,
+ r:"Harlow's and Bowlby's research demonstrated parallels between early bonding behavior and long-term neurophysiology, providing foundational evidence for how early attachment relationships shape neural patterns that persist into later relationships, including therapeutic ones."},
+{s:"Interpersonal Patterns & Early Childhood", q:"Why is the quality of the therapeutic relationship itself considered central to how change happens in psychotherapy, according to attachment-informed theory?",
+ o:["Because technique alone is always sufficient regardless of relationship quality","Because a limbic/neural pattern was originally established through a relational connection in early life, so it takes another relational connection — the therapeutic alliance — to revise it","Because the relationship has no bearing on treatment outcomes","Because only medication can alter neural patterns"], c:1,
+ r:"Since early relational connections established the original neural patterns, revising those patterns requires another relational connection — the therapeutic alliance — making relationship quality central to how change occurs, beyond technique alone."},
+{s:"Normal Development (Ages 3, 4, 5)", q:"A 3-year-old avoids touching a hot stove after being warned once, and calms down within 10 minutes of a caregiver leaving for daycare drop-off. Which developmental domains do these milestones reflect?",
+ o:["Motor development only","Cognitive development (avoiding danger after a warning) and social/emotional development (calming after separation)","Speech/language development only","These are not meaningful developmental markers"], c:1,
+ r:"Avoiding a warned danger reflects cognitive development (learning/problem-solving), while calming down after a caregiver's departure reflects social/emotional development — both expected by age 3."},
+{s:"Normal Development (Ages 3, 4, 5)", q:"A 4-year-old engages in imaginative pretend play as a superhero and comforts a friend who is visibly upset. Which developmental domain is best reflected by these behaviors?",
+ o:["Motor/physical development","Social/emotional development","Speech/language development exclusively","None of these reflect meaningful development"], c:1,
+ r:"Pretending to be a character during play and comforting an upset peer are social/emotional milestones expected by age 4, reflecting developing empathy and imaginative capacity."},
+{s:"Normal Development (Ages 3, 4, 5)", q:"A 5-year-old follows rules and takes turns during games with peers, and completes simple chores like clearing the table. Which domain do these milestones primarily reflect?",
+ o:["Cognitive development exclusively","Social/emotional development","Motor/physical development exclusively","Speech/language development exclusively"], c:1,
+ r:"Following rules, taking turns with peers, and completing simple chores are social/emotional milestones expected by age 5, reflecting growing capacity for cooperation and responsibility."},
+];
+const LETTERS = ["A","B","C","D"];
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null); // stores selected index
+let locked = new Array(QUESTIONS.length).fill(false);
+
+const quizArea = document.getElementById('quiz-area');
+
+function render() {
+  if (current >= QUESTIONS.length) {
+    renderResults();
+    return;
+  }
+  const item = QUESTIONS[current];
+  const pct = Math.round(((current) / QUESTIONS.length) * 100);
+  const selected = answers[current];
+  const isLocked = locked[current];
+
+  let optionsHtml = '';
+  item.o.forEach((opt, i) => {
+    let cls = 'option';
+    if (isLocked) {
+      cls += ' locked';
+      if (i === item.c) cls += ' correct-answer';
+      else if (i === selected) cls += ' wrong-answer';
+    } else if (i === selected) {
+      cls += ' selected';
+    }
+    optionsHtml += `<button class="${cls}" onclick="selectOption(${i})" ${isLocked ? 'disabled' : ''}>
+      <span class="letter">${LETTERS[i]}</span><span>${opt}</span>
+    </button>`;
+  });
+
+  let rationaleHtml = '';
+  if (isLocked) {
+    const wasCorrect = selected === item.c;
+    rationaleHtml = `<div class="rationale-box ${wasCorrect ? 'correct' : 'incorrect'}">
+      <span class="verdict">${wasCorrect ? '✓ Correct' : '✗ Incorrect — correct answer: ' + LETTERS[item.c]}</span>
+      ${item.r}
+    </div>`;
+  }
+
+  quizArea.innerHTML = `
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">Question ${current + 1} of ${QUESTIONS.length}</div>
+    </div>
+    <span class="section-tag">${item.s}</span>
+    <div class="card">
+      <p class="prompt">${item.q}</p>
+      ${optionsHtml}
+      ${!isLocked ? `<div class="submit-row"><button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" ${selected === null ? 'disabled' : ''}>Submit Answer</button></div>` : ''}
+      ${rationaleHtml}
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goBack()" ${current === 0 ? 'disabled' : ''}>&larr; Back</button>
+        <div class="spacer"></div>
+        <button class="btn btn-primary" onclick="goNext()" ${!isLocked ? 'disabled' : ''}>${current === QUESTIONS.length - 1 ? 'Finish Exam' : 'Next →'}</button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(i) {
+  if (locked[current]) return;
+  answers[current] = i;
+  render();
+}
+
+function submitAnswer() {
+  if (answers[current] === null) return;
+  locked[current] = true;
+  render();
+}
+
+function goNext() {
+  if (!locked[current]) return;
+  current++;
+  render();
+}
+
+function goBack() {
+  if (current === 0) return;
+  current--;
+  render();
+}
+
+function renderResults() {
+  const total = QUESTIONS.length;
+  let correctCount = 0;
+  const bySection = {};
+  QUESTIONS.forEach((item, i) => {
+    const isCorrect = answers[i] === item.c;
+    if (isCorrect) correctCount++;
+    if (!bySection[item.s]) bySection[item.s] = { correct: 0, total: 0 };
+    bySection[item.s].total++;
+    if (isCorrect) bySection[item.s].correct++;
+  });
+  const pct = Math.round((correctCount / total) * 100);
+
+  let sectionHtml = '';
+  Object.keys(bySection).forEach(sec => {
+    const d = bySection[sec];
+    sectionHtml += `<div class="row"><span class="name">${sec}</span><span class="frac">${d.correct} / ${d.total}</span></div>`;
+  });
+
+  let reviewHtml = '';
+  QUESTIONS.forEach((item, i) => {
+    const isCorrect = answers[i] === item.c;
+    reviewHtml += `<div class="review-item">
+      <span class="qnum">Q${i + 1}.</span>${item.q.length > 90 ? item.q.slice(0, 90) + '…' : item.q}
+      <span class="tag ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Missed'}</span>
+    </div>`;
+  });
+
+  quizArea.innerHTML = `
+    <div class="card results-card">
+      <div class="score-ring" style="--pct:${pct}">
+        <div class="score-ring-inner">
+          <span class="big">${pct}%</span>
+          <span class="small">${correctCount} / ${total}</span>
+        </div>
+      </div>
+      <h2>Exam complete</h2>
+      <p class="sub">Here's how you did across each section of Module 1.</p>
+      <div class="section-breakdown">${sectionHtml}</div>
+      <button class="btn btn-primary" onclick="restart()">Retake Exam</button>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <p class="prompt" style="margin-bottom:14px;">Question review</p>
+      <div class="review-list">${reviewHtml}</div>
+    </div>
+  `;
+}
+
+function restart() {
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  locked = new Array(QUESTIONS.length).fill(false);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
