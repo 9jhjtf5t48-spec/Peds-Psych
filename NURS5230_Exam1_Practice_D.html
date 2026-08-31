@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 · Exam I Practice D (Advanced)</title>
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --navy-deep: #14283f;
+    --gold: #b8860b;
+    --cream: #f7f5f0;
+    --paper: #ffffff;
+    --ink: #22303f;
+    --muted: #6b7684;
+    --good: #1e7a4c;
+    --good-bg: #e8f6ee;
+    --bad: #b3403a;
+    --bad-bg: #fbeceb;
+    --line: #e0ddd3;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+    min-height: 100%;
+  }
+  .app {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+  .masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  .masthead h1 {
+    font-size: 20px;
+    letter-spacing: 0.01em;
+    margin: 0;
+    color: var(--navy-deep);
+    font-weight: 700;
+  }
+  .masthead .meta {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .progress-track {
+    height: 5px;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 26px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.25s ease;
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px 26px;
+    box-shadow: 0 1px 3px rgba(20,40,63,0.06);
+  }
+  .qnum {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+  .prompt {
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    text-align: left;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 13px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 5px;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .option:hover:not(:disabled) {
+    border-color: var(--navy);
+    background: #fbfaf7;
+  }
+  .option.selected {
+    border-color: var(--navy);
+    background: #eef2f7;
+  }
+  .option.correct {
+    border-color: var(--good);
+    background: var(--good-bg);
+    color: #0f4c2c;
+  }
+  .option.incorrect {
+    border-color: var(--bad);
+    background: var(--bad-bg);
+    color: #6e211c;
+  }
+  .option:disabled { cursor: default; }
+  .option-letter {
+    display: inline-block;
+    width: 20px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .option.correct .option-letter { color: var(--good); }
+  .option.incorrect .option-letter { color: var(--bad); }
+
+  .rationale {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--gold);
+    background: #fdf8ec;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #4a3d1f;
+    border-radius: 0 4px 4px 0;
+  }
+  .rationale .verdict {
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .verdict.good { color: var(--good); }
+  .verdict.bad { color: var(--bad); }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  button.nav-btn {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1.5px solid var(--navy);
+    background: var(--paper);
+    color: var(--navy);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  button.nav-btn:hover:not(:disabled) { background: var(--navy); color: #fff; }
+  button.nav-btn:disabled { opacity: 0.35; cursor: default; border-color: var(--line); color: var(--muted); }
+  button.nav-btn.primary {
+    background: var(--navy);
+    color: #fff;
+  }
+  button.nav-btn.primary:hover:not(:disabled) { background: var(--navy-deep); }
+  button.nav-btn.submit {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+  }
+  button.nav-btn.submit:hover:not(:disabled) { background: #96700a; }
+
+  .unanswered-hint {
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* Results screen */
+  .results {
+    text-align: center;
+    padding: 40px 26px;
+  }
+  .results .score-big {
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--navy-deep);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .results .score-sub {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .results .pct {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .pct.pass { background: var(--good-bg); color: var(--good); }
+  .pct.fail { background: var(--bad-bg); color: var(--bad); }
+  .review-list {
+    text-align: left;
+    margin-top: 30px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+  .review-item {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .review-item:hover { background: #fbfaf7; }
+  .review-item .rq { color: var(--ink); flex: 1; }
+  .review-item .rmark { font-weight: 700; }
+  .rmark.good { color: var(--good); }
+  .rmark.bad { color: var(--bad); }
+  .restart-btn {
+    margin-top: 26px;
+  }
+  @media (max-width: 480px) {
+    .app { padding: 18px 14px 50px; }
+    .card { padding: 20px 16px; }
+    .prompt { font-size: 16.5px; }
+    .results .score-big { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="masthead">
+    <h1>NURS 5230 · Exam I Practice D (Advanced)</h1>
+    <div class="meta" id="progressLabel">Question 1 of 50</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width: 2%;"></div></div>
+  <div id="quizRoot"></div>
+</div>
+
+<script>
+const QUESTIONS = [{"prompt": "A 30-month-old has a vocabulary of roughly 300 words and speaks in short sentences, but a relative insists this is 'behind' because a cousin at the same age had a vocabulary closer to 900 words. Is the relative's concern well-founded against Boland's benchmarks?", "options": ["Yes, since 900 words is the expected minimum at 30 months", "No \u2014 ~270 words is expected at 2 years and ~895 at 3 years, so 300 words at 30 months (between those ages) is broadly consistent with typical development, not delayed", "Yes, since vocabulary should double every 6 months without exception", "No, since vocabulary size is never used as a developmental marker"], "correct": 1, "rationale": "Boland's benchmarks are ~270 words at 2 years and ~895 at 3 years; 300 words at 30 months (the midpoint) falls within an expected trajectory, not behind."}, {"prompt": "A 5-year-old is 100% intelligible to family but only about 60% intelligible to an unfamiliar substitute teacher. A parent argues this can't be a speech concern since the child communicates fine at home. Is this reasoning sound?", "options": ["Yes, since intelligibility to caregivers is the only relevant benchmark", "No \u2014 intelligibility to strangers, not just familiar caregivers, is the stated developmental benchmark by age 3, and this child is falling short of it well past that age", "Yes, since speech sound disorder can only be diagnosed by a speech-language pathologist regardless of intelligibility", "No, since 60% intelligibility to anyone is always normal at any age"], "correct": 1, "rationale": "Intelligibility to strangers (not just familiar caregivers) is the specific developmental benchmark, expected by age 3; family-only intelligibility doesn't meet this standard."}, {"prompt": "A child has significant deficits in social-emotional reciprocity, nonverbal communication, and relationship-building (all three Criterion A domains), plus a strong, narrow interest in trains that dominates conversation and play. No other RRB domain is documented. Does this presentation meet full ASD criteria as written?", "options": ["Yes, since restricted interests alone satisfy the 'at least 2 of 4' Criterion B requirement", "No \u2014 a single Criterion B domain (restricted interests) does not meet the 'at least 2 of 4' threshold, even though Criterion A is fully satisfied", "Yes, since Criterion A alone is sufficient for diagnosis", "No, since restricted interests are not a valid Criterion B domain at all"], "correct": 1, "rationale": "Even with full Criterion A, only one RRB domain (restricted interest) does not meet Criterion B's 'at least 2 of 4' requirement."}, {"prompt": "A clinician orders an audiological exam as part of an ASD work-up and it comes back normal. A colleague says this means hearing loss can now be ruled out as ANY contributing factor to the child's presentation. Is this an accurate use of the test result?", "options": ["Yes, since a normal audiological exam definitively excludes any hearing-related contribution", "Reasonably so for confirmed hearing loss, though the audiological exam is one piece of ruling out organic mimics rather than a required step for the ASD diagnosis itself", "No, since audiological exams are not part of the standard ASD work-up", "Yes, but only if repeated three times"], "correct": 1, "rationale": "The audiological exam rules out hearing loss as an organic mimic; it's part of ruling out alternative explanations, not a requirement to make the ASD diagnosis itself."}, {"prompt": "A 4-year-old was diagnosed with ASD at age 3.9, with no significant language delay and no prominent repetitive motor behaviors reported. A resident says this timing is unusual and should prompt diagnostic reconsideration. Is this concern warranted based on the guide's historical diagnostic-age data?", "options": ["Yes, since ASD must always be diagnosed by exactly age 3", "Not necessarily \u2014 3.9 years aligns with the historical average diagnostic age for PDD-NOS-like presentations without severe language delay or prominent RRBs, which tend to be diagnosed slightly later than more severe presentations", "Yes, since any diagnosis after age 3.5 indicates misdiagnosis", "No, since diagnostic age is unrelated to symptom severity in any way"], "correct": 1, "rationale": "Historical data shows milder presentations (without severe language delay or prominent RRBs) are diagnosed somewhat later on average \u2014 3.9 is consistent with this pattern, not anomalous."}, {"prompt": "Genetic testing for Fragile X comes back negative in a child being evaluated for ASD. A parent asks if this means the child does not have ASD. What is the accurate response?", "options": ["Yes, a negative Fragile X test rules out ASD entirely", "No \u2014 genetic testing rules out a specific organic cause (Fragile X) but has no bearing on whether the ASD diagnosis itself is confirmed or excluded, since ASD is a clinical/behavioral diagnosis", "Yes, since Fragile X is present in the majority of ASD cases", "No, since genetic testing is not part of the ASD work-up at all"], "correct": 1, "rationale": "Genetic testing rules out specific organic causes; it doesn't confirm or exclude the ASD diagnosis itself, which rests on behavioral/clinical criteria."}, {"prompt": "A child has an IQ of 72 and demonstrates significant, pervasive difficulty managing money, using public transportation, and maintaining friendships, well below same-age peers across all these domains. A colleague argues the IQ of 72 (above the typical ~70 cutoff) rules out Intellectual Disability Disorder. Is this reasoning sound?", "options": ["Yes, since IQ above 70 always excludes IDD regardless of other findings", "Not necessarily \u2014 IDD diagnosis requires BOTH intellectual and adaptive deficits, and adaptive functioning (not IQ alone) drives severity; a borderline IQ with pervasive adaptive deficits still warrants full evaluation rather than automatic exclusion", "Yes, since adaptive functioning is not part of the IDD diagnostic criteria", "No, since IQ testing is never used in IDD diagnosis"], "correct": 1, "rationale": "IQ is one component; pervasive adaptive functioning deficits alongside a borderline-low IQ still warrant full IDD evaluation rather than automatic exclusion based on IQ number alone."}, {"prompt": "A 6-year-old struggles significantly with handwriting and letter formation, but reading, math, and oral language are all age-appropriate. A colleague diagnoses global developmental delay. Is this the most precise diagnostic framing?", "options": ["Yes, since any handwriting struggle indicates global delay", "No \u2014 an isolated deficit in one specific academic skill (written expression), with other domains intact, better fits Specific Learning Disorder than a global/pervasive diagnosis", "Yes, since written expression difficulties always indicate IDD", "No, since written expression is never assessed as a distinct SLD domain"], "correct": 1, "rationale": "An isolated, domain-specific deficit (written expression) with otherwise intact functioning fits SLD's domain-specific pattern, not a global diagnosis."}, {"prompt": "A first-grade teacher notices a student falling behind in reading only, and reports this to the parent as 'probably nothing since kids develop at different paces.' Given the guide's stated diagnostic age window, how should this be reconsidered?", "options": ["The teacher is correct, and no further action is needed at this age", "Elementary school entry is specifically noted as the point where SLD and IDD often first become apparent due to increased academic demands, so this warrants further evaluation rather than dismissal", "The teacher is correct, since SLD cannot be diagnosed before age 10", "This is a normal expectation of 'developing at different paces' with no diagnostic bearing whatsoever"], "correct": 1, "rationale": "School entry is exactly when SLD/IDD first typically becomes apparent due to academic demands \u2014 this timing supports evaluation, not dismissal."}, {"prompt": "A 6-year-old has 2 of the 8 separation anxiety symptoms (fear of being alone, refusal to sleep away from home) present for 10 weeks, causing significant distress. A clinician diagnoses separation anxiety disorder based on the extended duration. Is this diagnosis supported?", "options": ["Yes, since duration exceeding 4 weeks is sufficient regardless of symptom count", "No \u2014 at least 3 of the 8 symptoms are required at minimum; 2 symptoms do not meet the threshold even with a duration well beyond 4 weeks", "Yes, since these two symptoms are the most severe on the list and count double", "No, since separation anxiety disorder cannot be diagnosed in children under 8"], "correct": 1, "rationale": "Duration alone does not substitute for the required symptom count \u2014 at least 3 of 8 symptoms are needed regardless of how long duration extends."}, {"prompt": "A child has had an intense, disabling fear of vomiting for 4 months, avoiding school and social events, clearly out of proportion to any real risk. A clinician wants to diagnose specific phobia now, reasoning the child 'clearly needs help' and shouldn't wait. Evaluate this reasoning against the duration criterion.", "options": ["Diagnosis is appropriate now, since the impairment is severe enough to justify skipping the duration requirement", "The 6-month duration criterion for specific phobia has not yet been met at 4 months; while treatment planning and support can begin, the formal diagnosis requires reaching the full duration threshold", "Diagnosis is appropriate now, since 4 months exceeds the 4-week separation anxiety threshold", "This should instead be diagnosed as social anxiety disorder given the school avoidance"], "correct": 1, "rationale": "Specific phobia requires 6 months duration; severity of impairment does not substitute for meeting the duration criterion, even though early intervention/support can still begin."}, {"prompt": "A therapist believes that once a child demonstrates good coping skills in session (e.g., role-playing calm breathing), the child is fully ready for real-world exposure without further involvement from parents or teachers. Is this consistent with the core pediatric anxiety therapy principle?", "options": ["Yes, since coping skills mastery is the only prerequisite for exposure", "No \u2014 active family/school involvement to eliminate inadvertent reinforcement of avoidance is also described as essential, alongside coping skills; skills alone are not sufficient", "Yes, but only for children over age 10", "No, since exposure should never be introduced regardless of coping skills"], "correct": 1, "rationale": "Both coping skills AND family/school involvement to stop reinforcing avoidance are described as necessary \u2014 skills mastery alone is not sufficient."}, {"prompt": "A family excitedly celebrates every minor achievement of their child with extended discussion and check-ins throughout the day, and the parents are highly involved in monitoring homework completion daily. A colleague labels this enmeshment. What distinguishes healthy high involvement from enmeshment, per the guide's framing?", "options": ["There is no distinction; any high level of parental involvement is enmeshment", "The distinguishing features are denial of differences, loss of personal autonomy, and intrusiveness that hinders competency development \u2014 not simply high engagement or celebration of achievements", "Enmeshment requires exactly one parent to be uninvolved", "Any daily homework monitoring qualifies as enmeshment regardless of context"], "correct": 1, "rationale": "Enmeshment specifically involves loss of autonomy and intrusiveness hindering competency, not simply high engagement or celebratory involvement, which can be healthy."}, {"prompt": "A family therapist observes a father and daughter who consistently side against the mother during every family conflict, with the father openly criticizing the mother to the daughter. A trainee calls this a 'skewed coalition.' Is this accurate?", "options": ["Yes, since one parent is clearly more involved than the other", "No \u2014 this matches a schism coalition (child joins one parent against the other in marital conflict, with devaluation of the excluded parent), not a skewed coalition, which involves one spouse overfunctioning for an underfunctioning one", "Yes, since skewed coalitions always involve a parent and child", "No, since this scenario doesn't describe any recognized coalition pattern"], "correct": 1, "rationale": "This is a schism coalition specifically \u2014 a skewed coalition describes spousal overfunctioning/underfunctioning, a different pattern entirely."}, {"prompt": "A student with ADHD consistently loses points for incomplete assignments despite understanding the material, because assignments are lengthy and require sustained output. A teacher proposes shortening the assignments' overall length while keeping the same skill level required. Which accommodation principle does this reflect?", "options": ["Increasing difficulty to maintain engagement", "Reducing quantity, not difficulty, to match sustained-attention capacity", "Removing the assignment requirement entirely", "Providing extra credit instead of accommodations"], "correct": 1, "rationale": "This directly reflects the 'reduce quantity, not difficulty' principle \u2014 matching output demand to attention capacity while preserving skill-level rigor."}, {"prompt": "A school proposes a 504 Plan for a student with ADHD who needs preferential seating and extended test time, but does not require specialized academic instruction. A parent insists an IEP is legally required instead. Is the parent correct?", "options": ["Yes, since only an IEP can legally provide any classroom accommodation", "No \u2014 a 504 Plan can formally guarantee accommodations (not specialized instruction) under Section 504 of the Rehabilitation Act, which fits this student's described needs", "Yes, since 504 Plans do not apply to ADHD", "No, since neither an IEP nor 504 Plan applies unless the student also has a learning disorder"], "correct": 1, "rationale": "A 504 Plan specifically covers accommodations without requiring specialized instruction \u2014 appropriate for needs like seating and extended time alone."}, {"prompt": "A 14-year-old has 5 symptoms of inattention and 5 symptoms of hyperactivity-impulsivity, both clusters below the required 6-of-9 threshold for someone under 17, present since age 9, across home and school. Does this presentation meet full ADHD criteria as documented?", "options": ["Yes, since the combined total across both clusters exceeds 6", "No \u2014 since the patient is under 17, each cluster independently needs 6 of 9; having 5 in each cluster does not meet the threshold for either cluster alone as documented", "Yes, since any symptoms present since childhood automatically qualify", "No, since ADHD cannot be diagnosed in early adolescence"], "correct": 1, "rationale": "Symptom counts are NOT combined across clusters \u2014 one cluster must independently reach 6 of 9 (under age 17); 5+5 across two clusters does not satisfy either cluster's threshold."}, {"prompt": "A clinician documents 'insight and judgment intact' solely based on the patient stating they understand they have a mental health condition, without asking any decision-making related questions. Is this documentation complete per the guide's framing of these two constructs?", "options": ["Yes, since insight alone captures both constructs", "No \u2014 insight (self-awareness) and judgment (decision-making capacity) are distinct constructs typically assessed together but not synonymous; judgment requires separate assessment", "Yes, since judgment is a subcomponent of insight specifically", "No, since insight cannot be assessed through patient self-report at all"], "correct": 1, "rationale": "Insight and judgment are distinct constructs assessed together but not interchangeable \u2014 judgment requires its own assessment of decision-making capacity."}, {"prompt": "A clinician notes a patient's fund of knowledge appears low based on missed questions about current events, without considering the patient's stated 6th-grade education level and limited access to news media. What principle is being overlooked?", "options": ["Fund of knowledge should never be assessed in any patient", "Age-appropriate calibration to educational background is needed to distinguish true cognitive impairment from an intelligence/education mismatch", "Current events questions are the only valid fund-of-knowledge assessment", "Fund of knowledge is identical to abstract reasoning and doesn't need separate testing"], "correct": 1, "rationale": "Questions must be calibrated to educational background to avoid mistaking limited education/exposure for true cognitive impairment."}, {"prompt": "A patient's chart states 'mood: anxious' based on the clinician's observation of fidgeting and rapid speech, without asking the patient how they feel internally. Is this correctly classified as 'mood'?", "options": ["Yes, since anxious presentations are always documented as mood", "No \u2014 this describes the clinician's OBSERVATION (affect), not the patient's self-reported internal state (mood); it should be reclassified as affect unless the patient directly reports feeling anxious", "Yes, since mood and affect are interchangeable terms", "No, since fidgeting and rapid speech are never relevant to either mood or affect"], "correct": 1, "rationale": "Mood must come from the patient's own report; observed behaviors (fidgeting, rapid speech) constitute affect, the clinician's external observation, not mood."}, {"prompt": "A patient reports feeling 'terrified' but displays a completely blank, unchanging facial expression with monotone speech throughout the description. A trainee documents 'congruent affect, since the patient is clearly distressed.' Is this documentation accurate?", "options": ["Yes, since the patient's words indicate distress matching a serious affect", "No \u2014 this is incongruent (or flat/restricted) affect, since the OBSERVED expression (blank, monotone) does not match the STATED emotional content (terrified); congruence requires the two to align", "Yes, since congruence only applies to positive emotional states", "No, since this should instead be classified as derealization"], "correct": 1, "rationale": "Congruence requires observed affect to match stated mood/content; a blank, monotone presentation paired with reported terror is a mismatch \u2014 incongruent, not congruent."}, {"prompt": "A patient with previously well-organized, linear thinking begins expressing a fixed, false belief that a neighbor is monitoring them through the television, while their sentence structure and logical flow remain completely intact. A student argues this can't be a true delusion since 'the patient's thinking is so organized.' Evaluate this claim.", "options": ["Correct, since disorganized thought process is required for any delusion to be present", "Incorrect \u2014 thought process and thought content are independent domains; a patient can have fully intact, linear thought process while holding severely delusional content", "Correct, since delusions can only occur with formal thought disorder", "Incorrect, since this should instead be classified as an illusion"], "correct": 1, "rationale": "Thought process (organization) and thought content (what is believed) are independent \u2014 organized thinking does not preclude delusional content."}, {"prompt": "A therapist notices a patient consistently minimizes the therapist's absences and cancellations, expressing no negative reaction at all, and wonders if this indicates an absence of transference. What is the more accurate interpretation?", "options": ["This confirms transference is absent, since no negative reaction is shown", "This likely still reflects transference (potentially a defensive or avoidant relational pattern), since transference is described as ubiquitous and reflected in ordinary session behavior, not only in overtly negative or positive displays", "This indicates the patient has achieved full termination readiness", "This can only be explained by countertransference, not transference"], "correct": 1, "rationale": "Because transference is ubiquitous and present in ordinary behavior, a muted or minimizing reaction can itself be a relational pattern reflecting transference, not evidence of its absence."}, {"prompt": "A CBT therapist notices a patient's negative transference-like behavior (frequent lateness, guardedness) but, rather than making it the primary focus of every session, continues addressing the agreed treatment goals while adjusting pacing as needed. Is this approach consistent with the guide's description of modality-specific responses to negative transference?", "options": ["No, since negative transference must always become the primary focus of therapy regardless of modality", "Yes \u2014 in approaches like CBT, treatment goals may simply be adjusted without directly addressing the transference itself, distinct from the psychodynamic approach of treating it as the primary alliance-rupture focus", "No, since CBT therapists are not permitted to notice transference at all", "Yes, but only if the patient explicitly requests this approach"], "correct": 1, "rationale": "CBT may adjust treatment goals without making transference itself the direct focus \u2014 this differs from the psychodynamic 'alliance rupture' approach, and is consistent with modality-specific guidance."}, {"prompt": "A therapist notices they have started looking forward to a specific patient's appointments more than others and feels mildly protective of them, without any boundary violations (no extended sessions, no special allowances, no outside contact). Does the ABSENCE of boundary violations mean countertransference is not occurring?", "options": ["Yes, since countertransference always requires an accompanying boundary violation", "Not necessarily \u2014 countertransference can be positive (idealizing feelings, empathic resonance) and can occur without any boundary violation; boundary breaches are commonly cited signs but not a requirement for countertransference to be present", "Yes, since only negative countertransference is clinically meaningful", "No, since this scenario describes transference, not countertransference, regardless of boundary status"], "correct": 1, "rationale": "Countertransference does not require an accompanying boundary violation \u2014 positive countertransference (idealizing feelings, empathic resonance) can occur without any breach."}, {"prompt": "A clinician skips informal rapport-building and begins a first session with a 6-year-old by immediately asking, 'Do you ever feel sad or want to hurt yourself?' A colleague argues this efficient, direct approach is fine since direct questioning is described as appropriate. What nuance is being missed?", "options": ["Nothing is missing; skipping rapport-building is fully consistent with the guide", "The guide recommends informal, nonthreatening conversation BEFORE presenting symptoms are addressed; direct questioning being appropriate does not mean it should replace the recommended sequencing of building comfort first", "Direct questioning about self-harm should never occur with children under 10", "The clinician should have asked the parent this question instead of the child"], "correct": 1, "rationale": "Direct questioning being appropriate doesn't override the recommended SEQUENCE \u2014 informal rapport-building should precede symptom-focused direct questions."}, {"prompt": "During play, a therapist says, 'You're really angry at that toy right now.' A supervisor notes this technically names an emotion rather than purely describing an observable action (like block placement). Does this cross into judgment, per the guide's distinction?", "options": ["Yes, since naming any emotion is inherently judgmental", "Not necessarily \u2014 reflecting an apparent feeling state can still be non-judgmental if it describes rather than evaluates (e.g., 'angry' as an observed state, not 'bad' as a value judgement); the key line is description versus evaluation, not whether emotion words are used", "Yes, since only descriptions of physical actions are permitted in reflective observation", "No, since naming emotions is never part of reflective technique at all"], "correct": 1, "rationale": "The core distinction is description versus evaluation, not the mere presence of emotion words \u2014 naming an apparent feeling state can still be non-judgmental reflection."}, {"prompt": "A therapist believes that once a family and teen agree on individual therapy, the parent's role becomes purely administrative (scheduling, payment) with no substantive involvement going forward. Is this consistent with the guide's described ongoing parental role?", "options": ["Yes, since individual therapy fully transfers all substantive involvement to the teen alone", "No \u2014 the therapist should still check in with the parent regularly to discuss progress and goals, which is substantive involvement beyond purely administrative tasks", "Yes, but only for teens over age 16", "No, since parents should instead attend every session in this arrangement"], "correct": 1, "rationale": "Regular check-ins on progress and goals are substantive, not merely administrative \u2014 the described role goes beyond scheduling/payment."}, {"prompt": "A child's play scenario involving a 'scary monster' has remained essentially unchanged for 6 sessions, with no signs of the child's overall functioning worsening elsewhere. A new therapist covering the case interprets this as concerning stagnation requiring an entirely new therapeutic approach. What alternative interpretation is equally or more consistent with the guide?", "options": ["The interpretation is correct; unchanged play after 6 sessions always signals treatment failure", "An equally plausible interpretation is that the child is still actively processing the underlying issue, since repetition is described as expected, and the scenario typically changes on its own as comfort increases over time, without a fixed session-count deadline", "The child should be immediately referred for medication evaluation", "This can only be explained by the child regressing developmentally"], "correct": 1, "rationale": "Repetition is expected and not tied to a fixed number of sessions before change occurs \u2014 ongoing repetition can still reflect active, appropriate processing rather than failure."}, {"prompt": "A therapist believes that because early attachment patterns are 'hardwired' during a neuroplastic period, they are essentially permanent and cannot be meaningfully altered in adult psychotherapy. Is this consistent with the guide's framing of therapeutic change?", "options": ["Yes, since neurologically encoded patterns cannot be revised after early childhood", "No \u2014 the guide frames these patterns as revisable specifically through a NEW relational connection (the therapeutic alliance), not as permanently fixed once encoded", "Yes, but only patterns encoded after infancy can be changed", "No, since attachment patterns have no connection to neurobiology at all"], "correct": 1, "rationale": "The guide explicitly frames these patterns as revisable via a new relational connection \u2014 not permanently fixed despite their neurodevelopmental origin."}, {"prompt": "A clinician assumes that because a patient's appearance and behavior seem unremarkable at first glance, the full MSE can be abbreviated to just a mood and affect check. What is the flaw in this approach?", "options": ["There is no flaw; mood and affect are the only clinically important MSE domains", "The MSE includes multiple additional domains (motor activity, speech, thought process/content, perceptual disturbances, cognition, insight/judgment) that are gathered through ongoing observation and are not substitutable by mood/affect alone, regardless of initial appearance", "Appearance and behavior should never be assessed as part of the MSE", "The MSE should only ever be abbreviated for pediatric patients"], "correct": 1, "rationale": "The MSE comprises multiple distinct domains beyond mood/affect, all gathered through observation \u2014 an unremarkable first impression doesn't substitute for assessing the full range of domains."}, {"prompt": "A patient reports feeling detached from their own body, as though watching themselves from outside, while stating their surroundings feel completely normal and familiar. A trainee documents this as derealization. Is this the correct term?", "options": ["Yes, since any dissociative-sounding symptom is classified as derealization", "No \u2014 feeling detached from one's own body/self is depersonalization; derealization specifically refers to the environment feeling unreal or changed, which the patient explicitly denies here", "Yes, since depersonalization and derealization are interchangeable terms", "No, since this should instead be classified as an illusion"], "correct": 1, "rationale": "Depersonalization is feeling detached from oneself; derealization is feeling the environment has changed \u2014 the patient's description matches depersonalization specifically, and explicitly denies environmental unreality."}, {"prompt": "A 13-year-old has had motor tics for 18 months and vocal tics for 3 months (both currently active), first noticed at age 11. A colleague argues this cannot be Tourette's since the vocal tics have been present for 'less than a year.' Is this reasoning correct?", "options": ["Correct, since each individual tic type must independently persist over 1 year", "Incorrect \u2014 the required duration (>1 year since onset) applies to the overall tic disorder course, not to each tic type needing its own independent 1-year history; multiple motor AND at least one vocal tic at some point during a >1 year course is sufficient", "Correct, since Tourette's requires both tic types to begin simultaneously", "Incorrect, since Tourette's has no duration requirement at all"], "correct": 1, "rationale": "The >1 year duration applies to the overall course since onset, not to each individual tic type needing its own independent 1-year history \u2014 multiple motor and at least one vocal tic occurring within that overall course is sufficient."}, {"prompt": "A 9-year-old's tics have noticeably worsened compared to age 6, when they first began. A parent assumes this means the underlying disorder is progressively worsening and will continue to intensify indefinitely. How should the clinician frame this using the guide's epidemiologic data?", "options": ["Confirm the parent's fear; tics always worsen indefinitely once they begin", "Explain that peak severity typically occurs at age 10-12, meaning this worsening is likely part of an expected trajectory that peaks around that age rather than indefinite progression", "Explain that this worsening is unrelated to the underlying tic disorder", "Confirm that this pattern definitively indicates progression to Tourette's disorder"], "correct": 1, "rationale": "Peak severity at age 10-12 is a known part of the typical natural history \u2014 worsening toward that age range is an expected pattern, not necessarily indefinite progression."}, {"prompt": "A clinician distinguishes a child's repetitive hand-flapping (onset at 18 months, rhythmic, seemingly enjoyable to the child, no reported distress) from another child's shoulder-shrugging tic (onset at age 5, brief, preceded by an uncomfortable urge). Which pairing of features correctly aligns with stereotypy versus tic, respectively?", "options": ["Both presentations describe tics, differentiated only by body part involved", "The first (early onset, rhythmic, ego-syntonic, no urge) is a stereotypy; the second (later onset, brief, preceded by an urge) is a tic \u2014 matching the guide's distinguishing features for each", "Both presentations describe stereotypies, differentiated only by age of onset", "The first is a tic and the second is a stereotypy, reversed from the typical pattern"], "correct": 1, "rationale": "Early onset, rhythmic, ego-syntonic, no-urge features define stereotypy; later onset, brief, urge-preceded features define tic \u2014 this pairing matches the guide correctly."}, {"prompt": "A pediatric patient's parent describes chronic, low-level ongoing conflict with their teen that has existed 'forever' but has NOT become the dominant or most pressing clinical issue compared to the teen's presenting depression. A colleague recommends switching immediately to family therapy based solely on the presence of any parent-teen conflict. Is this the correct application of the guide's referral criterion?", "options": ["Yes, since any level of parent-teen conflict should trigger a family therapy referral", "Not necessarily \u2014 the guide's stated criterion is when conflict becomes the MOST PRESSING clinical concern, not simply when any conflict exists alongside another primary presenting problem", "Yes, since family therapy should always replace individual therapy when parents are involved at all", "No, since family therapy is never appropriate when depression is the presenting problem"], "correct": 1, "rationale": "The referral criterion is specifically when conflict becomes the MOST PRESSING clinical issue \u2014 chronic low-level conflict alongside another primary presenting problem doesn't automatically meet this threshold."}, {"prompt": "A 3-year-old can copy a circle, avoids touching a stove after one verbal warning, and joins other children in parallel play, but takes 25 minutes (rather than the expected ~10) to calm down after a caregiver leaves. Should this specific finding be flagged as a developmental concern at this age?", "options": ["No, since the other three milestones are all on track, this one detail is irrelevant", "This specific finding (prolonged distress beyond the expected ~10 minute window) represents a deviation from the stated age-3 milestone and is worth noting, even though the other milestones assessed are age-appropriate", "This should be treated as a certain sign of separation anxiety disorder", "This is not trackable as a milestone at any age"], "correct": 1, "rationale": "Calming within about 10 minutes of caregiver separation is the specific stated age-3 milestone; consistently taking substantially longer is a deviation worth noting, even alongside other on-track milestones."}, {"prompt": "A parent reports their 5-year-old can hop on one foot and button some buttons independently, but has recently begun refusing all previously-mastered self-dressing tasks, becoming distressed and unable to complete them. How should this be weighed against the age-5 motor milestones?", "options": ["This is reassuring, since the motor milestones for hopping and buttoning are both met", "This is concerning independent of the milestone checklist, since the loss of previously mastered self-dressing skills constitutes regression, which is treated as more concerning than milestone attainment status", "This should be dismissed as normal variation in mood", "This can only be addressed by a physical therapist, not a mental health clinician"], "correct": 1, "rationale": "Regression (loss of previously mastered skills) is the overriding red flag, regardless of whether other milestones are currently being met."}, {"prompt": "A speech-language pathologist notes a 4-year-old was previously fluent, but grammar/vocabulary skills have plateaued for several months with no forward progress, though no skills have been outright lost. A colleague equates this plateau with the guide's definition of 'regression.' Is this equivalence accurate?", "options": ["Yes, since any lack of progress is functionally equivalent to regression", "Not precisely \u2014 regression specifically refers to LOSS of a previously acquired skill, which is distinct from a plateau (lack of new progress without loss); both may warrant evaluation, but they are not the same phenomenon as described", "Yes, since plateaus always indicate an underlying loss that hasn't yet become apparent", "No, since plateaus in language development are never clinically relevant"], "correct": 1, "rationale": "Regression specifically means losing a previously acquired skill; a plateau (no loss, no progress) is a distinct clinical picture, even if both warrant attention."}, {"prompt": "A 7-year-old boy has documented deficits in all three Criterion A domains and exhibits both stereotyped hand movements AND an intense, narrow preoccupation with vacuum cleaners that interferes with other activities. A trainee wants to also add a diagnosis of Specific Learning Disorder based solely on the fact that his teacher reports he 'doesn't seem to be learning as fast as peers.' What is missing before SLD can be added?", "options": ["Nothing; teacher impression alone is sufficient to add an SLD diagnosis", "Standardized achievement testing confirming a specific academic skill substantially below age expectations despite intervention, and ruling out that the difficulty is better explained by his ASD/associated cognitive profile, is required before SLD can be diagnosed", "SLD cannot ever be diagnosed alongside ASD under any circumstances", "The teacher's report alone is sufficient only if repeated by two different teachers"], "correct": 1, "rationale": "SLD requires standardized testing confirming an out-of-proportion, domain-specific deficit \u2014 general teacher impression of 'not learning as fast' doesn't meet this bar, especially when ASD could also explain broader learning differences."}, {"prompt": "A clinician evaluating possible ADHD in a 6-year-old only interviews the classroom teacher and does not gather any information from the after-school caregiver or parents. Symptoms are confirmed only in the classroom setting. Can a full ADHD diagnosis be made on this information alone?", "options": ["Yes, since teacher report is considered the most authoritative source", "No \u2014 symptoms and impairment must be documented in 2 or more settings; classroom-only confirmation does not meet this requirement even if the teacher's report is detailed and credible", "Yes, since classroom behavior always generalizes to all other settings", "No, since ADHD diagnosis requires observation by a psychiatrist specifically"], "correct": 1, "rationale": "The 2+ settings requirement is a specific, non-negotiable DSM-5 criterion \u2014 single-setting confirmation, however detailed, does not meet it."}, {"prompt": "A therapist believes 'positive transference' and 'good therapeutic rapport' are simply two different names for the exact same clinical phenomenon, with no meaningful distinction. Is this an accurate reading of the guide's framing?", "options": ["Yes, the two terms are fully interchangeable with no conceptual difference", "Not entirely \u2014 while overlapping in practice, transference specifically refers to feelings rooted in the patient's earlier significant relationships redirected toward the therapist, a more specific mechanism than the broader concept of rapport", "No, since positive transference and rapport are direct opposites of each other", "Yes, but only in child and adolescent therapy specifically"], "correct": 1, "rationale": "Transference has a specific origin (redirected feelings from early relationships) that is a more precise mechanism than the broader, less specific concept of general rapport, even though the two can overlap in observable behavior."}, {"prompt": "A family is told their 3-year-old with a significant expressive language delay should 'just wait and see' before starting speech therapy, since many toddlers are late talkers. Evaluate this advice against the guide's recommended approach to caring for children with language disorders.", "options": ["This advice is fully consistent with the guide, since most language delays resolve spontaneously without any intervention", "This advice conflicts with the guide's emphasis on multidisciplinary evaluation and targeted speech/language therapy once delay is identified in the preschool years \u2014 'wait and see' is not the recommended approach once a delay meeting the guide's diagnostic age window is present", "This advice is correct only for expressive (not receptive) delays", "This advice should apply only if the child is also bilingual"], "correct": 1, "rationale": "The guide recommends multidisciplinary evaluation and targeted therapy once delay is identified in the preschool years, not a passive 'wait and see' approach."}, {"prompt": "A child with selective mutism has not spoken at school for 6 months. The school psychologist recommends the parents stop all accommodation of the muteness (e.g., no longer allowing a sibling to speak for her) and instead maintain a calm, structured expectation that she will eventually speak, paired with office-based desensitization. Does this align with the guide's recommended approach?", "options": ["No, since selective mutism should be addressed by removing the child from school entirely until she speaks", "Yes \u2014 this reflects the guide's stated first-line approach: behavioral desensitization plus active parent/teacher involvement, changing patterns (like others speaking for the child) that maintain the muteness, built on the expectation the child will speak again", "No, since medication is required as first-line treatment for selective mutism", "Yes, but only if paired with immediate family therapy exclusively, without any behavioral component"], "correct": 1, "rationale": "This matches the guide's described first-line approach exactly: desensitization, active involvement, and changing patterns (like others speaking for the child) that maintain the symptom."}, {"prompt": "A 7-year-old who stutters is told by a well-meaning relative to 'just slow down and think before talking,' with the implication that the stutter is a controllable behavioral choice. How does this advice align with the guide's framing of when to intervene and how recovery occurs?", "options": ["This advice is fully supported, since stuttering is described as a fully voluntary behavior", "This advice oversimplifies the picture; the guide frames stuttering's course as tied to persistence past a specific age (8) predicting adulthood continuation, and treatment approaches (not simply conscious behavioral control) are what's described as effective when started early", "This advice is correct only for children who stutter after age 8", "This advice should be given only by a speech-language pathologist to be effective"], "correct": 1, "rationale": "The guide frames stuttering's course around age-based persistence and formal treatment, not simple conscious behavioral control via reminders to slow down."}, {"prompt": "A clinician documents a patient's insight as 'good' solely because the patient can correctly state their diagnosis name when asked. A colleague argues this alone is insufficient documentation. Evaluate the colleague's concern.", "options": ["The concern is unfounded; naming the diagnosis is the complete definition of insight", "The concern has merit \u2014 insight specifically refers to the patient's broader awareness/understanding of their condition, not merely the ability to recite a diagnostic label; deeper understanding of how the condition affects them would need to be explored to justify 'good' insight", "The concern is unfounded, since insight is not a real MSE component", "The concern has merit only because judgment, not insight, was actually being assessed"], "correct": 1, "rationale": "Insight requires broader awareness/understanding of one's condition, not just the ability to recite a label \u2014 the colleague's concern about incomplete assessment is valid."}, {"prompt": "A patient with a documented history of psychosis reports believing their food is being poisoned by a coworker, while remaining calm, coherent, and using completely linear, well-organized sentences throughout the description. A trainee argues this presentation is 'inconsistent' since psychosis should include disorganized speech. Evaluate this assumption.", "options": ["Correct \u2014 disorganized speech is a required feature of any psychotic presentation", "Incorrect \u2014 thought process (organization) and thought content (the delusional belief) are independent domains; a patient can present with organized, linear speech while holding clearly delusional content", "Correct, since the poisoning belief cannot be a true delusion without accompanying disorganized speech", "Incorrect, since this presentation should instead be classified as an illusion, not a delusion"], "correct": 1, "rationale": "Thought process and thought content are independent \u2014 organized, linear speech can coexist with clearly delusional content; disorganization is not a required companion feature."}, {"prompt": "A clinician notes a patient's affect as 'appropriate' simply because the patient was pleasant and cooperative throughout the visit, without considering whether the emotional display matched the specific content being discussed (e.g., discussing a recent loss while remaining pleasant throughout). What is the flaw in this documentation?", "options": ["There is no flaw; pleasant and cooperative behavior always qualifies as appropriate affect", "Appropriateness specifically assesses whether the emotional display fits the situational CONTEXT (e.g., content being discussed), not simply whether the patient's general demeanor was pleasant or cooperative throughout the visit", "This should instead be documented as congruent affect, not appropriate affect", "Appropriateness cannot be assessed unless the patient is actively distressed"], "correct": 1, "rationale": "Appropriateness is about fit to the specific situational content (e.g., discussing a loss), not a general pleasant demeanor across the whole visit \u2014 being cooperative doesn't automatically mean the affect fit every specific moment's content."}, {"prompt": "A therapist working with a play-based child says, 'Wow, you're such a good listener today!' after the child follows an instruction during play. A colleague argues this is a textbook example of the guide's 'non-judgmental reflective observation' technique. Is this an accurate application?", "options": ["Yes, since any positive statement to a child during play qualifies as reflective observation", "No \u2014 this is evaluative praise ('good listener'), which the guide distinguishes from neutral, descriptive reflection (e.g., simply describing what happened without an evaluative label)", "Yes, since praise and reflection are described as identical techniques in the guide", "No, since praise should never be used with children in any therapeutic context"], "correct": 1, "rationale": "This is evaluative praise, not the neutral, descriptive reflection the guide specifically distinguishes as the reflective observation technique."}, {"prompt": "A clinician skips asking a 9-year-old directly why she thinks she's there today, instead relying entirely on the mother's account of 'she's just been more withdrawn lately.' The child never gets asked her own view of the visit's purpose. What specific guidance does this skip?", "options": ["Nothing important; parent report is always sufficient for determining the visit's purpose", "The guide specifically emphasizes getting the child's own words on why they are meeting with the clinician now, distinct from the parent's framing of the problem \u2014 this step was skipped entirely", "This is only a concern if the child is a teenager rather than a school-age child", "The child should have been asked this question only after the full history was gathered from the mother, not skipped"], "correct": 1, "rationale": "The guide specifically calls for obtaining the child's own words on the reason for the visit, distinct from parental framing \u2014 entirely skipping this step misses a stated priority, not just a matter of sequencing."}];
+const TOTAL = QUESTIONS.length;
+const state = QUESTIONS.map(() => ({ answered: false, selected: null }));
+let current = 0;
+let viewingResults = false;
+
+const root = document.getElementById('quizRoot');
+const progressLabel = document.getElementById('progressLabel');
+const progressFill = document.getElementById('progressFill');
+
+function letter(i) { return String.fromCharCode(65 + i); }
+
+function renderQuestion(idx) {
+  viewingResults = false;
+  const q = QUESTIONS[idx];
+  const s = state[idx];
+  progressLabel.textContent = `Question ${idx + 1} of ${TOTAL}`;
+  progressFill.style.width = `${((idx + 1) / TOTAL) * 100}%`;
+
+  let optionsHtml = q.options.map((opt, i) => {
+    let cls = 'option';
+    if (s.answered) {
+      if (i === q.correct) cls += ' correct';
+      else if (i === s.selected) cls += ' incorrect';
+    } else if (s.selected === i) {
+      cls += ' selected';
+    }
+    return `<button class="${cls}" data-idx="${i}" ${s.answered ? 'disabled' : ''} onclick="selectOption(${idx}, ${i})">
+      <span class="option-letter">${letter(i)}.</span>${opt}
+    </button>`;
+  }).join('');
+
+  let rationaleHtml = '';
+  if (s.answered) {
+    const wasCorrect = s.selected === q.correct;
+    rationaleHtml = `<div class="rationale">
+      <span class="verdict ${wasCorrect ? 'good' : 'bad'}">${wasCorrect ? 'Correct.' : 'Not quite.'}</span>
+      ${q.rationale}
+    </div>`;
+  }
+
+  const isLast = idx === TOTAL - 1;
+  const nextLabel = isLast ? 'Submit Exam' : 'Next';
+  const nextDisabled = !s.answered;
+
+  root.innerHTML = `
+    <div class="card">
+      <div class="qnum">VIGNETTE ${idx + 1}</div>
+      <div class="prompt">${q.prompt}</div>
+      <div class="options">${optionsHtml}</div>
+      ${rationaleHtml}
+      <div class="nav-row">
+        <button class="nav-btn" id="backBtn" ${idx === 0 ? 'disabled' : ''} onclick="goBack()">Back</button>
+        <button class="nav-btn ${isLast ? 'submit' : 'primary'}" id="nextBtn" ${nextDisabled ? 'disabled' : ''} onclick="${isLast ? 'showResults()' : 'goNext()'}">${nextLabel}</button>
+      </div>
+      ${nextDisabled ? '<div class="unanswered-hint">Select an answer to continue</div>' : ''}
+    </div>
+  `;
+}
+
+function selectOption(qIdx, optIdx) {
+  const s = state[qIdx];
+  if (s.answered) return;
+  s.selected = optIdx;
+  s.answered = true;
+  renderQuestion(qIdx);
+}
+
+function goNext() {
+  if (current < TOTAL - 1) {
+    current++;
+    renderQuestion(current);
+  }
+}
+
+function goBack() {
+  if (current > 0) {
+    current--;
+    renderQuestion(current);
+  }
+}
+
+function jumpTo(idx) {
+  current = idx;
+  renderQuestion(idx);
+}
+
+function showResults() {
+  viewingResults = true;
+  const answeredCount = state.filter(s => s.answered).length;
+  const correctCount = state.filter(s => s.answered && s.selected === QUESTIONS[state.indexOf(s)].correct).length;
+  let correct = 0;
+  state.forEach((s, i) => { if (s.answered && s.selected === QUESTIONS[i].correct) correct++; });
+  const pct = Math.round((correct / TOTAL) * 100);
+  const passed = pct >= 75;
+
+  progressLabel.textContent = 'Results';
+  progressFill.style.width = '100%';
+
+  let reviewHtml = state.map((s, i) => {
+    const ok = s.answered && s.selected === QUESTIONS[i].correct;
+    return `<div class="review-item" onclick="jumpTo(${i})">
+      <span class="rq">Q${i + 1}. ${QUESTIONS[i].prompt.slice(0, 70)}${QUESTIONS[i].prompt.length > 70 ? '…' : ''}</span>
+      <span class="rmark ${ok ? 'good' : 'bad'}">${s.answered ? (ok ? 'Correct' : 'Missed') : 'Skipped'}</span>
+    </div>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="card results">
+      <div class="score-big">${correct}/${TOTAL}</div>
+      <div class="score-sub">${answeredCount} of ${TOTAL} questions answered</div>
+      <div class="pct ${passed ? 'pass' : 'fail'}">${pct}%</div>
+      <div class="review-list">${reviewHtml}</div>
+      <button class="nav-btn restart-btn" onclick="restart()">Retake Exam</button>
+    </div>
+  `;
+}
+
+function restart() {
+  state.forEach(s => { s.answered = false; s.selected = null; });
+  current = 0;
+  renderQuestion(0);
+}
+
+renderQuestion(0);
+</script>
+</body>
+</html>
