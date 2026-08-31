@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 · Exam I Practice B</title>
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --navy-deep: #14283f;
+    --gold: #b8860b;
+    --cream: #f7f5f0;
+    --paper: #ffffff;
+    --ink: #22303f;
+    --muted: #6b7684;
+    --good: #1e7a4c;
+    --good-bg: #e8f6ee;
+    --bad: #b3403a;
+    --bad-bg: #fbeceb;
+    --line: #e0ddd3;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+    min-height: 100%;
+  }
+  .app {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+  .masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  .masthead h1 {
+    font-size: 20px;
+    letter-spacing: 0.01em;
+    margin: 0;
+    color: var(--navy-deep);
+    font-weight: 700;
+  }
+  .masthead .meta {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .progress-track {
+    height: 5px;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 26px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.25s ease;
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px 26px;
+    box-shadow: 0 1px 3px rgba(20,40,63,0.06);
+  }
+  .qnum {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+  .prompt {
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    text-align: left;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 13px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 5px;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .option:hover:not(:disabled) {
+    border-color: var(--navy);
+    background: #fbfaf7;
+  }
+  .option.selected {
+    border-color: var(--navy);
+    background: #eef2f7;
+  }
+  .option.correct {
+    border-color: var(--good);
+    background: var(--good-bg);
+    color: #0f4c2c;
+  }
+  .option.incorrect {
+    border-color: var(--bad);
+    background: var(--bad-bg);
+    color: #6e211c;
+  }
+  .option:disabled { cursor: default; }
+  .option-letter {
+    display: inline-block;
+    width: 20px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .option.correct .option-letter { color: var(--good); }
+  .option.incorrect .option-letter { color: var(--bad); }
+
+  .rationale {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--gold);
+    background: #fdf8ec;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #4a3d1f;
+    border-radius: 0 4px 4px 0;
+  }
+  .rationale .verdict {
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .verdict.good { color: var(--good); }
+  .verdict.bad { color: var(--bad); }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  button.nav-btn {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1.5px solid var(--navy);
+    background: var(--paper);
+    color: var(--navy);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  button.nav-btn:hover:not(:disabled) { background: var(--navy); color: #fff; }
+  button.nav-btn:disabled { opacity: 0.35; cursor: default; border-color: var(--line); color: var(--muted); }
+  button.nav-btn.primary {
+    background: var(--navy);
+    color: #fff;
+  }
+  button.nav-btn.primary:hover:not(:disabled) { background: var(--navy-deep); }
+  button.nav-btn.submit {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+  }
+  button.nav-btn.submit:hover:not(:disabled) { background: #96700a; }
+
+  .unanswered-hint {
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* Results screen */
+  .results {
+    text-align: center;
+    padding: 40px 26px;
+  }
+  .results .score-big {
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--navy-deep);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .results .score-sub {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .results .pct {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .pct.pass { background: var(--good-bg); color: var(--good); }
+  .pct.fail { background: var(--bad-bg); color: var(--bad); }
+  .review-list {
+    text-align: left;
+    margin-top: 30px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+  .review-item {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .review-item:hover { background: #fbfaf7; }
+  .review-item .rq { color: var(--ink); flex: 1; }
+  .review-item .rmark { font-weight: 700; }
+  .rmark.good { color: var(--good); }
+  .rmark.bad { color: var(--bad); }
+  .restart-btn {
+    margin-top: 26px;
+  }
+  @media (max-width: 480px) {
+    .app { padding: 18px 14px 50px; }
+    .card { padding: 20px 16px; }
+    .prompt { font-size: 16.5px; }
+    .results .score-big { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="masthead">
+    <h1>NURS 5230 · Exam I Practice B</h1>
+    <div class="meta" id="progressLabel">Question 1 of 50</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width: 2%;"></div></div>
+  <div id="quizRoot"></div>
+</div>
+
+<script>
+const QUESTIONS = [{"prompt": "By what age is a child's language ability considered stable enough to reliably predict later developmental outcomes?", "options": ["Age 2", "Age 4", "Age 8", "Age 12"], "correct": 1, "rationale": "By age 4, language ability is stable enough to reliably predict later outcomes, per Boland's developmental data."}, {"prompt": "According to Boland's language development table, approximately how large is a typical child's expressive vocabulary at age 2 versus age 3?", "options": ["~50 words at 2 years, ~150 at 3 years", "~270 words at 2 years, ~895 at 3 years", "~1000 words at 2 years, ~2000 at 3 years", "Vocabulary size is not tracked at these ages"], "correct": 1, "rationale": "By the 24-36 month 'Grammar Formation' stage, vocabulary is roughly 270 words at 2 years and ~895 words at 3 years."}, {"prompt": "Which of the following would rule OUT a diagnosis of speech sound disorder in favor of another explanation?", "options": ["Grammar deficits", "Cleft palate, dysarthria, cerebral palsy, or hearing loss", "Limited vocabulary", "Poor conversational turn-taking"], "correct": 1, "rationale": "Speech sound disorder is ruled out by cleft palate, dysarthria, cerebral palsy, or hearing loss \u2014 not by grammar deficits, which would suggest language disorder instead."}, {"prompt": "By what age is a child's speech expected to be intelligible to strangers, per the speech sound disorder criteria?", "options": ["Age 1", "Age 3", "Age 6", "Age 10"], "correct": 1, "rationale": "Intelligibility to strangers is expected by age 3; failing to reach this is a marker warranting evaluation."}, {"prompt": "What is the correct sequential order for ruling out causes of language delay?", "options": ["ASD evaluation, then hearing, then ID", "Hearing evaluation, then intellectual disability, then ASD/Landau-Kleffner", "Genetic testing, then hearing, then ASD", "EEG first, then hearing"], "correct": 1, "rationale": "The work-up order is hearing first, then ID, then ASD/Landau-Kleffner, with EEG reserved for regression after age 3."}, {"prompt": "What is the recommended approach to evaluating a child suspected of having a language disorder?", "options": ["A single speech-language pathologist working independently", "A multidisciplinary team including speech-language pathology, psychology, and medicine", "The pediatrician alone, without specialist referral", "The school system exclusively"], "correct": 1, "rationale": "The evaluation for language disorders is multidisciplinary, involving speech-language pathology, psychology, and medicine together."}, {"prompt": "At what ages does the guide identify as warranting assessment for language delay (no words, and no phrases, respectively)?", "options": ["6 months and 1 year", "18 months and 2\u00bd\u20133 years", "5 years and 7 years", "There is no defined age window"], "correct": 1, "rationale": "A child not using words by 18 months or phrases by 2\u00bd\u20133 years warrants assessment \u2014 the stated diagnostic age window for language delay."}, {"prompt": "What are the three specific domains that must ALL be present to meet ASD Criterion A?", "options": ["Social-emotional reciprocity and sensory reactivity only", "Social-emotional reciprocity, nonverbal communicative behavior, and developing/maintaining/understanding relationships", "Restricted interests and insistence on sameness", "Language delay and intellectual disability"], "correct": 1, "rationale": "Criterion A requires ALL THREE domains: social-emotional reciprocity, nonverbal communication, and developing/maintaining relationships."}, {"prompt": "What is the purpose of genetic testing during an ASD medical work-up?", "options": ["To confirm the ASD diagnosis", "To rule out Fragile X and other genetic syndromes as an organic cause", "To determine the severity of ASD", "It is not part of the standard ASD work-up"], "correct": 1, "rationale": "A genetic/chromosomal test (e.g., for Fragile X) is part of the ASD work-up to rule out organic mimics, not to confirm the diagnosis itself."}, {"prompt": "A Wood's lamp examination is used during an ASD work-up to screen for which condition?", "options": ["Fragile X syndrome", "Tuberous sclerosis", "Hearing loss", "Lead toxicity"], "correct": 1, "rationale": "A Wood's lamp exam is used to detect tuberous sclerosis during ASD medical work-up."}, {"prompt": "What key symptom domain is present in childhood-onset schizophrenia but absent in ASD, despite some overlapping surface features?", "options": ["ASD commonly includes true hallucinations and delusions", "ASD lacks the true hallucinations, delusions, or formal thought disorder that define schizophrenia", "Both conditions require identical treatment approaches", "ASD and schizophrenia cannot be clinically distinguished before adulthood"], "correct": 1, "rationale": "ASD lacks the true hallucinations, delusions, or formal thought disorder that define schizophrenia, despite some surface-level similarities."}, {"prompt": "In diagnosing Intellectual Disability Disorder, severity level (mild, moderate, severe, profound) is determined primarily by what?", "options": ["The exact IQ number obtained on testing", "Adaptive functioning across conceptual, social, and practical domains", "The number of comorbid diagnoses present", "Parental report of the child's abilities alone"], "correct": 1, "rationale": "IDD severity is based on adaptive functioning across conceptual, social, and practical domains \u2014 not IQ score alone."}, {"prompt": "Approximately how many standard deviations below the population mean does the IQ range for Intellectual Disability Disorder fall?", "options": ["1 SD below the mean", "Approximately 2 SD below the mean", "3 SD below the mean", "IQ is not measured in SD units for this diagnosis"], "correct": 1, "rationale": "IDD requires IQ testing to be roughly 65-75, approximately 2 standard deviations below the population mean."}, {"prompt": "Specific Learning Disorder commonly co-occurs with which condition, representing a distinct underlying mechanism?", "options": ["Autism spectrum disorder exclusively", "ADHD, since the two reflect genuinely distinct mechanisms that can coexist", "Tourette's disorder exclusively", "No conditions commonly co-occur with SLD"], "correct": 1, "rationale": "SLD commonly co-occurs with ADHD, since a learning problem and an attention/performance problem are distinct mechanisms that can coexist."}, {"prompt": "How many of the 8 listed symptoms are required, at minimum, to diagnose separation anxiety disorder?", "options": ["2 of 8", "3 of 8", "5 of 8", "All 8"], "correct": 1, "rationale": "Separation anxiety disorder requires at least 3 of 8 specific symptoms related to fear of separation from attachment figures."}, {"prompt": "How should a clinician approach a mild, age-typical fear (e.g., fear of the dark) in a young child?", "options": ["Every childhood fear requires formal treatment regardless of duration", "Transient, developmentally normal fears common at certain ages do not require treatment", "All fears in children indicate an anxiety disorder", "Fears in children should never be addressed clinically"], "correct": 1, "rationale": "Transient, developmentally normal fears common at certain ages do not require treatment \u2014 only when they meet full diagnostic criteria."}, {"prompt": "Beyond teaching the child coping skills, what other component is essential to effective pediatric anxiety treatment?", "options": ["Working with family and school to eliminate inadvertent reinforcement of avoidant behavior", "Isolating the child from all anxiety triggers", "Avoiding any discussion of the anxiety with teachers", "Relying on medication alone without behavioral strategies"], "correct": 0, "rationale": "Family and school involvement is needed to eliminate any inadvertent reinforcement of anxious/avoidant behavior."}, {"prompt": "A parent routinely reads their teenager's private text messages, justifying it as necessary oversight. Which family boundary pattern does this exemplify?", "options": ["Disengagement", "Enmeshment", "Skewed coalition", "Parentification"], "correct": 1, "rationale": "A parent reading a child's private text messages is one of Wheeler's concrete examples of enmeshment."}, {"prompt": "What is the overarching therapy goal when addressing dysfunctional family boundary patterns (enmeshment, disengagement, coalitions)?", "options": ["Eliminating all rules to increase flexibility", "A strong parental hierarchy, open/direct communication, fair and flexible rules, and clear but not rigid boundaries", "Complete separation of all family subsystems", "Removing parental authority entirely"], "correct": 1, "rationale": "The overarching therapy goal is a strong parental hierarchy, open/direct communication, fair rules, and clear but not rigid boundaries."}, {"prompt": "What are the documented psychological risks to a child who is parentified?", "options": ["It has no negative effects if the child accepts the role willingly", "Increased anxiety and guilt, lowered self-esteem, and impaired peer relationships", "It only affects the parent, not the child", "It improves the child's long-term independence with no downsides"], "correct": 1, "rationale": "Parentification is damaging: it increases anxiety and guilt, lowers self-esteem, and impairs peer relationships through social deprivation."}, {"prompt": "Which specific ADHD homework accommodation is designed to match task length to a child's sustained-attention capacity?", "options": ["Consistent classroom structure and routines", "Dividing assignments into smaller segments", "A daily report card", "A distraction-free homework space"], "correct": 1, "rationale": "Dividing assignments into smaller segments matches task length to sustained-attention capacity."}, {"prompt": "Which school-based plan provides accommodations (rather than specialized instruction) for a student with ADHD, under Section 504 of the federal Rehabilitation Act of 1973?", "options": ["An IEP", "A 504 Plan", "A behavior intervention plan only", "Neither an IEP nor a 504 Plan applies to ADHD"], "correct": 1, "rationale": "A 504 Plan provides accommodations (not specialized instruction) for a student with a disability under Section 504 of the Rehabilitation Act."}, {"prompt": "For an ADHD diagnosis, in how many distinct settings must symptoms and impairment be present?", "options": ["Only at home", "In 2 or more settings, such as home and school", "Only at school", "Only when observed by a clinician directly"], "correct": 1, "rationale": "ADHD symptoms must be present in 2 or more settings (e.g., home and school), not just one."}, {"prompt": "Before what age must several ADHD symptoms have been present, according to current DSM-5 criteria?", "options": ["Age 7, unchanged from DSM-IV", "Age 12, raised from DSM-IV's age 7", "Age 18", "There is no age-of-onset requirement in DSM-5"], "correct": 1, "rationale": "DSM-5 raised the age-of-onset threshold from 7 (DSM-IV) to before age 12."}, {"prompt": "How is fund of knowledge and abstract reasoning typically assessed at the bedside during a cognitive exam?", "options": ["A single standardized IQ test administered by the clinician", "Age-appropriate questions calibrated to the patient's educational background", "Only observation, without direct questioning", "A formal neuropsychological battery in every visit"], "correct": 1, "rationale": "Fund of knowledge, abstract reasoning, calculation, insight, and judgment are tested with age-appropriate questions calibrated to educational background."}, {"prompt": "What determines how much detail is needed when assessing cognition during a clinical interview?", "options": ["A full cognitive battery must be completed for every patient, regardless of purpose", "The purpose of the exam and what's already known about the patient's day-to-day functioning", "The patient's insurance coverage alone", "The time of day the interview occurs"], "correct": 1, "rationale": "The level of detail needed depends on the purpose of the exam and what has already been learned about daily functioning."}, {"prompt": "What is the fundamental difference in how mood versus affect is determined during an exam?", "options": ["Mood is observed by the clinician; affect is reported by the patient", "Mood is what the patient reports feeling; affect is what the clinician observes", "Mood and affect are the same construct measured differently", "Affect is always more reliable than mood"], "correct": 1, "rationale": "Mood is what the patient reports feeling (subjective, sustained); affect is what the clinician observes (external expression)."}, {"prompt": "Which element of affect specifically describes whether it is restricted, normal, or labile?", "options": ["Quality/tone", "Range", "Appropriateness", "Congruence"], "correct": 1, "rationale": "Range describes whether affect is restricted, normal, or labile."}, {"prompt": "Which element of affect specifically addresses whether the emotional display fits the surrounding social/situational context?", "options": ["Congruence", "Appropriateness", "Quantity", "Quality/tone"], "correct": 1, "rationale": "Appropriateness assesses whether the affect fits the situational context, regardless of whether it matches the stated mood."}, {"prompt": "What specifically does 'congruence' assess with respect to affect?", "options": ["Whether affect fits the external social context", "Whether affect matches the patient's stated mood or thought content", "Whether the patient's speech is pressured or slowed", "Whether cognition is intact"], "correct": 1, "rationale": "Congruence asks whether affect matches the patient's STATED mood or thought content, distinct from appropriateness (fitting the external context)."}, {"prompt": "A patient becomes noticeably guarded and late to sessions after the therapist canceled an appointment. What is the recommended first step in responding to this apparent negative transference?", "options": ["Confrontation of the patient's behavior", "Empathic listening, first checking for a reality-based reason for the reaction", "Immediate termination of the therapeutic relationship", "Ignoring the change in the patient's behavior entirely"], "correct": 1, "rationale": "The therapeutic response to negative transference is empathic listening, checking for a reality-based cause before interpreting it as transferential."}, {"prompt": "Countertransference is usually associated with which of the following clinical behaviors?", "options": ["Strict adherence to session time limits at all times", "Extending sessions too long, feeling a patient is 'special,' or having social contact outside sessions", "Only positive, idealizing feelings toward the patient", "A complete absence of any emotional reaction to the patient"], "correct": 1, "rationale": "Countertransference is usually associated with breaches of boundaries: extending sessions, feeling a patient is 'special,' social contact outside sessions."}, {"prompt": "Why is supervision emphasized as clinically important with respect to countertransference?", "options": ["Countertransference is always immediately obvious to the therapist", "Therapists are often initially unaware of countertransference and become aware only by noticing their own behavior", "Countertransference cannot be identified through supervision", "Only experienced therapists ever experience countertransference"], "correct": 1, "rationale": "Therapists often become aware of countertransference only by noticing their own behavior \u2014 highlighting why supervision matters, especially with challenging patients."}, {"prompt": "What technique is recommended for engaging a less verbal child during an evaluation interview?", "options": ["Requiring the child to answer verbally before proceeding", "Offering an opportunity to draw with pencils, crayons, or washable markers", "Excluding the child from the interview entirely", "Administering a written self-report questionnaire"], "correct": 1, "rationale": "For less verbal children, offering drawing materials (pencils, crayons, washable markers) helps them engage comfortably."}, {"prompt": "What key technique distinguishes appropriate therapist observations during child-led play from judgment of the child?", "options": ["Praising the child excessively for every action", "Making non-judgmental reflective observations that describe behavior without evaluating it", "Correcting the child's behavior directly during play", "Ignoring the child's play activity entirely"], "correct": 1, "rationale": "Reinforcing observations like 'you put them in a line from yellow to red' are honest reflections, not judgments \u2014 the key distinguishing technique."}, {"prompt": "What is described as the fundamental role of the playroom in therapy with an angry child?", "options": ["A space where all aggressive content must be immediately redirected", "A safe place to express feelings, fears, and anger freely, without judgment of aggressive content", "A space reserved only for calm, quiet activities", "A space where the therapist actively participates only in non-aggressive play"], "correct": 1, "rationale": "The playroom's role is a safe place to express feelings, fears, and anger freely, without the therapist stopping or judging aggressive content."}, {"prompt": "A school-age child in anger management therapy frequently initiates competitive games with the therapist. Which Eriksonian developmental stage explains this behavior?", "options": ["Erikson's trust-versus-mistrust stage", "Erikson's industry-versus-inferiority stage", "Erikson's identity-versus-role-confusion stage", "This behavior is unrelated to any developmental stage"], "correct": 1, "rationale": "School-age children, navigating Erikson's industry-versus-inferiority stage, often initiate competitive games as a way of working through anger-related themes."}, {"prompt": "What is the therapist's role in guiding the pace of play therapy with an angry child?", "options": ["Actively direct the content of the child's play toward a specific resolution", "Calmly follow the play, note when it changes, and let the child's own pace and script drive the process", "Interpret the symbolic meaning of the play out loud to the child", "End sessions early whenever aggressive themes appear"], "correct": 1, "rationale": "The therapist's job is to calmly follow the play, note when it changes, and let the child's own pace and script drive the process, rather than pushing."}, {"prompt": "How is psychotherapy conceptualized in relation to early childhood attachment experiences?", "options": ["Solely uncovering repressed memories from childhood", "Providing safety through a new attachment relationship, allowing dysfunctional implicit memory to be processed", "Teaching purely cognitive strategies unrelated to relationships", "A process that has no connection to early childhood experience"], "correct": 1, "rationale": "Psychotherapy is understood less as uncovering the past and more as providing safety through a new attachment relationship, allowing implicit memory to be processed."}, {"prompt": "The tendency for a person's earliest attachment patterns to replay in later relationships, including with the therapist, is the direct mechanistic link to which clinical phenomenon?", "options": ["Countertransference exclusively", "Transference", "Cognitive distortions", "Operant conditioning"], "correct": 1, "rationale": "A person's earliest attachment patterns with caregivers tend to replay in later relationships, including the therapeutic one \u2014 the direct link to transference."}, {"prompt": "Which components together make up a comprehensive Mental Status Exam?", "options": ["Only mood and affect", "Appearance/behavior, motor activity, speech, mood, affect, thought process, thought content, perceptual disturbances, cognition, and insight/judgment", "Only cognition and orientation", "Only thought content and perceptual disturbances"], "correct": 1, "rationale": "The MSE includes appearance/behavior, motor activity, speech, mood, affect, thought process, thought content, perceptual disturbances, cognition, and insight/judgment."}, {"prompt": "As part of the MSE, what does 'thought process' specifically describe?", "options": ["WHAT the patient is thinking about", "HOW the patient's thoughts are organized and expressed", "The patient's level of alertness", "The patient's insight into their condition"], "correct": 1, "rationale": "Thought process describes HOW thoughts are organized (linear/goal-directed is normal; tangentiality, flight of ideas are abnormal)."}, {"prompt": "How are depersonalization and derealization distinguished from one another as MSE findings?", "options": ["Depersonalization is feeling the environment has changed; derealization is feeling one is not oneself", "Depersonalization is feeling one is not oneself; derealization is feeling one's environment has changed", "They are interchangeable terms for the same experience", "Both terms refer specifically to auditory hallucinations"], "correct": 1, "rationale": "Depersonalization is feeling one is not oneself; derealization is feeling one's environment has changed \u2014 both distinct from illusions/hallucinations."}, {"prompt": "A 6-year-old occasionally grimaces a few times a week for brief periods, not persisting nearly daily. How should this be classified?", "options": ["Tourette's disorder", "Persistent motor tic disorder", "Provisional tic disorder", "A nervous habit, not a diagnosable tic disorder"], "correct": 3, "rationale": "Occasional, brief, infrequent tics not persisting nearly daily for 4+ weeks are 'nervous habits,' not a diagnosable tic disorder."}, {"prompt": "What is the average age of onset for tics, and what is the earliest reported onset age?", "options": ["Age 8", "4\u20136 years (as early as age 2)", "Age 12", "Age 16"], "correct": 1, "rationale": "Average onset of tics is 4\u20136 years, though it can be as early as age 2."}, {"prompt": "How do the typical onset ages of stereotypies and tics compare?", "options": ["Stereotypies and tics have the same average onset age", "Stereotypies have earlier onset (before age 3) than tics (mean 4\u20136 years)", "Tics have earlier onset than stereotypies", "Neither has a typical onset age"], "correct": 1, "rationale": "Stereotypies have earlier onset (before age 3) compared to tics (mean 4\u20136 years)."}, {"prompt": "What is the outer age cutoff for onset required to diagnose Tourette's disorder?", "options": ["Age 12", "Age 18", "Age 21", "There is no age cutoff for Tourette's diagnosis"], "correct": 1, "rationale": "Diagnosis of Tourette's requires onset before age 18 \u2014 the outer diagnostic cutoff, distinct from typical onset (4-6) and peak severity (10-12) ages."}, {"prompt": "How is the decision made regarding whether to see a child in individual therapy versus involving the parent?", "options": ["The therapist alone decides without input from the family", "It is a collaborative decision among the therapist, child/teen, and parent, guided by developmental readiness", "The parent always makes this decision unilaterally", "Children are always seen individually after age 6"], "correct": 1, "rationale": "There is no single right answer \u2014 the decision is collaborative among therapist, child/teen, and parent, guided by developmental readiness and the presenting problem."}, {"prompt": "What speech/language milestones are expected by age 4, per the CDC/AAP checklist?", "options": ["Single words only", "Sentences with 4+ words, and talking about at least one thing that happened during the day", "Full paragraphs with complex grammar", "No expressive language milestones are expected by age 4"], "correct": 1, "rationale": "By age 4, children are expected to say sentences with 4+ words and talk about at least one thing that happened during the day."}, {"prompt": "Which social/emotional milestones are expected by age 3, per the CDC/AAP checklist?", "options": ["Playing cooperatively with rules-based games", "Calming down within 10 minutes of a caregiver leaving, and noticing/joining other children in play", "Writing letters independently", "Managing complex peer conflicts independently"], "correct": 1, "rationale": "By age 3, expected social-emotional milestones include calming down within 10 minutes of a caregiver leaving and noticing/joining other children in play."}];
+const TOTAL = QUESTIONS.length;
+const state = QUESTIONS.map(() => ({ answered: false, selected: null }));
+let current = 0;
+let viewingResults = false;
+
+const root = document.getElementById('quizRoot');
+const progressLabel = document.getElementById('progressLabel');
+const progressFill = document.getElementById('progressFill');
+
+function letter(i) { return String.fromCharCode(65 + i); }
+
+function renderQuestion(idx) {
+  viewingResults = false;
+  const q = QUESTIONS[idx];
+  const s = state[idx];
+  progressLabel.textContent = `Question ${idx + 1} of ${TOTAL}`;
+  progressFill.style.width = `${((idx + 1) / TOTAL) * 100}%`;
+
+  let optionsHtml = q.options.map((opt, i) => {
+    let cls = 'option';
+    if (s.answered) {
+      if (i === q.correct) cls += ' correct';
+      else if (i === s.selected) cls += ' incorrect';
+    } else if (s.selected === i) {
+      cls += ' selected';
+    }
+    return `<button class="${cls}" data-idx="${i}" ${s.answered ? 'disabled' : ''} onclick="selectOption(${idx}, ${i})">
+      <span class="option-letter">${letter(i)}.</span>${opt}
+    </button>`;
+  }).join('');
+
+  let rationaleHtml = '';
+  if (s.answered) {
+    const wasCorrect = s.selected === q.correct;
+    rationaleHtml = `<div class="rationale">
+      <span class="verdict ${wasCorrect ? 'good' : 'bad'}">${wasCorrect ? 'Correct.' : 'Not quite.'}</span>
+      ${q.rationale}
+    </div>`;
+  }
+
+  const isLast = idx === TOTAL - 1;
+  const nextLabel = isLast ? 'Submit Exam' : 'Next';
+  const nextDisabled = !s.answered;
+
+  root.innerHTML = `
+    <div class="card">
+      <div class="qnum">VIGNETTE ${idx + 1}</div>
+      <div class="prompt">${q.prompt}</div>
+      <div class="options">${optionsHtml}</div>
+      ${rationaleHtml}
+      <div class="nav-row">
+        <button class="nav-btn" id="backBtn" ${idx === 0 ? 'disabled' : ''} onclick="goBack()">Back</button>
+        <button class="nav-btn ${isLast ? 'submit' : 'primary'}" id="nextBtn" ${nextDisabled ? 'disabled' : ''} onclick="${isLast ? 'showResults()' : 'goNext()'}">${nextLabel}</button>
+      </div>
+      ${nextDisabled ? '<div class="unanswered-hint">Select an answer to continue</div>' : ''}
+    </div>
+  `;
+}
+
+function selectOption(qIdx, optIdx) {
+  const s = state[qIdx];
+  if (s.answered) return;
+  s.selected = optIdx;
+  s.answered = true;
+  renderQuestion(qIdx);
+}
+
+function goNext() {
+  if (current < TOTAL - 1) {
+    current++;
+    renderQuestion(current);
+  }
+}
+
+function goBack() {
+  if (current > 0) {
+    current--;
+    renderQuestion(current);
+  }
+}
+
+function jumpTo(idx) {
+  current = idx;
+  renderQuestion(idx);
+}
+
+function showResults() {
+  viewingResults = true;
+  const answeredCount = state.filter(s => s.answered).length;
+  const correctCount = state.filter(s => s.answered && s.selected === QUESTIONS[state.indexOf(s)].correct).length;
+  let correct = 0;
+  state.forEach((s, i) => { if (s.answered && s.selected === QUESTIONS[i].correct) correct++; });
+  const pct = Math.round((correct / TOTAL) * 100);
+  const passed = pct >= 75;
+
+  progressLabel.textContent = 'Results';
+  progressFill.style.width = '100%';
+
+  let reviewHtml = state.map((s, i) => {
+    const ok = s.answered && s.selected === QUESTIONS[i].correct;
+    return `<div class="review-item" onclick="jumpTo(${i})">
+      <span class="rq">Q${i + 1}. ${QUESTIONS[i].prompt.slice(0, 70)}${QUESTIONS[i].prompt.length > 70 ? '…' : ''}</span>
+      <span class="rmark ${ok ? 'good' : 'bad'}">${s.answered ? (ok ? 'Correct' : 'Missed') : 'Skipped'}</span>
+    </div>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="card results">
+      <div class="score-big">${correct}/${TOTAL}</div>
+      <div class="score-sub">${answeredCount} of ${TOTAL} questions answered</div>
+      <div class="pct ${passed ? 'pass' : 'fail'}">${pct}%</div>
+      <div class="review-list">${reviewHtml}</div>
+      <button class="nav-btn restart-btn" onclick="restart()">Retake Exam</button>
+    </div>
+  `;
+}
+
+function restart() {
+  state.forEach(s => { s.answered = false; s.selected = null; });
+  current = 0;
+  renderQuestion(0);
+}
+
+renderQuestion(0);
+</script>
+</body>
+</html>
