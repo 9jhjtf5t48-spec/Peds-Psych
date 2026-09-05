@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 Exam 2 — Medications Quiz (Labs & Side Effects Only)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20232B; --paper:#EDEEF6; --card:#FFFFFF; --line:#D6D9EC;
+    --indigo:#3B3F8C; --indigo-deep:#282B63; --marigold:#7A6FD0; --marigold-deep:#5F55B0;
+    --brick:#B0413E; --brick-bg:#FBEBEA; --sage:#5C7A63; --sage-bg:#EAF1EA; --muted:#5C6070; --radius:14px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 12% 8%, rgba(122,111,208,0.12), transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(59,63,140,0.10), transparent 45%), var(--paper);
+    color:var(--ink); font-family:'IBM Plex Sans', sans-serif; min-height:100vh;
+    display:flex; justify-content:center; padding:26px 14px 60px;
+  }
+  .app{ width:100%; max-width:560px; }
+  .kicker{ font-size:12.5px; color:var(--indigo); font-weight:600; margin:0 0 6px; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(23px,5vw,29px); line-height:1.15; margin:0 0 8px; color:var(--indigo-deep); }
+  .sub{ font-size:14px; color:var(--muted); line-height:1.5; margin:0; max-width:50ch; }
+  .format-note{ display:inline-block; margin-top:10px; margin-right:6px; font-size:11px; font-weight:700; letter-spacing:.03em; color:#fff; background:var(--sage); padding:4px 10px; border-radius:100px; }
+  .progress-wrap{ margin:20px 0 22px; }
+  .progress-label{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:6px; }
+  .progress-label b{ color:var(--indigo-deep); }
+  .track{ height:6px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .fill{ height:100%; background:var(--marigold); border-radius:100px; width:0%; transition:width .4s ease; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px 22px 20px; }
+  .cat-tag{ display:inline-block; font-size:11px; font-weight:600; color:var(--indigo); background:#E9E9F6; border:1px solid #D3D3ED; padding:3px 9px; border-radius:100px; margin-bottom:12px; }
+  .qtext{ font-family:'Fraunces', serif; font-weight:600; font-size:17.5px; line-height:1.4; margin:0 0 16px; }
+  .opts{ display:flex; flex-direction:column; gap:8px; }
+  .opt{ text-align:left; border:1.5px solid var(--line); background:#FFFEFC; border-radius:10px; padding:11px 13px; font-size:14px; color:var(--ink); cursor:pointer; transition:.15s; line-height:1.4; }
+  .opt:hover:not(.locked){ border-color:var(--indigo); background:#EFEFF9; }
+  .opt.correct{ border-color:var(--sage); background:var(--sage-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--brick); background:var(--brick-bg); }
+  .opt.locked{ cursor:default; }
+  .feedback{ margin-top:14px; padding:13px 15px; border-radius:10px; border:1px solid var(--line); background:#F9F9FC; font-size:13.5px; line-height:1.5; display:none; }
+  .feedback.show{ display:block; }
+  .verdict{ font-weight:600; margin-bottom:4px; display:block; }
+  .verdict.right{ color:var(--sage); } .verdict.wrong{ color:var(--brick); }
+  .navrow{ display:flex; justify-content:flex-end; margin-top:18px; }
+  .btn{ font-weight:600; font-size:14px; background:var(--indigo); color:#fff; border:none; border-radius:9px; padding:10px 20px; cursor:pointer; }
+  .btn:hover{ background:var(--indigo-deep); } .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--indigo); border:1.5px solid var(--indigo); }
+  .results{ text-align:center; }
+  .results .score{ font-family:'Fraunces', serif; font-weight:700; font-size:52px; color:var(--indigo-deep); margin:4px 0; }
+  .scoreline{ color:var(--muted); font-size:14px; margin-bottom:16px; }
+  .missed{ text-align:left; margin-top:8px; max-height:340px; overflow-y:auto; }
+  .missed h3{ font-size:13px; color:var(--muted); margin:0 0 8px; }
+  .missed li{ font-size:13px; margin-bottom:8px; }
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:20px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="app">
+  <p class="kicker">NURS 5230 · Exam 2 — Medications Only</p>
+  <h1>Haldol · Paliperidone · Olanzapine · Risperidone · Valproic Acid · Lithium</h1>
+  <p class="sub">Exactly what your instructor's study guide asks for: side effects for each medication, plus labs for lithium specifically. No dosing/mg questions anywhere.</p>
+  <span class="format-note">NO DOSING</span><span class="format-note">SIDE EFFECTS + LABS ONLY</span>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">50</span></span><span id="scoretally">0 correct</span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div class="card" id="quizCard"></div>
+  <p class="footer-note">Missed questions are listed at the end so you can reread just those sections.</p>
+</div>
+<script>
+const Q = [
+{cat:"Haloperidol (Haldol)",q:"Which extrapyramidal side effect burden does haloperidol carry, compared to the atypical antipsychotics also covered in your guide?",opts:["The highest EPS burden of the group","The lowest EPS burden of the group","Identical EPS burden to all atypicals","No EPS risk whatsoever"],c:0,e:"As a high-potency first-generation antipsychotic, haloperidol carries the highest EPS burden compared to the atypicals (paliperidone, olanzapine, risperidone)."},
+{cat:"Haloperidol (Haldol)",q:"Which long-term movement disorder risk is elevated with haloperidol compared to the atypical antipsychotics?",opts:["Tardive dyskinesia","Weight gain","Diabetes/dyslipidemia","QTc prolongation as its primary long-term risk"],c:0,e:"Haloperidol, as a first-generation antipsychotic, carries a higher tardive dyskinesia risk than the atypicals over long-term use."},
+{cat:"Haloperidol (Haldol)",q:"Which hormonal side effect can haloperidol cause, presenting as sexual side effects, amenorrhea, or galactorrhea?",opts:["Prolactin elevation","Thyroid suppression","Cortisol elevation","Growth hormone suppression"],c:0,e:"Haloperidol can elevate prolactin, presenting as sexual side effects, amenorrhea, or galactorrhea."},
+{cat:"Haloperidol (Haldol)",q:"Compared to low-potency typical antipsychotics (like chlorpromazine), haloperidol as a high-potency agent tends to cause LESS of which side effect?",opts:["Sedation and anticholinergic effects","EPS","Prolactin elevation","Tardive dyskinesia risk"],c:0,e:"High-potency agents like haloperidol cause more EPS but generally less sedation and fewer anticholinergic effects than low-potency typicals."},
+{cat:"Haloperidol (Haldol)",q:"Which common side effects would you expect to counsel a patient about when starting haloperidol?",opts:["Headache, drowsiness, dry mouth, and EPS","Significant weight gain as the primary concern","Improved sleep quality as a side benefit","No notable side effects to discuss"],c:0,e:"Headache, drowsiness, dry mouth, and EPS are among the most common haloperidol side effects to counsel patients about."},
+
+{cat:"Paliperidone (Invega)",q:"Which two side effects does paliperidone share as the MOST prominent concerns among the atypicals in your guide?",opts:["EPS and hyperprolactinemia","Weight gain and sedation only","Hair loss and dry mouth","Improved bone density and vision"],c:0,e:"Paliperidone (along with risperidone) causes the most prominent EPS and hyperprolactinemia among the atypical antipsychotics."},
+{cat:"Paliperidone (Invega)",q:"Which cardiac side effect is more pronounced with paliperidone compared to risperidone?",opts:["QTc prolongation","Bradycardia as the primary concern","Hypertension as the primary concern","Improved cardiac conduction"],c:0,e:"Paliperidone causes more QTc prolongation than risperidone, its parent compound."},
+{cat:"Paliperidone (Invega)",q:"Which formulation-specific side effect risk is unique to paliperidone among these medications?",opts:["Rare GI obstructive symptoms from its OROS tablet shell in patients with strictures","Hair loss from its capsule coating","Hearing loss from its formulation","Vision changes from its coating"],c:0,e:"Paliperidone's OROS tablet (\"ghost pill\") can rarely cause GI obstructive symptoms in patients with GI strictures."},
+{cat:"Paliperidone (Invega)",q:"Which side effects might you expect to see in an adolescent starting paliperidone?",opts:["Somnolence, tremor, tachycardia, and insomnia","Improved appetite with no other effects","Enhanced cognitive performance with no downsides","Complete absence of any side effects"],c:0,e:"Somnolence (especially in adolescents), tremor, tachycardia, and insomnia are among paliperidone's notable side effects."},
+{cat:"Paliperidone (Invega)",q:"Which side effect makes paliperidone 'not highly effective' as monotherapy for a particular condition, despite being an antipsychotic?",opts:["It is not highly effective in acute mania as monotherapy or combined with lithium/valproate","It causes no antipsychotic effect at all","It is only effective for depression","It has no relevance to any mood disorder"],c:0,e:"Paliperidone is noted as not highly effective in acute mania as monotherapy or in combination with lithium/valproate."},
+
+{cat:"Olanzapine (Zyprexa)",q:"Which side effect is olanzapine most notably associated with, among all antipsychotics covered in your guide?",opts:["Significant weight gain and metabolic complications","Minimal weight gain compared to all other agents","No metabolic risk of any kind","Improved lipid profile"],c:0,e:"Olanzapine carries the most prominent weight gain and metabolic risk (elevated glucose, elevated lipids) among the agents in your guide."},
+{cat:"Olanzapine (Zyprexa)",q:"Which serious but rare reaction, involving rash, fever, lymphadenopathy, and eosinophilia, is associated with olanzapine?",opts:["DRESS syndrome","Stevens-Johnson syndrome as the primary association","Anaphylaxis as the primary association","Serotonin syndrome as the primary association"],c:0,e:"DRESS syndrome (rash, fever, lymphadenopathy, eosinophilia) is a rare but serious reaction associated with olanzapine."},
+{cat:"Olanzapine (Zyprexa)",q:"Which QTc-related side effect risk does olanzapine carry, relative to some other atypicals?",opts:["A comparatively low risk of QTc prolongation","The highest QTc prolongation risk of all antipsychotics","Guaranteed QTc prolongation in every patient","No cardiac monitoring is ever relevant for olanzapine"],c:0,e:"Olanzapine has a comparatively low risk of QTc prolongation, an advantage relative to some other agents."},
+{cat:"Olanzapine (Zyprexa)",q:"How does olanzapine's side-effect profile in children/adolescents compare to adults on the same medication?",opts:["Children/adolescents show even greater weight gain, sedation, and metabolic/lipid changes than adults","Children show no side effects at all compared to adults","Children show dramatically fewer side effects than adults","There is no difference between children and adults"],c:0,e:"Children/adolescents show even greater weight gain, sedation, and increases in lipids/prolactin/liver transaminases compared with adults on olanzapine."},
+{cat:"Olanzapine (Zyprexa)",q:"Which common, non-metabolic side effects should be discussed when starting olanzapine?",opts:["Sedation/somnolence, dry mouth, and constipation","Improved alertness as the primary effect","Increased energy as the primary effect","No gastrointestinal effects of any kind"],c:0,e:"Sedation/somnolence, dry mouth, and constipation are common olanzapine side effects, in addition to its metabolic risks."},
+
+{cat:"Risperidone (Risperdal)",q:"Along with paliperidone, which two side effects does risperidone cause most prominently among the atypicals?",opts:["EPS and hyperprolactinemia","Hair loss and vision changes","Improved bone density and cognition","No notable side effects"],c:0,e:"Risperidone, along with paliperidone, causes the most prominent EPS and hyperprolactinemia among the atypical antipsychotics."},
+{cat:"Risperidone (Risperdal)",q:"At what dosing threshold does risperidone's EPS/prolactin risk become especially notable?",opts:["Doses greater than 4\u20136 mg/day","Any dose causes identical risk","Only doses under 1 mg/day","Risperidone has no dose-related risk pattern"],c:0,e:"Risperidone's EPS and hyperprolactinemia risk becomes especially notable at doses greater than 4\u20136 mg/day."},
+{cat:"Risperidone (Risperdal)",q:"Which cardiovascular side effect can occur with risperidone, particularly with rapid titration?",opts:["Orthostatic hypotension","Hypertension as the primary concern","Bradyarrhythmia as the primary concern","Improved blood pressure control"],c:0,e:"Orthostatic hypotension can occur with risperidone, particularly at higher doses or with rapid titration."},
+{cat:"Risperidone (Risperdal)",q:"Which somnolence pattern is notable with risperidone in the pediatric population specifically?",opts:["Somnolence is especially notable in children","Somnolence occurs only in adults, never in children","Risperidone causes insomnia exclusively, never sedation","There is no somnolence risk with risperidone at any age"],c:0,e:"Somnolence is especially notable in children taking risperidone, among its common side effects."},
+{cat:"Risperidone (Risperdal)",q:"Which common gastrointestinal and general side effects should be discussed when starting risperidone?",opts:["Anxiety, constipation, nausea, and dizziness","Improved digestion as the primary effect","No gastrointestinal effects of any kind","Enhanced appetite control with no downsides"],c:0,e:"Anxiety, constipation, nausea, and dizziness are among risperidone's common side effects, in addition to EPS and prolactin elevation."},
+
+{cat:"Valproic Acid",q:"Which valproate side effect is idiosyncratic (NOT dose-related) and carries the highest risk in children under age 2?",opts:["Hepatotoxicity","Fine tremor","Mild sedation","Simple hair loss"],c:0,e:"Valproate hepatotoxicity is rare and idiosyncratic, with the highest risk in children under 2, especially with multiple anticonvulsants or underlying neurologic disease. If suspected: obtain LFTs; discontinue if significantly elevated or symptomatic."},
+{cat:"Valproic Acid",q:"What should you do if a patient on valproate develops severe abdominal pain with nausea and vomiting?",opts:["Evaluate promptly with lipase and amylase to assess for pancreatitis, and discontinue if confirmed","Reassure the patient this is always benign and requires no workup","Increase the valproate dose to address the discomfort","Wait one month before considering any evaluation"],c:0,e:"Valproate-associated pancreatitis is rare but potentially fatal \u2014 severe abdominal pain with nausea/vomiting warrants prompt lipase/amylase evaluation and discontinuation if confirmed."},
+{cat:"Valproic Acid",q:"A patient on valproate develops confusion despite normal LFTs and a normal drug level. What should you do?",opts:["Check a serum ammonia level, since hyperammonemic encephalopathy can occur despite normal LFTs and levels","Assume the confusion is unrelated to valproate and take no action","Increase the valproate dose since levels are normal","Only repeat the LFTs, since ammonia is not relevant"],c:0,e:"Hyperammonemic encephalopathy can occur even with normal LFTs and normal serum valproate levels \u2014 check ammonia and reduce dose if elevated (usually reverses); L-carnitine is also effective."},
+{cat:"Valproic Acid",q:"What should you do if a patient on valproate develops significant hair loss?",opts:["Reassure the patient it is usually reversible; some clinicians add zinc/selenium supplementation","Immediately and permanently discontinue valproate","Refer for emergency dermatologic evaluation","Ignore the concern since it is never clinically relevant to address"],c:0,e:"Hair loss on valproate is usually reversible; reassurance is appropriate, and some clinicians add zinc/selenium supplementation to help."},
+{cat:"Valproic Acid",q:"What should you do if a patient on valproate develops significant, symptomatic bruising or bleeding?",opts:["Check a CBC with platelets, since thrombocytopenia is a recognized, dose-related, reversible side effect","Assume this is unrelated to valproate and take no action","Immediately start an unrelated anticoagulant","Only recheck LFTs, since platelets are not relevant"],c:0,e:"Thrombocytopenia is a dose-related, reversible valproate side effect \u2014 checking CBC/platelets and reducing the dose if significant/symptomatic is the appropriate response."},
+{cat:"Valproic Acid",q:"Why is baseline pregnancy testing part of valproate workup in postpubertal females?",opts:["Valproate carries major teratogenic risk (neural tube defects)","Pregnancy testing has no real clinical relevance to valproate","This is only relevant for males, not females","Valproate has no reproductive health considerations at all"],c:0,e:"Valproate's major teratogenic risk (neural tube defects) makes baseline and periodic pregnancy testing clinically relevant in postpubertal females."},
+{cat:"Valproic Acid",q:"What should you do if a patient on valproate reports irregular menstrual cycles?",opts:["Monitor menstrual regularity and consider an alternative mood stabilizer, given a possible association with PCOS","Ignore the report since it is never related to valproate","Immediately discontinue valproate with no further evaluation","Assume this is an unrelated, unimportant finding requiring no follow-up"],c:0,e:"An association between valproate and PCOS has been reported \u2014 monitoring menstrual regularity and considering an alternative mood stabilizer is appropriate, especially given teratogenicity concerns."},
+
+{cat:"Lithium — Labs",q:"Which baseline labs should be obtained before starting lithium?",opts:["Lithium level (once on therapy), TSH/T4, BUN/creatinine, electrolytes, and pregnancy test","Only a CBC, with no other labs necessary","Only a urinalysis, with no blood work needed","No baseline labs are necessary before starting lithium"],c:0,e:"Baseline labs for lithium include TSH/T4, BUN/creatinine, electrolytes, pregnancy test, and ECG if cardiac risk factors are present, with lithium level checked once therapy begins."},
+{cat:"Lithium — Labs",q:"Which lab should be checked periodically to monitor for lithium-induced thyroid effects?",opts:["TSH/T4","Only a lipid panel","Only a hemoglobin A1c","Only a urinalysis"],c:0,e:"TSH/T4 should be monitored periodically, since lithium can cause hypothyroidism in a notable percentage of patients."},
+{cat:"Lithium — Labs",q:"Which renal lab values should be monitored periodically during lithium therapy?",opts:["BUN and creatinine","Only liver enzymes","Only a lipid panel","Only hemoglobin A1c"],c:0,e:"BUN and creatinine should be monitored periodically during lithium therapy, given lithium's renal elimination and potential renal effects with chronic use."},
+{cat:"Lithium — Labs",q:"Why is an ECG relevant as part of lithium workup for some patients?",opts:["Lithium can cause cardiac effects such as flattened/inverted T waves, bradycardia, or sinus node dysfunction","ECG has no relevance to lithium therapy","Lithium always causes permanent cardiac damage requiring an ECG in every case","ECG is only relevant for children, never adults"],c:0,e:"An ECG is relevant given lithium's potential cardiac effects (flattened/inverted T waves, bradycardia, sinus node dysfunction), especially in patients with cardiac risk factors."},
+{cat:"Lithium — Labs",q:"Which lab is specifically relevant to check in a female patient of reproductive age before starting lithium?",opts:["A pregnancy test","Only a lipid panel","Only a hemoglobin A1c","No reproductive-related labs are relevant to lithium"],c:0,e:"A pregnancy test is part of baseline lithium workup in females of reproductive age, given lithium's teratogenic considerations."},
+
+{cat:"Lithium — Side Effects",q:"Which common lithium side effects should be discussed with a patient starting therapy?",opts:["Nausea/diarrhea, fine tremor, polyuria/excessive thirst, and weight gain","Improved digestion with no gastrointestinal effects","Enhanced thirst regulation with no downsides","No notable side effects to discuss"],c:0,e:"Nausea/diarrhea, fine tremor, polyuria/excessive thirst, and weight gain are among the most common lithium side effects."},
+{cat:"Lithium — Side Effects",q:"Approximately what percentage of patients on lithium develop hypothyroidism, and which sex is more affected?",opts:["7\u20138%, more common in women","50%, more common in men","Less than 1%, equally affecting both sexes","Nearly 100%, more common in men"],c:0,e:"Hypothyroidism occurs in about 7\u20138% of patients on lithium and is roughly 9 times more common in women."},
+{cat:"Lithium — Side Effects",q:"Which serious renal side effect can occur with chronic lithium use, and how is it managed?",opts:["Nephrogenic diabetes insipidus, usually reversible on discontinuation or treatable with hydrochlorothiazide/amiloride","Immediate, irreversible renal failure with no treatment options","Nephrogenic diabetes insipidus, which is never reversible under any circumstance","No renal side effects are associated with lithium"],c:0,e:"Nephrogenic diabetes insipidus from chronic lithium use is usually reversible on discontinuation, or can be treated with hydrochlorothiazide or amiloride."},
+{cat:"Lithium — Side Effects",q:"Which dermatologic side effects can occur with lithium?",opts:["Acne or worsening of psoriasis","Complete resolution of all skin conditions","Permanent skin discoloration in all patients","No dermatologic effects of any kind"],c:0,e:"Lithium can cause acne or worsen pre-existing psoriasis in some patients."},
+{cat:"Lithium — Side Effects",q:"What should you do if a patient on lithium develops significant polyuria and excessive thirst?",opts:["Consider dosing lithium entirely at bedtime as one strategy to help manage this side effect","Ignore the symptom since it is never clinically significant","Immediately and permanently discontinue lithium","Assume this is unrelated to lithium and pursue an unrelated workup"],c:0,e:"Dosing lithium entirely at bedtime is one strategy to help manage polyuria/excessive thirst as a side effect."},
+{cat:"Lithium — Side Effects",q:"Which mild hematologic finding can occur with lithium, generally without clinical significance?",opts:["Benign leukocytosis","Severe, symptomatic anemia","Life-threatening thrombocytopenia","Agranulocytosis"],c:0,e:"Benign leukocytosis can occur with lithium and is generally not clinically significant on its own."},
+{cat:"Lithium — Prescribing Considerations",q:"Which combination of medications, when taken with lithium, increases the risk of toxicity through reduced renal clearance?",opts:["NSAIDs, ACE inhibitors, and thiazide diuretics","Antihistamines and vitamin supplements","Topical steroids and antacids","Acetaminophen and multivitamins"],c:0,e:"\"No ACE in the hole\" \u2014 NSAIDs, ACE inhibitors, and thiazide diuretics (HCTZ) all increase lithium levels and raise toxicity risk."},
+{cat:"Lithium — Prescribing Considerations",q:"Which non-medication factor can increase lithium levels toward toxicity?",opts:["A low-sodium diet or excess sweating/dehydration","A high-sodium diet","Increased water intake alone","Regular moderate exercise in a temperate climate"],c:0,e:"A low-sodium diet or excess sweating/dehydration can increase lithium levels, since the kidneys retain more lithium when sodium is low."},
+{cat:"Lithium — Prescribing Considerations",q:"Which substance can DECREASE lithium levels, the opposite effect of NSAIDs?",opts:["Caffeine","Ibuprofen","Hydrochlorothiazide","Lisinopril"],c:0,e:"Caffeine may decrease lithium levels, the opposite direction from NSAIDs, ACE inhibitors, and thiazide diuretics."},
+{cat:"Lithium — Prescribing Considerations",q:"Why should lithium be used with particular caution in a patient with significant fluid loss (vomiting, diarrhea, prolonged fever)?",opts:["Fluid loss can raise lithium levels toward toxicity, potentially requiring temporary dose reduction or holding the medication","Fluid loss has no effect on lithium levels","Fluid loss always decreases lithium levels, requiring a dose increase","Lithium is entirely unaffected by hydration status"],c:0,e:"Significant fluid loss can raise lithium levels toward toxicity by reducing renal clearance \u2014 temporary dose reduction or holding the medication may be needed."},
+{cat:"Lithium — Prescribing Considerations",q:"What unique clinical benefit does lithium offer beyond its mood-stabilizing effect?",opts:["Documented anti-suicide effects in both bipolar and unipolar mood disorders","Complete elimination of all other psychiatric medications' side effects","Guaranteed absence of any side effects","No monitoring requirements compared to other mood stabilizers"],c:0,e:"Lithium has documented anti-suicide effects in both bipolar and unipolar mood disorders, a unique advantage over other mood stabilizers."},
+
+{cat:"Cross-Medication Comparison",q:"Which two antipsychotics in your guide share the MOST prominent EPS and hyperprolactinemia risk?",opts:["Risperidone and Paliperidone","Haloperidol and Olanzapine","Olanzapine and Risperidone","Haloperidol and Paliperidone"],c:0,e:"Risperidone and paliperidone are consistently tied for the most prominent EPS and hyperprolactinemia risk among the atypicals."},
+{cat:"Cross-Medication Comparison",q:"Which medication in your guide carries the HIGHEST risk of significant weight gain and metabolic complications?",opts:["Olanzapine","Haloperidol","Lithium","Valproic Acid"],c:0,e:"Olanzapine carries the most prominent weight gain and metabolic risk among the medications covered in your guide."},
+{cat:"Cross-Medication Comparison",q:"Which medication is the only one in your guide with explicit baseline TSH/T4 monitoring as a named requirement?",opts:["Lithium","Haloperidol","Risperidone","Paliperidone"],c:0,e:"Lithium is the medication in your guide with explicit TSH/T4 (thyroid) monitoring as a named lab requirement, given its thyroid-related side effect risk."},
+{cat:"Cross-Medication Comparison",q:"Both lithium and valproic acid require monitoring for which type of side effect, though via different mechanisms?",opts:["Teratogenic risk in patients who could become pregnant","Identical hepatotoxicity mechanisms","Identical renal toxicity mechanisms","Neither carries any reproductive health considerations"],c:0,e:"Both lithium and valproic acid carry teratogenic considerations relevant to patients who could become pregnant, though through different specific mechanisms and different specific risks (e.g., neural tube defects with valproate)."},
+{cat:"Cross-Medication Comparison",q:"Which side effect is common to ALL FOUR antipsychotics in your guide (Haldol, Paliperidone, Olanzapine, Risperidone), even if the degree varies?",opts:["EPS, to some degree in each agent","Complete absence of EPS in every agent","Identical severity of every side effect across all four","No shared side effects among any of the four"],c:0,e:"All four antipsychotics carry some degree of EPS risk, though the SEVERITY varies significantly \u2014 haloperidol highest, olanzapine lowest among this group."},
+{cat:"Valproic Acid",q:"What should you do if a patient on valproate reports somnolence, nausea, fatigue, and dizziness?",opts:["Consider dose reduction, taking the medication with food, or switching to an ER formulation, since these are often dose-related","Immediately and permanently discontinue valproate","Ignore these symptoms since they are never dose-related","Increase the dose to help the body adjust faster"],c:0,e:"Somnolence, nausea, fatigue, and dizziness on valproate are often dose-related \u2014 dose reduction, taking with food, or switching to an ER formulation are appropriate first steps."},
+{cat:"Cross-Medication Comparison",q:"Which of these four antipsychotics is often favored as a first-choice option for first-episode psychosis, given its overall tolerability balance?",opts:["Risperidone","Haloperidol","Olanzapine","Paliperidone"],c:0,e:"Risperidone is often favored as a first-choice option for first-episode psychosis, balancing efficacy with a more moderate overall side-effect profile compared to haloperidol or olanzapine specifically."}
+];
+
+let current=0, score=0, locked=false; const missed=[];
+
+(function(){
+  function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+  Q.forEach(item=>{const correctText=item.opts[item.c];shuffleArray(item.opts);item.c=item.opts.indexOf(correctText);});
+})();
+
+function render(){
+  const card=document.getElementById('quizCard');
+  document.getElementById('qnum').textContent=current+1;
+  document.getElementById('scoretally').textContent=score+" correct";
+  document.getElementById('fill').style.width=(current/Q.length*100)+'%';
+  if(current>=Q.length){renderResults();return;}
+  const item=Q[current]; locked=false;
+  card.innerHTML=`<span class="cat-tag">${item.cat}</span><p class="qtext">${item.q}</p><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>`;
+  const optsDiv=document.getElementById('opts');
+  item.opts.forEach((t,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>select(i);optsDiv.appendChild(b);});
+}
+function select(i){
+  if(locked)return; locked=true;
+  const item=Q[current]; const opts=document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{o.classList.add('locked'); if(idx===item.c)o.classList.add('correct'); if(idx===i&&i!==item.c)o.classList.add('incorrect');});
+  const fb=document.getElementById('feedback'); fb.classList.add('show');
+  const right=i===item.c; if(right)score++; else missed.push(item);
+  fb.innerHTML=`<span class="verdict ${right?'right':'wrong'}">${right?"Correct.":"Not quite."}</span>${item.e}`;
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').onclick=()=>{current++;render();};
+}
+function renderResults(){
+  const card=document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML=`Done \u00b7 <b>${Q.length}</b> questions`;
+  const pct=Math.round(score/Q.length*100);
+  let mh = missed.length ? `<div class="missed"><h3>Reread just these:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>` : `<div class="missed"><h3>Clean sweep \u2014 nothing to reread.</h3></div>`;
+  card.innerHTML=`<div class="results"><div class="score">${score}/${Q.length}</div><div class="scoreline">${pct}% \u2014 ${pct>=80?"Exam-ready.":pct>=60?"Getting there.":"Worth a focused reread."}</div>${mh}<div class="navrow" style="justify-content:center;margin-top:16px;"><button class="btn ghost" onclick="restart()">Try again</button></div></div>`;
+}
+function restart(){current=0;score=0;missed.length=0;document.querySelector('.progress-label span:first-child').innerHTML=`Question <b id="qnum">1</b> of <span id="qtotal">${Q.length}</span>`;render();}
+render();
+</script>
+</body>
+</html>
