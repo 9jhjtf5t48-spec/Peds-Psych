@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 Exam 2 — DMDD/MDD/IED/ADHD Table Gap-Filler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20232B; --paper:#F0EDE7; --card:#FFFFFF; --line:#DED5C7;
+    --indigo:#6E4A2E; --indigo-deep:#4E331F; --marigold:#C97D3B; --marigold-deep:#A5622A;
+    --brick:#B0413E; --brick-bg:#FBEBEA; --sage:#5C7A63; --sage-bg:#EAF1EA; --muted:#6B6156; --radius:14px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 12% 8%, rgba(201,125,59,0.10), transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(110,74,46,0.10), transparent 45%), var(--paper);
+    color:var(--ink); font-family:'IBM Plex Sans', sans-serif; min-height:100vh;
+    display:flex; justify-content:center; padding:26px 14px 60px;
+  }
+  .app{ width:100%; max-width:580px; }
+  .kicker{ font-size:12.5px; color:var(--indigo); font-weight:600; margin:0 0 6px; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(23px,5vw,29px); line-height:1.15; margin:0 0 8px; color:var(--indigo-deep); }
+  .sub{ font-size:14px; color:var(--muted); line-height:1.5; margin:0; max-width:52ch; }
+  .gap-note{
+    background:#FBF3E8; border:1px solid var(--marigold); border-radius:10px;
+    padding:12px 14px; margin-top:14px; font-size:13px; line-height:1.55; color:#5A4118;
+  }
+  .gap-note b{ color:var(--marigold-deep); }
+  .progress-wrap{ margin:20px 0 22px; }
+  .progress-label{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:6px; }
+  .progress-label b{ color:var(--indigo-deep); }
+  .track{ height:6px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .fill{ height:100%; background:var(--marigold); border-radius:100px; width:0%; transition:width .4s ease; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px 22px 20px; }
+  .cat-tag{ display:inline-block; font-size:11px; font-weight:600; color:var(--indigo); background:#F1E7DB; border:1px solid #E0D0BC; padding:3px 9px; border-radius:100px; margin-bottom:12px; }
+  .qtext{ font-family:'Fraunces', serif; font-weight:600; font-size:17.5px; line-height:1.4; margin:0 0 16px; }
+  .opts{ display:flex; flex-direction:column; gap:8px; }
+  .opt{ text-align:left; border:1.5px solid var(--line); background:#FFFEFC; border-radius:10px; padding:11px 13px; font-size:14px; color:var(--ink); cursor:pointer; transition:.15s; line-height:1.4; }
+  .opt:hover:not(.locked){ border-color:var(--indigo); background:#F5EEE4; }
+  .opt.correct{ border-color:var(--sage); background:var(--sage-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--brick); background:var(--brick-bg); }
+  .opt.locked{ cursor:default; }
+  .feedback{ margin-top:14px; padding:13px 15px; border-radius:10px; border:1px solid var(--line); background:#FAF8F5; font-size:13.5px; line-height:1.5; display:none; }
+  .feedback.show{ display:block; }
+  .verdict{ font-weight:600; margin-bottom:4px; display:block; }
+  .verdict.right{ color:var(--sage); } .verdict.wrong{ color:var(--brick); }
+  .navrow{ display:flex; justify-content:flex-end; margin-top:18px; }
+  .btn{ font-weight:600; font-size:14px; background:var(--indigo); color:#fff; border:none; border-radius:9px; padding:10px 20px; cursor:pointer; }
+  .btn:hover{ background:var(--indigo-deep); } .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--indigo); border:1.5px solid var(--indigo); }
+  .results{ text-align:center; }
+  .results .score{ font-family:'Fraunces', serif; font-weight:700; font-size:52px; color:var(--indigo-deep); margin:4px 0; }
+  .scoreline{ color:var(--muted); font-size:14px; margin-bottom:16px; }
+  .missed{ text-align:left; margin-top:8px; max-height:340px; overflow-y:auto; }
+  .missed h3{ font-size:13px; color:var(--muted); margin:0 0 8px; }
+  .missed li{ font-size:13px; margin-bottom:8px; }
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:20px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="app">
+  <p class="kicker">NURS 5230 · Exam 2 — Coverage Gap-Filler</p>
+  <h1>DMDD vs. MDD vs. IED vs. ADHD — Every Cell of the Table</h1>
+  <p class="sub">I audited all 9 previous quiz sets against your instructor's comparison table. These 36 questions cover exactly what had never been tested before.</p>
+  <div class="gap-note">
+    <b>What was actually missing, confirmed by searching all prior quizzes:</b> the entire "Setting requirement" row (all 4 conditions), MDD's bereavement-exclusion nuance, ADHD's own core criteria as a standalone fact, and the full comorbidity lists for MDD/IED/ADHD. Everything below targets those specific gaps, plus a few DMDD/IED items to round it out per your request.
+  </div>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">36</span></span><span id="scoretally">0 correct</span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div class="card" id="quizCard"></div>
+  <p class="footer-note">Missed questions are listed at the end so you can reread just those sections.</p>
+</div>
+<script>
+const Q = [
+{cat:"Setting Requirement — DMDD",q:"What is DMDD's specific setting requirement per the comparison table?",opts:["Severe in at least 1 of 2 settings (home, school, or with peers)","Severe in all settings simultaneously, with no exceptions","No setting requirement exists for DMDD","Severe only at school, never at home"],c:0,e:"DMDD requires the disturbance to be severe in at least 1 of 2 settings — home, school, or with peers."},
+{cat:"Setting Requirement — MDD",q:"Is MDD's diagnostic criteria setting-specific, per the comparison table?",opts:["No — MDD's requirement is impairment, not tied to a specific setting count","Yes — MDD requires symptoms in at least 2 settings, like ADHD","Yes — MDD requires symptoms in exactly 1 setting only","MDD has no impairment requirement of any kind"],c:0,e:"Unlike DMDD or ADHD, MDD's criteria center on impairment rather than a specific number of settings."},
+{cat:"Setting Requirement — IED",q:"Is IED's diagnostic criteria setting-specific, per the comparison table?",opts:["No — IED is not setting-specific","Yes — IED requires symptoms in at least 2 settings","Yes — IED requires symptoms in exactly 1 setting only","IED requires symptoms in every setting the child encounters"],c:0,e:"Like MDD, IED's criteria are not tied to a specific setting count."},
+{cat:"Setting Requirement — ADHD",q:"What is ADHD's specific setting requirement per the comparison table?",opts:["Impairment in at least 2 settings","Impairment in exactly 1 setting only","No setting requirement exists for ADHD","Impairment only at school, never at home"],c:0,e:"ADHD specifically requires impairment in at least 2 settings — a key differentiator from DMDD's 1-of-2 requirement."},
+{cat:"Setting Requirement — Comparison",q:"Which two conditions in this table share an IDENTICAL 'not setting-specific' requirement?",opts:["MDD and IED","DMDD and ADHD","MDD and ADHD","DMDD and IED"],c:0,e:"MDD and IED both have criteria centered on impairment/behavior pattern rather than a specific setting count, unlike DMDD (1 of 2) or ADHD (at least 2)."},
+
+{cat:"MDD Exclusion Rule",q:"Per the comparison table, which statement about bereavement and MDD is accurate?",opts:["Bereavement no longer automatically excludes an MDD diagnosis","Bereavement always excludes an MDD diagnosis, with no exceptions","MDD can never be diagnosed within 2 years of a loss, regardless of symptoms","Bereavement is entirely unrelated to MDD diagnostic criteria"],c:0,e:"Unlike earlier DSM editions, bereavement no longer automatically excludes an MDD diagnosis if full criteria are otherwise met."},
+{cat:"MDD Exclusion Rule",q:"Besides ruling out bereavement-based exclusion, what else must be ruled out before diagnosing MDD, per the comparison table?",opts:["Substance use and an underlying medical cause","Only family history, nothing else","Only school performance, nothing else","Only sleep patterns, nothing else"],c:0,e:"MDD's exclusion rule requires ruling out substance use and medical causes for the mood disturbance."},
+
+{cat:"ADHD Core Criteria",q:"What is ADHD's core problem, per the comparison table?",opts:["Inattention and/or hyperactivity-impulsivity","Chronic, severe irritability with frequent outbursts","Recurrent impulsive aggressive outbursts out of proportion","Depressed/irritable mood with neurovegetative symptoms"],c:0,e:"ADHD's core problem is inattention and/or hyperactivity-impulsivity — notably, it is NOT a mood disorder, unlike DMDD or MDD."},
+{cat:"ADHD Core Criteria",q:"Per the comparison table, is mood disturbance the defining feature of ADHD?",opts:["No — ADHD is not a mood disorder, and mood is not its defining feature","Yes — ADHD is fundamentally a mood disorder","Yes, but only in children under age 6","Mood disturbance is required for an ADHD diagnosis in all cases"],c:0,e:"The table explicitly notes ADHD is not a mood disorder and mood is not its defining feature — a key distinction from DMDD and MDD."},
+{cat:"ADHD Core Criteria",q:"What is ADHD's frequency/duration requirement, per the comparison table?",opts:["Symptoms present for at least 6 months, across several settings","Symptoms present for at least 12 months, in only 1 setting","Symptoms present for exactly 2 weeks","No duration requirement exists for ADHD"],c:0,e:"ADHD requires symptoms present for at least 6 months, across several settings."},
+{cat:"ADHD Core Criteria",q:"What is ADHD's age-of-onset requirement, per the comparison table?",opts:["Several symptoms present before age 12","Onset must occur after age 12, never before","Onset must occur before age 5 exclusively","No age-of-onset requirement exists for ADHD"],c:0,e:"ADHD requires several symptoms to be present before age 12 — notably a later cutoff than DMDD's before-age-10 requirement."},
+{cat:"ADHD Core Criteria",q:"Per the comparison table, what is ADHD's key exclusion rule?",opts:["Symptoms must not be better explained by another mental disorder","ADHD can never coexist with any other diagnosis","ADHD automatically excludes a DMDD diagnosis","ADHD requires a manic episode to be ruled out first, and nothing else"],c:0,e:"Like the other conditions in this table, ADHD requires symptoms not be better explained by another mental disorder."},
+
+{cat:"Comorbidity — DMDD",q:"Per the comparison table, which conditions can DMDD coexist with?",opts:["MDD, ADHD, conduct disorder, and substance use disorder","ODD, IED, and bipolar disorder","Only ADHD, and no other condition","DMDD cannot coexist with any other diagnosis"],c:0,e:"DMDD can coexist with MDD, ADHD, conduct disorder, and substance use disorder — while remaining mutually exclusive with ODD, IED, and bipolar disorder."},
+{cat:"Comorbidity — MDD",q:"Per the comparison table, which conditions can MDD coexist with?",opts:["Anxiety, and DMDD (if criteria are independently met)","Only bipolar disorder, and nothing else","MDD cannot coexist with any other condition","Only ADHD, and no other condition"],c:0,e:"MDD can coexist with anxiety disorders, and with DMDD specifically if DMDD's criteria are independently and separately met."},
+{cat:"Comorbidity — IED",q:"Per the comparison table, which conditions can IED coexist with?",opts:["ADHD, conduct disorder, ODD, and ASD (if outbursts exceed what's typical for those disorders)","Only bipolar disorder, and nothing else","IED cannot coexist with any other condition","Only DMDD, and no other condition"],c:0,e:"IED can coexist with ADHD, conduct disorder, ODD, and ASD — specifically when outbursts exceed what's typical for those underlying disorders."},
+{cat:"Comorbidity — ADHD",q:"Per the comparison table, which conditions can ADHD coexist with?",opts:["DMDD, ODD, conduct disorder, and learning disorders","Only bipolar disorder, and nothing else","ADHD cannot coexist with any other condition","Only MDD, and no other condition"],c:0,e:"ADHD can coexist with DMDD, ODD, conduct disorder, and learning disorders, per the comparison table."},
+{cat:"Comorbidity — Comparison",q:"Which condition's comorbidity list specifically requires outbursts to 'exceed what's typical' for the comorbid condition before being counted separately?",opts:["IED, when co-occurring with ADHD, conduct disorder, ODD, or ASD","DMDD, when co-occurring with MDD","MDD, when co-occurring with anxiety","ADHD, when co-occurring with learning disorders"],c:0,e:"IED's comorbidity criteria specifically require outbursts to exceed what's typical for the underlying comorbid condition (ADHD, conduct disorder, ODD, or ASD) before being separately diagnosed."},
+
+{cat:"Core Problem — Full Comparison",q:"Which condition's core problem is described as 'depressed/irritable mood plus neurovegetative and cognitive symptoms'?",opts:["MDD","DMDD","IED","ADHD"],c:0,e:"MDD's core problem combines depressed/irritable mood with neurovegetative (sleep, appetite, energy) and cognitive (concentration, guilt) symptoms."},
+{cat:"Core Problem — Full Comparison",q:"Which condition's core problem is specifically described as 'recurrent impulsive aggressive outbursts, out of proportion'?",opts:["IED","DMDD","MDD","ADHD"],c:0,e:"IED's core problem centers on recurrent, impulsive, disproportionate aggressive outbursts."},
+
+{cat:"Mood Between Episodes — Full Comparison",q:"Which condition's mood between episodes is described as 'persistently depressed/irritable, episodic — an episode'?",opts:["MDD","DMDD","IED","ADHD"],c:0,e:"MDD's mood disturbance is episodic in nature — it occurs as a discrete 'episode,' unlike DMDD's near-constant pattern."},
+{cat:"Mood Between Episodes — Full Comparison",q:"For which condition is mood between outbursts explicitly described as 'not required to be abnormal'?",opts:["IED","DMDD","MDD","ADHD"],c:0,e:"IED explicitly does not require abnormal mood between outbursts — mood can be entirely normal between episodes."},
+
+{cat:"DMDD Deep Dive",q:"A child meets DMDD criteria but has been completely symptom-free for the past 4 consecutive months. What does this mean for the diagnosis?",opts:["This breaks DMDD's required continuity, since no gap longer than 3 consecutive months is allowed","This has no bearing on the diagnosis as long as total duration exceeds 12 months","This confirms DMDD even more strongly","This means the child must have Bipolar Disorder instead, automatically"],c:0,e:"DMDD requires never being symptom-free for more than 3 consecutive months — a 4-month gap breaks this required continuity."},
+{cat:"DMDD Deep Dive",q:"Which age range can DMDD be diagnosed within, per DSM-5?",opts:["Ages 6 through 18","Ages 2 through 5 only","Any age, including adulthood","Ages 12 through 25 only"],c:0,e:"DMDD is diagnosed only within ages 6\u201318, with onset of symptoms required before age 10."},
+{cat:"DMDD Deep Dive",q:"If a child with DMDD-like irritability has ever had a manic or hypomanic episode lasting more than 1 day, what happens to the DMDD diagnosis?",opts:["DMDD is excluded, and bipolar disorder should be reconsidered","DMDD is confirmed with a bipolar specifier added","This has no effect on the DMDD diagnosis","The diagnosis becomes IED automatically"],c:0,e:"Any manic/hypomanic episode lasting more than 1 day excludes a DMDD diagnosis and should prompt reconsideration of bipolar disorder."},
+
+{cat:"IED Deep Dive",q:"Which best describes the nature of IED's aggressive outbursts, distinguishing them from planned aggression?",opts:["Impulsive and anger-based, NOT premeditated for personal gain, power, or intimidation","Always carefully planned in advance for personal gain","Only verbal, never physical under any circumstance","Always associated with a clear external trigger identified in advance"],c:0,e:"IED outbursts are impulsive and anger-based, explicitly not premeditated for goals like money, power, or intimidation \u2014 unlike planned conduct-disorder-type aggression."},
+{cat:"IED Deep Dive",q:"What is the minimum chronological or developmental age required for an IED diagnosis?",opts:["6 years","3 years","10 years","18 years"],c:0,e:"IED requires a minimum chronological or developmental age of 6 years."},
+{cat:"IED Deep Dive",q:"IED has two distinct diagnostic pathways based on outburst severity/frequency. What are they?",opts:["Verbal/physical aggression \u22652x/week for 3 months, OR 3 destructive/assaultive outbursts within 12 months","Only a single pathway exists, requiring outbursts daily for 1 month","Only a single pathway exists, requiring outbursts weekly for 1 year","IED requires both pathways to be met simultaneously, not either/or"],c:0,e:"IED can be diagnosed via either the low-intensity pathway (\u22652x/week aggression for 3 months) OR the high-intensity pathway (3 destructive/assaultive outbursts in 12 months)."},
+
+{cat:"DMDD vs. IED — Direct Comparison",q:"A child has frequent outbursts but completely normal mood between episodes, with the outburst pattern present for 5 months. Which diagnosis fits better, DMDD or IED, and why?",opts:["IED \u2014 normal mood between outbursts is inconsistent with DMDD, and IED's duration threshold (3 months for the low-intensity pathway) is already met","DMDD \u2014 any outburst pattern lasting more than 3 months automatically qualifies as DMDD","Neither \u2014 5 months doesn't meet either disorder's duration requirement","Both equally \u2014 the two diagnoses are interchangeable in this scenario"],c:0,e:"Normal mood between outbursts rules out DMDD (which requires persistent irritability) and points to IED, whose low-intensity pathway only requires 3 months."},
+{cat:"DMDD vs. IED — Direct Comparison",q:"Which single feature is the clearest differentiator between DMDD and IED, per the comparison table?",opts:["Mood between outbursts — persistently irritable in DMDD vs. normal in IED","Age of onset \u2014 identical in both disorders","Presence of any outbursts at all \u2014 identical in both disorders","Setting requirement \u2014 identical in both disorders"],c:0,e:"Mood between outbursts is the clearest differentiator: DMDD requires persistent irritability between episodes, while IED does not."},
+
+{cat:"DMDD vs. MDD — Direct Comparison",q:"Both DMDD and MDD can involve irritable mood in children. What is the key structural difference in HOW irritability presents in each?",opts:["DMDD's irritability is chronic and near-constant; MDD's irritability (substituting for depressed mood) occurs within a discrete 2-week episode","Both present with identical, indistinguishable irritability patterns","MDD's irritability is always more severe than DMDD's","DMDD's irritability only occurs during discrete episodes, like MDD"],c:0,e:"DMDD's irritability is chronic and near-constant, while MDD's irritability (when substituting for depressed mood) is tied to a discrete 2-week episode."},
+
+{cat:"DMDD vs. ADHD — Direct Comparison",q:"Since DMDD and ADHD frequently coexist, what specifically should a clinician confirm before adding DMDD as a comorbid diagnosis in a child with ADHD?",opts:["That the irritability meets DMDD's own specific duration (\u226512 months), frequency, and severity criteria \u2014 not just general ADHD-related frustration","Nothing further; DMDD should be added automatically whenever ADHD is present","That the ADHD diagnosis is incorrect and should be removed","That the child is younger than the ADHD age-of-onset cutoff"],c:0,e:"DMDD requires its own specific duration, frequency, and severity criteria to be independently met \u2014 general frustration from ADHD alone is not sufficient."},
+
+{cat:"IED vs. ADHD — Direct Comparison",q:"How does IED's aggression differ from the impulsivity seen in ADHD?",opts:["IED involves a specific pattern and threshold of disproportionate, anger-driven aggressive outbursts, beyond general ADHD-related impulsivity","IED and ADHD impulsivity are clinically identical with no meaningful distinction","ADHD impulsivity is always more severe than IED's outbursts","IED requires no impulsivity at all, unlike ADHD"],c:0,e:"IED requires a specific pattern and threshold of disproportionate aggressive outbursts \u2014 distinct from, and beyond, the general impulsivity seen in ADHD alone."},
+
+{cat:"MDD vs. ADHD — Direct Comparison",q:"Which statement correctly contrasts MDD and ADHD as diagnostic categories?",opts:["MDD is fundamentally a mood disorder; ADHD is not a mood disorder at all","Both are equally classified as mood disorders","ADHD is a more severe form of MDD","MDD and ADHD share an identical symptom list"],c:0,e:"MDD is fundamentally a mood disorder, while the comparison table explicitly notes ADHD is NOT a mood disorder \u2014 a foundational categorical distinction."},
+
+{cat:"Full Table Synthesis",q:"Which of these four conditions is the ONLY one in the table explicitly identified as 'not a mood disorder'?",opts:["ADHD","DMDD","MDD","IED"],c:0,e:"ADHD is explicitly identified as not a mood disorder in the comparison table \u2014 all three other conditions involve mood/irritability as a core or possible feature."},
+{cat:"Full Table Synthesis",q:"Which two conditions in the table share the closest similarity in NOT having a specific setting requirement?",opts:["MDD and IED","DMDD and ADHD","MDD and DMDD","IED and ADHD"],c:0,e:"MDD and IED both lack a specific setting-count requirement, unlike DMDD (1 of 2 settings) and ADHD (at least 2 settings)."},
+{cat:"Full Table Synthesis",q:"Which condition has the LATEST required age-of-onset cutoff among the four in this table?",opts:["ADHD (before age 12)","DMDD (before age 10)","IED (at least age 6)","MDD (any age)"],c:0,e:"Among the specific onset cutoffs given, ADHD's before-age-12 requirement is later than DMDD's before-age-10 requirement; MDD has no fixed onset age at all, and IED sets a minimum (not maximum) age of 6."}
+];
+
+let current=0, score=0, locked=false; const missed=[];
+
+(function(){
+  function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+  Q.forEach(item=>{const correctText=item.opts[item.c];shuffleArray(item.opts);item.c=item.opts.indexOf(correctText);});
+})();
+
+function render(){
+  const card=document.getElementById('quizCard');
+  document.getElementById('qnum').textContent=current+1;
+  document.getElementById('scoretally').textContent=score+" correct";
+  document.getElementById('fill').style.width=(current/Q.length*100)+'%';
+  if(current>=Q.length){renderResults();return;}
+  const item=Q[current]; locked=false;
+  card.innerHTML=`<span class="cat-tag">${item.cat}</span><p class="qtext">${item.q}</p><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>`;
+  const optsDiv=document.getElementById('opts');
+  item.opts.forEach((t,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>select(i);optsDiv.appendChild(b);});
+}
+function select(i){
+  if(locked)return; locked=true;
+  const item=Q[current]; const opts=document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{o.classList.add('locked'); if(idx===item.c)o.classList.add('correct'); if(idx===i&&i!==item.c)o.classList.add('incorrect');});
+  const fb=document.getElementById('feedback'); fb.classList.add('show');
+  const right=i===item.c; if(right)score++; else missed.push(item);
+  fb.innerHTML=`<span class="verdict ${right?'right':'wrong'}">${right?"Correct.":"Not quite."}</span>${item.e}`;
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').onclick=()=>{current++;render();};
+}
+function renderResults(){
+  const card=document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML=`Done \u00b7 <b>${Q.length}</b> questions`;
+  const pct=Math.round(score/Q.length*100);
+  let mh = missed.length ? `<div class="missed"><h3>Reread just these:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>` : `<div class="missed"><h3>Clean sweep \u2014 nothing to reread.</h3></div>`;
+  card.innerHTML=`<div class="results"><div class="score">${score}/${Q.length}</div><div class="scoreline">${pct}% \u2014 ${pct>=80?"Exam-ready.":pct>=60?"Getting there.":"Worth a focused reread."}</div>${mh}<div class="navrow" style="justify-content:center;margin-top:16px;"><button class="btn ghost" onclick="restart()">Try again</button></div></div>`;
+}
+function restart(){current=0;score=0;missed.length=0;document.querySelector('.progress-label span:first-child').innerHTML=`Question <b id="qnum">1</b> of <span id="qtotal">${Q.length}</span>`;render();}
+render();
+</script>
+</body>
+</html>
