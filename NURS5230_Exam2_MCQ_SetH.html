@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 Exam 2 Practice — Set H (50Q)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20222B; --paper:#EAEDF3; --card:#FFFFFF; --line:#D6DCE8;
+    --indigo:#2B3A67; --indigo-deep:#1C284A; --marigold:#C9483A; --marigold-deep:#A3392E;
+    --brick:#B0413E; --brick-bg:#FBEBEA; --sage:#5C7A63; --sage-bg:#EAF1EA; --muted:#5C6478; --radius:14px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 12% 8%, rgba(201,72,58,0.10), transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(43,58,103,0.10), transparent 45%), var(--paper);
+    color:var(--ink); font-family:'IBM Plex Sans', sans-serif; min-height:100vh;
+    display:flex; justify-content:center; padding:26px 14px 60px;
+  }
+  .app{ width:100%; max-width:560px; }
+  .kicker{ font-size:12.5px; color:var(--indigo); font-weight:600; margin:0 0 6px; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(24px,5vw,30px); line-height:1.15; margin:0 0 8px; color:var(--indigo-deep); }
+  .sub{ font-size:14px; color:var(--muted); line-height:1.5; margin:0; max-width:48ch; }
+  .format-note{ display:inline-block; margin-top:10px; font-size:11px; font-weight:700; letter-spacing:.03em; color:#fff; background:var(--sage); padding:4px 10px; border-radius:100px; }
+  .progress-wrap{ margin:20px 0 22px; }
+  .progress-label{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:6px; }
+  .progress-label b{ color:var(--indigo-deep); }
+  .track{ height:6px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .fill{ height:100%; background:var(--marigold); border-radius:100px; width:0%; transition:width .4s ease; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px 22px 20px; }
+  .cat-tag{ display:inline-block; font-size:11px; font-weight:600; color:var(--indigo); background:#E7EAF4; border:1px solid #D2D9EA; padding:3px 9px; border-radius:100px; margin-bottom:12px; }
+  .qtext{ font-family:'Fraunces', serif; font-weight:600; font-size:17.5px; line-height:1.4; margin:0 0 16px; }
+  .opts{ display:flex; flex-direction:column; gap:8px; }
+  .opt{ text-align:left; border:1.5px solid var(--line); background:#FFFEFC; border-radius:10px; padding:11px 13px; font-size:14px; color:var(--ink); cursor:pointer; transition:.15s; line-height:1.4; }
+  .opt:hover:not(.locked){ border-color:var(--indigo); background:#EEF0F8; }
+  .opt.correct{ border-color:var(--sage); background:var(--sage-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--brick); background:var(--brick-bg); }
+  .opt.locked{ cursor:default; }
+  .feedback{ margin-top:14px; padding:13px 15px; border-radius:10px; border:1px solid var(--line); background:#F8F9FC; font-size:13.5px; line-height:1.5; display:none; }
+  .feedback.show{ display:block; }
+  .verdict{ font-weight:600; margin-bottom:4px; display:block; }
+  .verdict.right{ color:var(--sage); } .verdict.wrong{ color:var(--brick); }
+  .navrow{ display:flex; justify-content:flex-end; margin-top:18px; }
+  .btn{ font-weight:600; font-size:14px; background:var(--indigo); color:#fff; border:none; border-radius:9px; padding:10px 20px; cursor:pointer; }
+  .btn:hover{ background:var(--indigo-deep); } .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--indigo); border:1.5px solid var(--indigo); }
+  .results{ text-align:center; }
+  .results .score{ font-family:'Fraunces', serif; font-weight:700; font-size:52px; color:var(--indigo-deep); margin:4px 0; }
+  .scoreline{ color:var(--muted); font-size:14px; margin-bottom:16px; }
+  .missed{ text-align:left; margin-top:8px; max-height:340px; overflow-y:auto; }
+  .missed h3{ font-size:13px; color:var(--muted); margin:0 0 8px; }
+  .missed li{ font-size:13px; margin-bottom:8px; }
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:20px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="app">
+  <p class="kicker">NURS 5230 · Exam 2 Practice — Set H</p>
+  <h1>Modules 2–3 · 50 Questions</h1>
+  <p class="sub">New content, not a repeat of Sets A–G. Straightforward single-best-answer format, side effects (not dosing) for medications, answers shuffled per question.</p>
+  <span class="format-note">STRAIGHTFORWARD · SIDE-EFFECTS FOCUS</span>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">50</span></span><span id="scoretally">0 correct</span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div class="card" id="quizCard"></div>
+  <p class="footer-note">Missed questions are listed at the end so you can reread just those sections.</p>
+</div>
+<script>
+const Q = [
+{cat:"Treatment Decisions",q:"Which combination showed a specific advantage over fluoxetine alone in MILD-TO-MODERATE (but not moderate-to-severe) adolescent depression?",opts:["Fluoxetine plus CBT","CBT plus play therapy","Placebo plus supportive counseling","Fluoxetine plus lithium"],c:0,e:"TADS found combination treatment had a specific advantage over fluoxetine alone in mild-to-moderate depression, but not in moderate-to-severe depression."},
+{cat:"Treatment Decisions",q:"What is considered an adequate SSRI trial duration before concluding non-response in adolescent MDD?",opts:["6–8 weeks","24 hours","6 months","2 years"],c:0,e:"An adequate trial requires roughly 6\u20138 weeks at an adequate dose with confirmed adherence before concluding non-response."},
+
+{cat:"DMDD vs MDD vs IED vs ADHD",q:"A child's irritability is present almost every day, but temper outbursts only occur about once a month. Does this meet DMDD's outburst frequency requirement?",opts:["No — DMDD requires outbursts at least 3 times per week","Yes — any outburst frequency qualifies if mood is chronically irritable","No — DMDD requires outbursts to occur exactly once per day","Yes — DMDD has no frequency requirement at all"],c:0,e:"DMDD specifically requires temper outbursts occurring 3 or more times per week, not just chronic irritable mood alone."},
+{cat:"DMDD vs MDD vs IED vs ADHD",q:"Which feature is common to BOTH DMDD and pediatric MDD, potentially causing diagnostic overlap?",opts:["Irritable mood can be a presenting feature of both","Both require a manic episode first","Both are diagnosed only in children under 6","Both exclude any mood disturbance"],c:0,e:"Irritable mood can present in both DMDD and pediatric MDD (where it substitutes for depressed mood), contributing to diagnostic overlap that requires careful evaluation."},
+
+{cat:"School Accommodations",q:"A student needs specialized reading instruction due to a diagnosed learning disorder. Which legal pathway is designed to provide this?",opts:["An IEP under IDEA","A 504 Plan under Section 504 alone","No formal pathway exists for this need","A doctor's note alone is sufficient"],c:0,e:"IEPs under IDEA specifically provide specialized instruction, unlike 504 Plans which provide accommodations."},
+{cat:"School Accommodations",q:"Which of the following is a practical classroom adaptation that can be used regardless of whether a student has a 504 Plan or an IEP?",opts:["Preferential seating near the teacher, away from disruptive peers","Complete removal from the classroom setting","Elimination of all homework assignments","Mandatory grade retention"],c:0,e:"Preferential seating is a practical classroom adaptation usable under either a 504 Plan or an IEP, or informally."},
+
+{cat:"Mania Treatment",q:"Which is a reason clinicians may avoid antidepressant monotherapy in a child with bipolar disorder experiencing a depressive episode?",opts:["Risk of precipitating a manic switch if started before a mood stabilizer is established","Antidepressants are contraindicated in every pediatric patient regardless of diagnosis","Mood stabilizers eliminate any need to ever treat depression","Antidepressants have no side effects of any kind in bipolar patients"],c:0,e:"Antidepressant monotherapy risks precipitating a manic switch in bipolar patients if used before a mood stabilizer is established."},
+{cat:"Mania Treatment",q:"Which side effect consideration is most relevant when choosing an atypical antipsychotic for a patient with a strong family history of diabetes?",opts:["Diabetes/lipid risk rating of the specific agent being considered","The agent's color or shape","The agent's brand name recognition","The day of the week the medication is started"],c:0,e:"Metabolic risk profile (diabetes/lipid rating) is directly relevant when family history of diabetes is a concern."},
+{cat:"Mania Treatment",q:"Why is combination medication therapy often needed in pediatric mania, when monotherapy is generally preferred in pediatric psychopharmacology overall?",opts:["Youth show lower effect sizes with single mood-stabilizing agents compared to adults","Combination therapy has no side effects compared to monotherapy","Insurance requires combination therapy for all pediatric patients","There is no evidence for any single agent in pediatric mania"],c:0,e:"Youth show lower effect sizes with monotherapy mood stabilizers than adults, often necessitating combination approaches."},
+
+{cat:"MDD Treatment",q:"Which of the following can substitute for 'depressed mood' as a core MDD symptom in children, per DSM-5?",opts:["Irritable mood","Euphoric mood","Anxious mood exclusively","Flat affect exclusively"],c:0,e:"Irritable mood can substitute for depressed mood as one of the core MDD symptoms in children and adolescents."},
+{cat:"MDD Treatment",q:"For which severity of pediatric depression is medication indicated as INITIAL treatment, rather than psychotherapy-first?",opts:["More severe depression","Only the mildest depression","Only subclinical symptoms","Medication is never used as initial treatment at any severity"],c:0,e:"For more severe depression, medication is indicated as initial treatment, unlike the psychotherapy-first approach for milder presentations."},
+
+{cat:"SSRI Activating Symptoms",q:"Which population is noted as potentially more vulnerable to SSRI-induced activation effects?",opts:["Children with autism spectrum disorder, brain injury, or undiagnosed bipolar disorder","Adults with well-controlled seasonal allergies","Elderly patients with osteoarthritis only","Patients with well-managed hypertension only"],c:0,e:"These specific pediatric populations are noted as potentially more vulnerable to CNS-activating SSRI effects."},
+{cat:"SSRI Activating Symptoms",q:"What is an appropriate clinical response when TEAS is suspected in a patient on an SSRI?",opts:["Consider a dose decrease or discontinuation, with close monitoring for suicidality","Automatically double the dose to push through the symptoms","Ignore the symptoms since they always resolve on their own","Switch immediately to an antipsychotic regardless of presentation"],c:0,e:"Appropriate management includes considering a dose decrease or discontinuation, paired with close monitoring for suicidality and mood changes."},
+
+{cat:"Antipsychotic Side Effects",q:"Which side effect is olanzapine most notably associated with, among these four antipsychotics?",opts:["Significant weight gain and metabolic risk","Complete absence of any side effects","Hearing loss","Hair loss"],c:0,e:"Olanzapine carries the highest weight gain and diabetes/lipid risk among these four agents."},
+{cat:"Antipsychotic Side Effects",q:"Which side effect is shared as a notable concern for BOTH risperidone and paliperidone?",opts:["Prominent hyperprolactinemia","Complete absence of EPS","Hair loss","Hearing loss"],c:0,e:"Both risperidone and paliperidone are associated with the most prominent hyperprolactinemia among the atypical antipsychotics."},
+{cat:"Antipsychotic Side Effects",q:"Which movement-related side effect is haloperidol, as a high-potency typical antipsychotic, most associated with?",opts:["Extrapyramidal symptoms (EPS)","Significant weight gain","Diabetes and dyslipidemia","QTc prolongation as its primary concern"],c:0,e:"Haloperidol, a high-potency first-generation antipsychotic, carries a high EPS burden compared to the atypicals."},
+
+{cat:"Schizotypal vs Schizophrenia vs Delusional",q:"Which feature distinguishes Schizotypal Personality Disorder from Schizophrenia?",opts:["Absence of frank delusions or hallucinations in Schizotypal PD","Presence of hallucinations in both conditions equally","Identical functional impairment in both conditions","Schizotypal PD requires a longer duration than Schizophrenia"],c:0,e:"Schizotypal PD lacks frank psychotic symptoms (delusions/hallucinations), unlike Schizophrenia, which requires them."},
+{cat:"Schizotypal vs Schizophrenia vs Delusional",q:"In Delusional Disorder, functioning outside the direct impact of the delusion is typically:",opts:["Not markedly impaired","Severely and globally impaired","Completely impossible to assess","Always worse than in Schizophrenia"],c:0,e:"Delusional Disorder patients typically function well outside the delusion's direct impact, unlike Schizophrenia."},
+{cat:"Schizotypal vs Schizophrenia vs Delusional",q:"Which symptom domain is a core feature of Schizotypal Personality Disorder?",opts:["Ideas of reference","Frank auditory hallucinations","Catatonic behavior","Formal thought disorder with loose associations"],c:0,e:"Ideas of reference (not true delusions of reference) are a core schizotypal PD feature."},
+
+{cat:"Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"Which feature is shared between Schizophreniform Disorder and Schizophrenia?",opts:["The same Criterion A symptom list","Identical minimum duration requirements","Both require a mood episode to be present","Neither requires any psychotic symptoms"],c:0,e:"Schizophreniform Disorder uses the same Criterion A symptom list as Schizophrenia; only the duration requirement differs."},
+{cat:"Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"Which of the following is considered a GOOD prognostic feature for Schizophreniform Disorder?",opts:["Confusion or perplexity during the psychotic episode","Blunted or flat affect","Poor premorbid functioning","Gradual onset over many months"],c:0,e:"Confusion/perplexity during the episode is one of the recognized good prognostic features for schizophreniform disorder."},
+{cat:"Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"In BPAD I with psychotic features, psychosis is expected to:",opts:["Clear when the mood episode resolves","Persist indefinitely regardless of mood state","Never occur alongside a manic episode","Always precede the first mood episode by years"],c:0,e:"In BPAD I with psychotic features, psychosis is temporally tied to the mood episode and typically clears when it resolves."},
+
+{cat:"Antipsychotic Noncompliance",q:"Which strategy directly targets the problem of a clinician not knowing when a patient has missed oral medication doses?",opts:["Switching to a long-acting injectable (LAI) formulation","Increasing the oral dose","Adding a second oral medication","Discontinuing all treatment"],c:0,e:"LAIs let the clinician know relatively quickly when a dose is missed, addressing this specific gap in oral dosing."},
+{cat:"Antipsychotic Noncompliance",q:"Which factor is a recognized illness-intrinsic barrier to treatment adherence in some psychotic disorders?",opts:["Anosognosia (lack of insight into having an illness)","Cost of medication exclusively","Distance to the pharmacy exclusively","Personal preference for herbal remedies exclusively"],c:0,e:"Anosognosia can be a feature of the psychotic illness itself, directly impairing insight into the need for treatment."},
+
+{cat:"RAD",q:"Which of the following caregiving histories could support a diagnosis of RAD?",opts:["Repeated changes of primary caregivers","A single instance of appropriate parental discipline","Consistent, warm caregiving from one primary caregiver","Enrollment in a high-quality daycare program"],c:0,e:"Repeated changes of primary caregivers is one of DSM-5's three qualifying etiologic patterns for RAD."},
+{cat:"RAD",q:"Which finding would be inconsistent with a diagnosis of RAD?",opts:["Onset of symptoms after age 5","A history of social neglect in early childhood","Reduced positive affect","Minimal response to comfort from a preferred caregiver"],c:0,e:"RAD has onset before age 5 \u2014 symptom onset after age 5 would be inconsistent with the diagnosis."},
+{cat:"RAD",q:"What is the recommended core treatment approach for a child diagnosed with RAD?",opts:["Placement in a nurturing environment with opportunity for secure attachment, plus parent training","First-line SSRI treatment","First-line antipsychotic treatment","No intervention is recommended at any point"],c:0,e:"The core treatment for RAD is a nurturing caregiving environment plus parent training to foster secure attachment; no medication targets its core symptoms."},
+
+{cat:"EBT for MDD",q:"Which therapy modality is based on the premise that depression occurs within an interpersonal framework?",opts:["IPT-A","Standard CBT","DBT","Exposure and Response Prevention"],c:0,e:"IPT-A is built on the premise that depression occurs within an interpersonal framework, addressing role transitions, conflicts, and grief."},
+{cat:"EBT for MDD",q:"Which CBT technique involves identifying and challenging negative automatic thoughts?",opts:["Cognitive restructuring","Behavioral activation","Exposure hierarchy","Relaxation training exclusively"],c:0,e:"Cognitive restructuring specifically targets negative automatic thoughts, replacing them with more balanced self-statements."},
+
+{cat:"Cyclothymia vs PDD",q:"Which feature is REQUIRED for Cyclothymic Disorder but explicitly NOT allowed to have occurred?",opts:["A full major depressive, manic, or hypomanic episode","Any depressive symptoms at all","Any hypomanic symptoms at all","A family history of mood disorders"],c:0,e:"Cyclothymic Disorder specifically requires that criteria for a full major depressive, manic, or hypomanic episode have never been met."},
+{cat:"Cyclothymia vs PDD",q:"Which mood presentation can substitute for 'depressed mood' in a child being evaluated for Persistent Depressive Disorder?",opts:["Irritable mood","Euphoric mood","Anxious mood exclusively","No substitution is allowed for PDD"],c:0,e:"Irritable mood can substitute for depressed mood in children being evaluated for PDD, similar to the MDD criteria substitution."},
+{cat:"Cyclothymia vs PDD",q:"What does 'double depression' refer to in the context of Persistent Depressive Disorder?",opts:["A full MDD episode occurring within a chronic PDD course","Two separate unrelated depressive disorders diagnosed simultaneously","A depressive episode lasting exactly twice the normal duration","A misdiagnosis that should always be corrected"],c:0,e:"\"Double depression\" describes a full MDD episode occurring within an ongoing chronic PDD course \u2014 a recognized, valid combination."},
+
+{cat:"TD vs NMS",q:"Which of the following symptoms is part of the classic NMS presentation?",opts:["Autonomic instability (hyperthermia, diaphoresis, tachycardia)","Involuntary tongue protrusion and lip-smacking","Slow, gradual onset over months to years","Normal muscle tone throughout"],c:0,e:"NMS presents with autonomic instability alongside rigidity, distinct from TD's chronic oro-buccal-lingual movements."},
+{cat:"TD vs NMS",q:"Which management approach is appropriate for TD, as opposed to the emergency response required for NMS?",opts:["A more measured approach, such as switching to a lower-EPS-liability agent or adding a VMAT2 inhibitor","Immediate emergency discontinuation of all psychiatric medication","No management approach exists for TD","Increasing the antipsychotic dose as definitive treatment"],c:0,e:"TD is managed with a more measured approach (agent switch, VMAT2 inhibitor) rather than the emergency response NMS requires."},
+{cat:"TD vs NMS",q:"Which of the following antipsychotic types carries the highest risk for BOTH NMS and TD?",opts:["High-potency first-generation antipsychotics","Second-generation antipsychotics exclusively","Antipsychotics are never associated with either condition","Only injectable formulations carry this risk"],c:0,e:"High-potency first-generation antipsychotics like haloperidol carry elevated risk for both NMS and TD compared to atypicals."},
+
+{cat:"Akathisia vs Dystonic Reaction",q:"Which of the following best describes akathisia?",opts:["Subjective and/or objective restlessness, such as pacing or an inability to sit still","Sudden, painful muscle spasms and abnormal postures","Chronic, involuntary oro-buccal-lingual movements","Autonomic instability with hyperthermia"],c:0,e:"Akathisia is characterized by inner and/or outer restlessness, distinct from dystonia's sudden muscle spasms."},
+{cat:"Akathisia vs Dystonic Reaction",q:"Which complication makes laryngeal-pharyngeal dystonia a true emergency?",opts:["Potential airway compromise","Permanent vision loss","Irreversible hearing loss","Chronic kidney injury"],c:0,e:"Laryngeal-pharyngeal dystonia can compromise the airway, making it a true medical emergency requiring prompt anticholinergic treatment."},
+{cat:"Akathisia vs Dystonic Reaction",q:"Which population is noted as being at increased risk for akathisia specifically?",opts:["Middle-aged women","Only children under age 5","Only patients over age 90","Only patients never exposed to any medication"],c:0,e:"Middle-aged women are noted as being at increased risk specifically for akathisia."},
+
+{cat:"Valproic Acid",q:"Which valproate side effect is described as usually reversible and manageable with zinc/selenium supplementation by some clinicians?",opts:["Hair loss","Hepatotoxicity","Pancreatitis","Teratogenicity"],c:0,e:"Hair loss on valproate is usually reversible, and some clinicians add zinc/selenium supplementation to help manage it."},
+{cat:"Valproic Acid",q:"Which valproate side effect is dose-related, reversible, and monitored via a CBC with platelet count?",opts:["Thrombocytopenia","Teratogenicity","Hyperammonemic encephalopathy","Pancreatitis"],c:0,e:"Thrombocytopenia is a dose-related, reversible valproate side effect, monitored through CBC with platelet counts."},
+{cat:"Valproic Acid",q:"Why is baseline pregnancy testing part of valproate workup in postpubertal females?",opts:["Valproate carries major teratogenic risk (neural tube defects)","Valproate has no relevant reproductive health considerations","Pregnancy testing is only relevant for lithium, not valproate","This testing is purely incidental and not clinically necessary"],c:0,e:"Valproate's major teratogenic risk (neural tube defects) makes baseline pregnancy testing clinically relevant in postpubertal females."},
+
+{cat:"Lithium",q:"Which lithium side effect is described as usually reversible upon discontinuation, or treatable with hydrochlorothiazide or amiloride?",opts:["Nephrogenic diabetes insipidus","Simple hair loss","Mild acne","Occasional headache"],c:0,e:"Nephrogenic diabetes insipidus from chronic lithium use is usually reversible on discontinuation, or can be treated with hydrochlorothiazide or amiloride."},
+{cat:"Lithium",q:"Which lithium side effect is roughly 9 times more common in women than men?",opts:["Hypothyroidism","Fine tremor","Nausea","Weight gain"],c:0,e:"Lithium-induced hypothyroidism is roughly 9 times more common in women than men."},
+{cat:"Lithium",q:"Which cardiac finding is associated with lithium use?",opts:["Flattened or inverted T waves","Widened QRS complex as the primary concern","Complete heart block in all patients","Permanent pacemaker requirement in all patients"],c:0,e:"Lithium can cause flattened or inverted T waves, along with bradycardia and sinus node dysfunction in some patients."},
+
+{cat:"Therapy for Anger/Anxiety",q:"Which technique gradually and systematically exposes a patient to feared situations, from least to most anxiety-provoking?",opts:["Exposure and Response Prevention (ERP)","Free association","Aversive conditioning","Thought-stopping exclusively"],c:0,e:"ERP uses a graduated hierarchy of feared situations, approached gradually from least to most anxiety-provoking."},
+{cat:"Therapy for Anger/Anxiety",q:"Which technique is used to decrease social withdrawal and teach adaptive coping in young children with anxiety?",opts:["Modeling","Psychoanalysis","Electroconvulsive therapy","Aversive conditioning"],c:0,e:"Modeling is particularly useful in young children to decrease social withdrawal/avoidance and teach adaptive coping skills."},
+
+{cat:"Play Therapy",q:"Which play theme is most associated with a child processing witnessed domestic conflict?",opts:["Chaotic, aggressive doll play with figures fighting or intervening","Calm, cooperative play with no emotional content","Complete refusal to engage in any play activity","Exclusively solitary, silent play"],c:0,e:"Chaotic, aggressive doll/puppet play with fighting or intervening figures is a classic indirect signal of witnessed family conflict."},
+{cat:"Play Therapy",q:"In play therapy, how does the therapist typically approach a child's difficult feelings?",opts:["Through the metaphor of the child's symbolic play, rather than direct confrontation","By directly telling the child how they must be feeling","By ending the session immediately when difficult themes emerge","By avoiding any discussion of the play's content entirely"],c:0,e:"Therapists use the metaphor of the child's symbolic play, framing comments around the play's characters rather than direct confrontation."},
+
+{cat:"DBT and CBT Techniques",q:"Which DBT skill specifically teaches surviving a crisis without making things worse?",opts:["Distress tolerance","Mindfulness","Emotion regulation","Interpersonal effectiveness"],c:0,e:"Distress tolerance teaches surviving/tolerating crisis moments without resorting to self-harm or other maladaptive behavior."},
+{cat:"DBT and CBT Techniques",q:"Which CBT technique increases engagement in rewarding activities to counter anergy and anhedonia?",opts:["Behavioral activation","Cognitive restructuring","Exposure and Response Prevention","Thought-stopping"],c:0,e:"Behavioral activation specifically increases engagement in rewarding activities to counter anergy, anhedonia, and social withdrawal."}
+];
+
+let current=0, score=0, locked=false; const missed=[];
+
+(function(){
+  function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+  Q.forEach(item=>{const correctText=item.opts[item.c];shuffleArray(item.opts);item.c=item.opts.indexOf(correctText);});
+})();
+
+function render(){
+  const card=document.getElementById('quizCard');
+  document.getElementById('qnum').textContent=current+1;
+  document.getElementById('scoretally').textContent=score+" correct";
+  document.getElementById('fill').style.width=(current/Q.length*100)+'%';
+  if(current>=Q.length){renderResults();return;}
+  const item=Q[current]; locked=false;
+  card.innerHTML=`<span class="cat-tag">${item.cat}</span><p class="qtext">${item.q}</p><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>`;
+  const optsDiv=document.getElementById('opts');
+  item.opts.forEach((t,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>select(i);optsDiv.appendChild(b);});
+}
+function select(i){
+  if(locked)return; locked=true;
+  const item=Q[current]; const opts=document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{o.classList.add('locked'); if(idx===item.c)o.classList.add('correct'); if(idx===i&&i!==item.c)o.classList.add('incorrect');});
+  const fb=document.getElementById('feedback'); fb.classList.add('show');
+  const right=i===item.c; if(right)score++; else missed.push(item);
+  fb.innerHTML=`<span class="verdict ${right?'right':'wrong'}">${right?"Correct.":"Not quite."}</span>${item.e}`;
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').onclick=()=>{current++;render();};
+}
+function renderResults(){
+  const card=document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML=`Done \u00b7 <b>${Q.length}</b> questions`;
+  const pct=Math.round(score/Q.length*100);
+  let mh = missed.length ? `<div class="missed"><h3>Reread just these:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>` : `<div class="missed"><h3>Clean sweep \u2014 nothing to reread.</h3></div>`;
+  card.innerHTML=`<div class="results"><div class="score">${score}/${Q.length}</div><div class="scoreline">${pct}% \u2014 ${pct>=80?"Exam-ready.":pct>=60?"Getting there.":"Worth a focused reread."}</div>${mh}<div class="navrow" style="justify-content:center;margin-top:16px;"><button class="btn ghost" onclick="restart()">Try again</button></div></div>`;
+}
+function restart(){current=0;score=0;missed.length=0;document.querySelector('.progress-label span:first-child').innerHTML=`Question <b id="qnum">1</b> of <span id="qtotal">${Q.length}</span>`;render();}
+render();
+</script>
+</body>
+</html>
