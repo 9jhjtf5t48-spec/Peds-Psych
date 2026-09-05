@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 Exam 2 Practice — Set G (50Q)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2226; --paper:#EAF0F1; --card:#FFFFFF; --line:#D3E0E2;
+    --indigo:#1B4B5A; --indigo-deep:#123540; --marigold:#3E8E9E; --marigold-deep:#2E6E7C;
+    --brick:#B0413E; --brick-bg:#FBEBEA; --sage:#5C7A63; --sage-bg:#EAF1EA; --muted:#5C6C6E; --radius:14px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 12% 8%, rgba(62,142,158,0.12), transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(27,75,90,0.10), transparent 45%), var(--paper);
+    color:var(--ink); font-family:'IBM Plex Sans', sans-serif; min-height:100vh;
+    display:flex; justify-content:center; padding:26px 14px 60px;
+  }
+  .app{ width:100%; max-width:560px; }
+  .kicker{ font-size:12.5px; color:var(--indigo); font-weight:600; margin:0 0 6px; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(24px,5vw,30px); line-height:1.15; margin:0 0 8px; color:var(--indigo-deep); }
+  .sub{ font-size:14px; color:var(--muted); line-height:1.5; margin:0; max-width:48ch; }
+  .format-note{ display:inline-block; margin-top:10px; font-size:11px; font-weight:700; letter-spacing:.03em; color:#fff; background:var(--sage); padding:4px 10px; border-radius:100px; }
+  .progress-wrap{ margin:20px 0 22px; }
+  .progress-label{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:6px; }
+  .progress-label b{ color:var(--indigo-deep); }
+  .track{ height:6px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .fill{ height:100%; background:var(--marigold); border-radius:100px; width:0%; transition:width .4s ease; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px 22px 20px; }
+  .cat-tag{ display:inline-block; font-size:11px; font-weight:600; color:var(--indigo); background:#E4EFF1; border:1px solid #CFDFE2; padding:3px 9px; border-radius:100px; margin-bottom:12px; }
+  .qtext{ font-family:'Fraunces', serif; font-weight:600; font-size:17.5px; line-height:1.4; margin:0 0 16px; }
+  .opts{ display:flex; flex-direction:column; gap:8px; }
+  .opt{ text-align:left; border:1.5px solid var(--line); background:#FFFEFC; border-radius:10px; padding:11px 13px; font-size:14px; color:var(--ink); cursor:pointer; transition:.15s; line-height:1.4; }
+  .opt:hover:not(.locked){ border-color:var(--indigo); background:#EEF6F7; }
+  .opt.correct{ border-color:var(--sage); background:var(--sage-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--brick); background:var(--brick-bg); }
+  .opt.locked{ cursor:default; }
+  .feedback{ margin-top:14px; padding:13px 15px; border-radius:10px; border:1px solid var(--line); background:#F8FBFB; font-size:13.5px; line-height:1.5; display:none; }
+  .feedback.show{ display:block; }
+  .verdict{ font-weight:600; margin-bottom:4px; display:block; }
+  .verdict.right{ color:var(--sage); } .verdict.wrong{ color:var(--brick); }
+  .navrow{ display:flex; justify-content:flex-end; margin-top:18px; }
+  .btn{ font-weight:600; font-size:14px; background:var(--indigo); color:#fff; border:none; border-radius:9px; padding:10px 20px; cursor:pointer; }
+  .btn:hover{ background:var(--indigo-deep); } .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--indigo); border:1.5px solid var(--indigo); }
+  .results{ text-align:center; }
+  .results .score{ font-family:'Fraunces', serif; font-weight:700; font-size:52px; color:var(--indigo-deep); margin:4px 0; }
+  .scoreline{ color:var(--muted); font-size:14px; margin-bottom:16px; }
+  .missed{ text-align:left; margin-top:8px; max-height:340px; overflow-y:auto; }
+  .missed h3{ font-size:13px; color:var(--muted); margin:0 0 8px; }
+  .missed li{ font-size:13px; margin-bottom:8px; }
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:20px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="app">
+  <p class="kicker">NURS 5230 · Exam 2 Practice — Set G (Final)</p>
+  <h1>Modules 2–3 · 50 Questions</h1>
+  <p class="sub">Every question here asks for the single correct answer — no "which is FALSE," no "EXCEPT," no double-negative logic. New content, not a repeat of Sets A–F.</p>
+  <span class="format-note">STRAIGHTFORWARD FORMAT ONLY</span>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">50</span></span><span id="scoretally">0 correct</span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div class="card" id="quizCard"></div>
+  <p class="footer-note">Missed questions are listed at the end so you can reread just those sections.</p>
+</div>
+<script>
+const Q = [
+{cat:"Treatment Decisions",q:"After a first psychotic episode achieves remission, general maintenance guidance recommends continuing antipsychotic treatment for at least how long?",opts:["1 year","1 week","1 month","5 years"],c:0,e:"General guidance recommends continuing antipsychotic treatment for at least 1 year after remission of a first psychotic episode."},
+{cat:"Treatment Decisions",q:"For a child with DMDD not responding to psychotherapy alone, which medication has evidence for improving irritability specifically when ADHD is also present?",opts:["Stimulants","Benzodiazepines","MAOIs","Anticholinergics"],c:0,e:"Open-trial data supports stimulants, especially when comorbid ADHD and aggression are present, for improving DMDD-related irritability."},
+{cat:"Treatment Decisions",q:"Per Dulcan, DMDD treatment guidelines are best described as:",opts:["Not well established, with no FDA-approved medication","Extremely well established with multiple FDA-approved options","Identical to adult bipolar disorder treatment","Requiring only supportive counseling, per Dulcan"],c:0,e:"Dulcan states plainly that treatment guidelines have not been established for DMDD."},
+
+{cat:"DMDD vs MDD vs IED vs ADHD",q:"What is the required age of onset threshold for DMDD?",opts:["Before age 10","Before age 5","Before age 15","Before age 18"],c:0,e:"DMDD requires onset of symptoms before age 10."},
+{cat:"DMDD vs MDD vs IED vs ADHD",q:"Which disorder requires a chronological or developmental age of at least 6 years for diagnosis?",opts:["Intermittent Explosive Disorder","Major Depressive Disorder","Generalized Anxiety Disorder","Persistent Depressive Disorder"],c:0,e:"IED requires a minimum chronological or developmental age of 6 years."},
+{cat:"DMDD vs MDD vs IED vs ADHD",q:"Which of the following disorders is DMDD mutually exclusive with?",opts:["Bipolar Disorder","ADHD","Major Depressive Disorder","Substance Use Disorder"],c:0,e:"DMDD is mutually exclusive with ODD, IED, and bipolar disorder, but can coexist with ADHD, MDD, conduct disorder, and substance use disorder."},
+
+{cat:"School Accommodations",q:"Which type of educational plan typically includes individualized special education services and measurable goals?",opts:["An IEP","A 504 Plan","A Daily Report Card only","A classroom seating chart"],c:0,e:"An IEP under IDEA includes specialized instruction and measurable educational goals, beyond accommodations alone."},
+{cat:"School Accommodations",q:"Section 504 of the Rehabilitation Act is classified as what type of law?",opts:["A civil rights/anti-discrimination law","A special education law","A criminal statute","A tax code provision"],c:0,e:"Section 504 is a civil rights law, distinct from IDEA's special education framework."},
+
+{cat:"Mania Treatment",q:"Which medication, along with lithium, carries an FDA-approved indication specifically for prevention of recurrence of mania?",opts:["Aripiprazole","Fluoxetine","Sertraline","Guanfacine"],c:0,e:"Aripiprazole and lithium both carry FDA-approved indications for prevention of recurrence of mania."},
+{cat:"Mania Treatment",q:"Which lithium side effect may have more significant consequences in developing children than in adults?",opts:["Goiter/hypothyroidism","Mild, transient nausea","An occasional headache","Fine hand tremor"],c:0,e:"Goiter/hypothyroidism may have more significant consequences in developing children than in adults, per Dulcan."},
+
+{cat:"MDD Treatment",q:"Which treatment is recommended for Seasonal Affective Disorder specifically?",opts:["Morning bright white light therapy","Nighttime blue light exposure","Complete darkness therapy","UV tanning bed exposure"],c:0,e:"Morning bright white light therapy is the recommended treatment for seasonal affective disorder."},
+{cat:"MDD Treatment",q:"For nonpsychotic pediatric depression, medication is typically added to psychotherapy if there's no improvement within how many weeks?",opts:["4–6 weeks","1 week","6 months","1 year"],c:0,e:"Medication is added if symptoms don't improve within 4\u20136 weeks of psychotherapy for nonpsychotic depression."},
+
+{cat:"SSRI Activating Symptoms",q:"Which of the following is a recognized feature of Treatment-Emergent Activation Syndrome (TEAS)?",opts:["Hypomania","Bradycardia","Hypersomnia","Weight loss exclusively"],c:0,e:"Hypomania is one of the recognized features of TEAS, along with agitation, irritability, impulsivity, insomnia, and suicidality."},
+{cat:"SSRI Activating Symptoms",q:"The FDA black-box warning for antidepressants primarily addresses increased risk of what specific outcome in youth?",opts:["Suicidal thinking","Weight gain","Hypertension","Seizures"],c:0,e:"The black-box warning addresses a small but statistically significant increased risk of suicidal thinking in pediatric/young-adult populations."},
+
+{cat:"Antipsychotic Side Effects",q:"Which antipsychotic has the highest EPS rating in Dulcan's Table 17-5?",opts:["Haloperidol","Olanzapine","Quetiapine","Clozapine"],c:0,e:"Haloperidol, a first-generation antipsychotic, carries the highest (+++) EPS rating in Dulcan's table."},
+{cat:"Antipsychotic Side Effects",q:"Which antipsychotic carries the highest weight gain rating in Dulcan's Table 17-5, among the four covered in your study guide?",opts:["Olanzapine","Haloperidol","Paliperidone","Risperidone"],c:0,e:"Olanzapine has the highest (+++) weight gain rating among these four agents."},
+{cat:"Antipsychotic Side Effects",q:"Which two antipsychotics are tied for the highest prolactin elevation rating?",opts:["Risperidone and Paliperidone","Haloperidol and Olanzapine","Olanzapine and Risperidone","Haloperidol and Paliperidone"],c:0,e:"Risperidone and paliperidone are tied for the highest (+++) prolactin elevation rating."},
+
+{cat:"Schizotypal vs Schizophrenia vs Delusional",q:"How many of the 9 schizotypal criteria must be present for a diagnosis of Schizotypal Personality Disorder?",opts:["5","2","9","1"],c:0,e:"Schizotypal Personality Disorder requires 5 of the 9 specified criteria."},
+{cat:"Schizotypal vs Schizophrenia vs Delusional",q:"Which personality disorder cluster includes Schizotypal Personality Disorder?",opts:["Cluster A","Cluster B","Cluster C","None — it's not a personality disorder"],c:0,e:"Schizotypal PD is a Cluster A (odd/eccentric) personality disorder."},
+{cat:"Schizotypal vs Schizophrenia vs Delusional",q:"What is the minimum duration requirement for Delusional Disorder?",opts:["1 month","1 week","6 months","1 year"],c:0,e:"Delusional Disorder requires a minimum duration of 1 month."},
+
+{cat:"Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"What is the duration range for Schizophreniform Disorder?",opts:["1 to 6 months","1 day to 1 month","6 months to 1 year","2 to 5 years"],c:0,e:"Schizophreniform Disorder requires a duration of 1 to 6 months."},
+{cat:"Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"How many total months of continuous signs, including active-phase symptoms, are required for a diagnosis of Schizophrenia?",opts:["At least 6 months, including at least 1 month active-phase","At least 1 month total","At least 6 years","No minimum duration is required"],c:0,e:"Schizophrenia requires \u22656 months total duration, including \u22651 month of active-phase symptoms."},
+{cat:"Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"In Bipolar I Disorder with psychotic features, psychosis occurs specifically during which context?",opts:["During a manic and/or depressive episode","Independent of any mood episode","Only during euthymic periods","Only prior to the first mood episode"],c:0,e:"In BPAD I with psychotic features, delusions/hallucinations occur during manic and/or depressive episodes, not independently of mood."},
+
+{cat:"Antipsychotic Noncompliance",q:"Approximately what percentage of patients become nonadherent to long-term antipsychotic treatment within 1–2 years?",opts:["40–50%","5–10%","90–95%","Less than 1%"],c:0,e:"An estimated 40\u201350% of patients become nonadherent to antipsychotic treatment within 1\u20132 years."},
+{cat:"Antipsychotic Noncompliance",q:"For a patient with two or more psychotic episodes, what duration of maintenance treatment do most experts recommend?",opts:["Indefinite maintenance treatment","Exactly 1 year, then stop","1 month only","No maintenance treatment is needed"],c:0,e:"Most experts recommend indefinite maintenance treatment after two or more psychotic episodes."},
+
+{cat:"RAD",q:"RAD cannot be diagnosed before what developmental age?",opts:["9 months","2 years","5 years","Birth — there is no minimum"],c:0,e:"RAD cannot be diagnosed before a developmental age of 9 months, when focused attachment normally emerges."},
+{cat:"RAD",q:"What is the core, most effective treatment approach for RAD?",opts:["Placement in a nurturing environment with opportunity for secure attachment","SSRIs as first-line medication","Antipsychotic medication","Stimulant medication"],c:0,e:"The core treatment for RAD is placement in a nurturing environment where the child can form secure attachment."},
+{cat:"RAD",q:"Which of the following is a core symptom domain of RAD?",opts:["Failure to seek or respond to comfort from a preferred caregiver","Indiscriminate sociability with strangers","Restricted, repetitive interests","Hyperactive, impulsive behavior"],c:0,e:"A core RAD symptom is failing to seek or respond to comfort from a preferred caregiver."},
+
+{cat:"EBT for MDD",q:"IPT-A is typically how many weeks in duration?",opts:["Approximately 12 weeks","2 weeks","52 weeks","There is no fixed duration"],c:0,e:"IPT-A is a time-limited therapy, typically running approximately 12 weeks."},
+{cat:"EBT for MDD",q:"Which CBT component specifically addresses anhedonia and social withdrawal in adolescent MDD?",opts:["Behavioral activation","Cognitive restructuring","Exposure hierarchy","Thought-stopping"],c:0,e:"Behavioral activation increases engagement in rewarding activities to counter anergy, anhedonia, and social withdrawal."},
+
+{cat:"Cyclothymia vs PDD",q:"What is the minimum duration for Cyclothymic Disorder in adults?",opts:["2 years","1 year","6 months","5 years"],c:0,e:"Cyclothymic Disorder requires a minimum duration of 2 years in adults (1 year in children/adolescents)."},
+{cat:"Cyclothymia vs PDD",q:"What is the maximum symptom-free gap allowed for a diagnosis of Persistent Depressive Disorder?",opts:["2 months","6 months","1 month","No gap is allowed at all"],c:0,e:"PDD requires never being symptom-free for more than 2 months at a stretch during the qualifying period."},
+{cat:"Cyclothymia vs PDD",q:"Persistent Depressive Disorder requires depressed (or irritable, in children) mood plus how many additional symptoms from its list of 6?",opts:["2 or more","5 or more","All 6","None required beyond mood"],c:0,e:"PDD requires depressed mood plus 2 or more of the 6 additional listed symptoms."},
+
+{cat:"TD vs NMS",q:"Which lab finding is classic for Neuroleptic Malignant Syndrome?",opts:["Elevated creatine phosphokinase (CPK)","Low white blood cell count","Low glucose","Elevated TSH"],c:0,e:"Elevated CPK from muscle rigidity/breakdown is a classic NMS laboratory finding."},
+{cat:"TD vs NMS",q:"Tardive dyskinesia most classically presents with which type of movement?",opts:["Oro-buccal-lingual movements (chewing, lip-smacking, tongue protrusion)","Muscular rigidity and hyperthermia","Autonomic instability with diaphoresis","Acute laryngospasm"],c:0,e:"TD classically presents with involuntary oro-buccal-lingual movements."},
+
+{cat:"Akathisia vs Dystonic Reaction",q:"Which medication class is considered most effective first-line treatment for akathisia?",opts:["Beta-blockers (e.g., propranolol)","Anticholinergics as first choice","Stimulants","SSRIs"],c:0,e:"Beta-blockers, particularly propranolol, are considered the most effective first-line treatment for akathisia."},
+{cat:"Akathisia vs Dystonic Reaction",q:"Which population is noted as being at increased risk specifically for acute dystonic reactions?",opts:["Young men under 30","Middle-aged women","Only patients over 65","Only infants"],c:0,e:"Acute dystonic reactions are more common in young men under 30, especially on high-potency agents."},
+{cat:"Akathisia vs Dystonic Reaction",q:"What is the appropriate emergency treatment for an acute dystonic reaction?",opts:["IM/IV anticholinergic (e.g., benztropine or diphenhydramine)","Immediate antipsychotic dose increase","Oral beta-blocker only","No intervention needed, it resolves spontaneously"],c:0,e:"Acute dystonic reactions are treated emergently with IM/IV anticholinergics for rapid relief."},
+
+{cat:"Valproic Acid",q:"Which valproate side effect requires prompt evaluation with lipase and amylase due to its potentially fatal nature?",opts:["Pancreatitis","Mild sedation","Fine tremor","Simple hair loss"],c:0,e:"Valproate-associated pancreatitis is rare but potentially fatal, requiring prompt lipase/amylase evaluation if suspected."},
+{cat:"Valproic Acid",q:"Which valproate formulation is generally preferred over Depakene to reduce GI side effects?",opts:["Depakote (enteric-coated)","IV formulation exclusively","Liquid formulation exclusively","There is no preferred formulation"],c:0,e:"Depakote's enteric coating helps reduce GI side effects compared to Depakene."},
+{cat:"Valproic Acid",q:"Which serious valproate side effect can occur even with normal LFTs and a normal drug level?",opts:["Hyperammonemic encephalopathy","Simple hair loss","Mild sedation","Fine tremor"],c:0,e:"Hyperammonemic encephalopathy can occur despite normal LFTs and a normal serum valproate level."},
+
+{cat:"Lithium",q:"Which lithium side effect in children can lead to enuresis (bedwetting) if severe?",opts:["Polydipsia/polyuria","Fine tremor","Mild acne","Benign leukocytosis"],c:0,e:"Severe polydipsia/polyuria from lithium can lead to enuresis in children and can interfere with reaching a therapeutic level."},
+{cat:"Lithium",q:"Which class of medications, when combined with lithium, increases the risk of toxicity through reduced renal clearance?",opts:["NSAIDs","Antihistamines","Vitamin supplements","Topical steroids"],c:0,e:"NSAIDs, along with ACE inhibitors and thiazide diuretics, increase lithium levels by reducing renal clearance."},
+{cat:"Lithium",q:"Approximately what percentage of patients on lithium develop hypothyroidism?",opts:["7–8%","50%","0%","99%"],c:0,e:"Hypothyroidism occurs in about 7\u20138% of patients on lithium, roughly 9 times more common in women."},
+
+{cat:"Therapy for Anger/Anxiety",q:"Which therapy technique is the core, first-line intervention for pediatric OCD and phobias?",opts:["Exposure and Response Prevention (ERP)","Psychoanalysis","Play therapy exclusively","Hypnosis"],c:0,e:"ERP is the core evidence-based technique for pediatric OCD and phobias."},
+{cat:"Therapy for Anger/Anxiety",q:"Which therapy uses functional behavior analysis of Antecedents-Behaviors-Consequences (ABCs) to address aggression?",opts:["Behavior Therapy / Parent Management Training","Interpersonal Psychotherapy","Exposure and Response Prevention","Psychodynamic therapy"],c:0,e:"Behavior therapy/PMT uses ABC functional analysis to reduce aggressive and oppositional behavior."},
+
+{cat:"Play Therapy",q:"In play therapy, the therapist typically frames comments and questions around what element of the session?",opts:["The characters/story within the child's symbolic play","Direct confrontation of the child's stated feelings","Standardized test questions","The parent's perspective exclusively"],c:0,e:"Therapists use the metaphor of the child's symbolic play, basing comments on the play's characters rather than directly confronting the child's feelings."},
+{cat:"Play Therapy",q:"Cooperative, nurturing play themes with figures comforting one another most likely reflect which home environment?",opts:["Secure attachment / family getting along","Ongoing severe family conflict","Untreated trauma","Active psychosis"],c:0,e:"Nurturing, cooperative play themes reflect a home environment characterized by secure attachment."},
+
+{cat:"DBT and CBT Techniques",q:"Which DBT skills module is considered foundational, underlying the other three modules?",opts:["Mindfulness","Distress tolerance","Emotion regulation","Interpersonal effectiveness"],c:0,e:"Mindfulness is the foundational DBT skill underlying distress tolerance, emotion regulation, and interpersonal effectiveness."},
+{cat:"DBT and CBT Techniques",q:"Which DBT treatment mode provides brief crisis coaching between scheduled therapy sessions?",opts:["Telephone/skills coaching","Individual therapy","Group skills training","Therapist consultation team"],c:0,e:"Telephone/skills coaching offers brief real-time crisis coaching calls between sessions."}
+];
+
+let current=0, score=0, locked=false; const missed=[];
+
+function render(){
+  const card=document.getElementById('quizCard');
+  document.getElementById('qnum').textContent=current+1;
+  document.getElementById('scoretally').textContent=score+" correct";
+  document.getElementById('fill').style.width=(current/Q.length*100)+'%';
+  if(current>=Q.length){renderResults();return;}
+  const item=Q[current]; locked=false;
+  card.innerHTML=`<span class="cat-tag">${item.cat}</span><p class="qtext">${item.q}</p><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>`;
+  const optsDiv=document.getElementById('opts');
+  item.opts.forEach((t,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>select(i);optsDiv.appendChild(b);});
+}
+function select(i){
+  if(locked)return; locked=true;
+  const item=Q[current]; const opts=document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{o.classList.add('locked'); if(idx===item.c)o.classList.add('correct'); if(idx===i&&i!==item.c)o.classList.add('incorrect');});
+  const fb=document.getElementById('feedback'); fb.classList.add('show');
+  const right=i===item.c; if(right)score++; else missed.push(item);
+  fb.innerHTML=`<span class="verdict ${right?'right':'wrong'}">${right?"Correct.":"Not quite."}</span>${item.e}`;
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').onclick=()=>{current++;render();};
+}
+function renderResults(){
+  const card=document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML=`Done \u00b7 <b>${Q.length}</b> questions`;
+  const pct=Math.round(score/Q.length*100);
+  let mh = missed.length ? `<div class="missed"><h3>Reread just these:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>` : `<div class="missed"><h3>Clean sweep \u2014 nothing to reread.</h3></div>`;
+  card.innerHTML=`<div class="results"><div class="score">${score}/${Q.length}</div><div class="scoreline">${pct}% \u2014 ${pct>=80?"Exam-ready.":pct>=60?"Getting there.":"Worth a focused reread."}</div>${mh}<div class="navrow" style="justify-content:center;margin-top:16px;"><button class="btn ghost" onclick="restart()">Try again</button></div></div>`;
+}
+function restart(){current=0;score=0;missed.length=0;document.querySelector('.progress-label span:first-child').innerHTML=`Question <b id="qnum">1</b> of <span id="qtotal">${Q.length}</span>`;render();}
+(function(){
+  function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+  Q.forEach(item=>{const correctText=item.opts[item.c];shuffleArray(item.opts);item.c=item.opts.indexOf(correctText);});
+})();
+
+render();
+</script>
+</body>
+</html>
