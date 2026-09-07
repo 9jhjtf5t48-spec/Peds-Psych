@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 Exam 2 — Final Comprehensive Review (All 20 Topics)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1D2024; --paper:#EFF1EC; --card:#FFFFFF; --line:#D8DDD0;
+    --indigo:#3D4A2E; --indigo-deep:#28321E; --marigold:#7A9552; --marigold-deep:#5E793C;
+    --brick:#B0413E; --brick-bg:#FBEBEA; --sage:#5C7A63; --sage-bg:#EAF1EA; --muted:#585F52; --radius:14px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 12% 8%, rgba(122,149,82,0.12), transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(61,74,46,0.10), transparent 45%), var(--paper);
+    color:var(--ink); font-family:'IBM Plex Sans', sans-serif; min-height:100vh;
+    display:flex; justify-content:center; padding:26px 14px 60px;
+  }
+  .app{ width:100%; max-width:580px; }
+  .kicker{ font-size:12.5px; color:var(--indigo); font-weight:600; margin:0 0 6px; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(23px,5vw,29px); line-height:1.15; margin:0 0 8px; color:var(--indigo-deep); }
+  .sub{ font-size:14px; color:var(--muted); line-height:1.5; margin:0; max-width:54ch; }
+  .exam-note{
+    background:#F2F6EC; border:1px solid var(--marigold); border-radius:10px;
+    padding:12px 14px; margin-top:14px; font-size:12.5px; line-height:1.6; color:#33421F;
+  }
+  .exam-note b{ color:var(--marigold-deep); }
+  .progress-wrap{ margin:20px 0 22px; }
+  .progress-label{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:6px; }
+  .progress-label b{ color:var(--indigo-deep); }
+  .track{ height:6px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .fill{ height:100%; background:var(--marigold); border-radius:100px; width:0%; transition:width .4s ease; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px 22px 20px; }
+  .cat-tag{ display:inline-block; font-size:10.5px; font-weight:600; color:var(--indigo); background:#EBF0E3; border:1px solid --line; padding:3px 9px; border-radius:100px; margin-bottom:12px; line-height:1.5; }
+  .qtext{ font-family:'Fraunces', serif; font-weight:600; font-size:17px; line-height:1.42; margin:0 0 16px; }
+  .opts{ display:flex; flex-direction:column; gap:8px; }
+  .opt{ text-align:left; border:1.5px solid var(--line); background:#FFFEFC; border-radius:10px; padding:11px 13px; font-size:13.7px; color:var(--ink); cursor:pointer; transition:.15s; line-height:1.4; }
+  .opt:hover:not(.locked){ border-color:var(--indigo); background:#F1F4EA; }
+  .opt.correct{ border-color:var(--sage); background:var(--sage-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--brick); background:var(--brick-bg); }
+  .opt.locked{ cursor:default; }
+  .feedback{ margin-top:14px; padding:13px 15px; border-radius:10px; border:1px solid var(--line); background:#F9FAF7; font-size:13.5px; line-height:1.5; display:none; }
+  .feedback.show{ display:block; }
+  .verdict{ font-weight:600; margin-bottom:4px; display:block; }
+  .verdict.right{ color:var(--sage); } .verdict.wrong{ color:var(--brick); }
+  .navrow{ display:flex; justify-content:flex-end; margin-top:18px; }
+  .btn{ font-weight:600; font-size:14px; background:var(--indigo); color:#fff; border:none; border-radius:9px; padding:10px 20px; cursor:pointer; }
+  .btn:hover{ background:var(--indigo-deep); } .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--indigo); border:1.5px solid var(--indigo); }
+  .results{ text-align:center; }
+  .results .score{ font-family:'Fraunces', serif; font-weight:700; font-size:52px; color:var(--indigo-deep); margin:4px 0; }
+  .scoreline{ color:var(--muted); font-size:14px; margin-bottom:16px; }
+  .missed{ text-align:left; margin-top:8px; max-height:340px; overflow-y:auto; }
+  .missed h3{ font-size:13px; color:var(--muted); margin:0 0 8px; }
+  .missed li{ font-size:13px; margin-bottom:8px; }
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:20px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="app">
+  <p class="kicker">NURS 5230 · Exam 2 — Final Review, Night Before</p>
+  <h1>Comprehensive Review — All 20 Topics</h1>
+  <p class="sub">Every topic from your instructor's exact study guide, framed as direct clinical scenarios rather than trial-name recall.</p>
+  <div class="exam-note">
+    <b>Calibration note:</b> questions about MDD/DMDD treatment decisions are framed exactly like your instructor's own wording ("what do you do if...") — not "what did TADS/TORDIA show." The clinical content those trials established is still tested; the trial names themselves are not the focus.<br><br>
+    <b>Accuracy note:</b> 4 questions (on play therapy divorce/conflict themes and "modeling" for anxiety) were removed after an audit found they weren't directly verifiable against your actual assigned textbook chapters. Every remaining question traces back to a specific passage in Dulcan, Boland & Verduin, DSM-5, or Puzantian.<br><br>
+    <b>Bonus section added:</b> 5 extra questions at the very end name TADS/TORDIA directly, for extra practice on those specifics — since you mentioned you're not sure how much the exam will lean on the trial names themselves, these are clearly separated from the core 101.
+  </div>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">106</span></span><span id="scoretally">0 correct</span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div class="card" id="quizCard"></div>
+  <p class="footer-note">Missed questions are listed at the end so you can reread just those sections.</p>
+</div>
+<script>
+const Q = [
+{cat:"1. Treatment Decisions",q:"Your patient with MDD is doing well on a combination of CBT and fluoxetine. What should you do?",opts:["Continue the combination through an adequate duration — don't fix what isn't broken","Stop CBT since medication alone is always sufficient once response occurs","Switch to CBT alone to reduce medication burden","Immediately taper the medication since symptoms have improved"],c:0,e:"When a combination is working, continue it through an adequate duration, monitor for activation/suicidality, and maintain relapse-prevention planning."},
+{cat:"1. Treatment Decisions",q:"Your patient with DMDD is not improving despite ongoing psychotherapy. What should you consider?",opts:["Reassess the diagnosis (rule out untreated ADHD, undiagnosed MDD/PDD, medication-induced irritability); consider a stimulant if ADHD is comorbid, or risperidone/valproate for prominent aggression","Immediately start lithium as first-line","Discontinue all treatment since DMDD has no evidence-based options","Refer for ECT as the next step"],c:0,e:"No FDA-approved medication exists for DMDD. Reassessing the diagnosis first, then considering stimulants (if ADHD is present) or risperidone/valproate for aggression, is the appropriate next step."},
+{cat:"1. Treatment Decisions",q:"Your patient with MDD is not improving despite an adequate trial of fluoxetine (Prozac). What should you do?",opts:["Switch to a different SSRI or to venlafaxine, and add CBT","Increase the fluoxetine dose indefinitely with no ceiling","Add a benzodiazepine as monotherapy","Discontinue all treatment and reassess in 6 months"],c:0,e:"After a confirmed adequate trial fails, switching medication (another SSRI or venlafaxine) AND adding CBT produces better outcomes than a medication switch alone."},
+{cat:"1. Treatment Decisions",q:"What counts as an 'adequate trial' before concluding an SSRI has failed for adolescent MDD?",opts:["Adequate dose AND adequate duration (roughly 6\u20138 weeks) AND confirmed adherence","Any dose for 2 weeks, regardless of adherence","A single office visit with no further follow-up","The patient's subjective impression alone, regardless of dose or duration"],c:0,e:"An adequate trial requires confirming adequate dose, adequate duration, and confirmed adherence before concluding non-response."},
+
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"What is DMDD's required minimum outburst frequency?",opts:["\u22653 times per week","Once per month","Once per day exactly","No frequency requirement"],c:0,e:"DMDD requires temper outbursts occurring 3 or more times per week."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"What is DMDD's required age of onset?",opts:["Before age 10","Before age 5","After age 12","Before age 18"],c:0,e:"DMDD requires onset of symptoms before age 10, and is only diagnosed in ages 6\u201318."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"Which disorder requires a minimum chronological or developmental age of 6?",opts:["Intermittent Explosive Disorder","Major Depressive Disorder","Generalized Anxiety Disorder","Persistent Depressive Disorder"],c:0,e:"IED requires a minimum age of 6, chronological or developmental."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"Which condition is DMDD mutually exclusive with?",opts:["Bipolar Disorder","ADHD","MDD","Substance Use Disorder"],c:0,e:"DMDD is mutually exclusive with ODD, IED, and bipolar disorder specifically — but frequently coexists with ADHD, MDD, conduct disorder, and substance use disorder."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"A child has outbursts with entirely normal mood between episodes for the past 5 months. Which diagnosis fits?",opts:["Intermittent Explosive Disorder","DMDD","Bipolar II Disorder","Generalized Anxiety Disorder"],c:0,e:"Normal mood between outbursts is inconsistent with DMDD (which requires persistent irritability) and fits IED's low-intensity pathway instead."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"How many settings must DMDD's disturbance be severe in?",opts:["At least 1 of 2 (home, school, or peers)","At least 2 of 2","All settings","No setting requirement"],c:0,e:"DMDD requires severity in at least 1 of 2 settings — home, school, or with peers."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"How many settings must ADHD symptoms cause impairment in?",opts:["At least 2","Exactly 1","No settings are required","All settings"],c:0,e:"ADHD requires impairment in at least 2 settings — unlike DMDD's 1-of-2 requirement."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"Does bereavement automatically exclude an MDD diagnosis?",opts:["No, it no longer automatically excludes MDD","Yes, always, with no exceptions","Yes, but only for the first year","MDD and bereavement are unrelated"],c:0,e:"Bereavement no longer automatically excludes an MDD diagnosis if full criteria are otherwise met."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"What is ADHD's core problem, per the comparison table?",opts:["Inattention and/or hyperactivity-impulsivity","Chronic irritability with outbursts","Recurrent impulsive aggressive outbursts","Depressed mood with neurovegetative symptoms"],c:0,e:"ADHD's core problem is inattention and/or hyperactivity-impulsivity — it is explicitly NOT a mood disorder."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"Which conditions can IED coexist with?",opts:["ADHD, conduct disorder, ODD, and ASD (if outbursts exceed typical)","Only bipolar disorder","No other conditions","Only DMDD"],c:0,e:"IED can coexist with ADHD, conduct disorder, ODD, and ASD, specifically when outbursts exceed what's typical for those disorders."},
+{cat:"2. DMDD vs MDD vs IED vs ADHD",q:"Are IED's outbursts premeditated?",opts:["No — impulsive and anger-based, not premeditated for personal gain","Yes — always carefully planned","Only sometimes, depending on severity","IED outbursts are always premeditated"],c:0,e:"IED outbursts are impulsive and anger-based, explicitly not premeditated — this distinguishes them from planned Conduct Disorder aggression."},
+
+{cat:"3. School Accommodations",q:"Which legal framework provides accommodations WITHOUT specialized instruction?",opts:["Section 504 Plan","IEP under IDEA","Neither provides accommodations","A doctor's note alone"],c:0,e:"504 Plans provide accommodations; IEPs add specialized instruction and measurable educational goals."},
+{cat:"3. School Accommodations",q:"Section 504 is classified as what type of law?",opts:["A civil rights/anti-discrimination law","A special education law","A criminal statute","A tax provision"],c:0,e:"Section 504 of the Rehabilitation Act is a civil rights law, distinct from IDEA's special education framework."},
+{cat:"3. School Accommodations",q:"Which federal law provides the legal basis for an IEP specifically?",opts:["IDEA (Individuals with Disabilities Education Act)","Section 504 of the Rehabilitation Act","ADA Title III","FERPA"],c:0,e:"IEPs are grounded in IDEA, the special education law."},
+{cat:"3. School Accommodations",q:"A student needs specialized reading instruction due to a diagnosed learning disorder. What is most appropriate?",opts:["Referral for IEP evaluation","Simply adding accommodations to an existing 504 Plan","No formal pathway exists for this need","A verbal request to the teacher alone"],c:0,e:"Specialized instruction needs typically warrant IEP evaluation under IDEA, beyond what a 504 Plan alone provides."},
+
+{cat:"4. Mania Treatment",q:"Which medications, along with lithium, carry an FDA indication for prevention of recurrence of mania?",opts:["Aripiprazole","Fluoxetine","Sertraline","Guanfacine"],c:0,e:"Aripiprazole and lithium both carry FDA-approved indications for preventing recurrence of mania."},
+{cat:"4. Mania Treatment",q:"Why is combination therapy often needed in pediatric mania, unlike the usual monotherapy preference in pediatric psychopharmacology?",opts:["Youth show lower effect sizes with single mood-stabilizing agents than adults","Combination therapy has no side effects","Insurance requires combination therapy","No single agent has any evidence base"],c:0,e:"Youth show lower effect sizes with monotherapy mood stabilizers compared to adults, often necessitating combination approaches."},
+{cat:"4. Mania Treatment",q:"Which adjunct psychosocial treatment is specifically named for pediatric bipolar disorder?",opts:["Family-Focused Treatment for Adolescents (FFT-A)","Exposure and Response Prevention","Play therapy exclusively","Hypnotherapy"],c:0,e:"FFT-A, family psychoeducation, and child/family-focused CBT are named adjuncts for pediatric bipolar disorder."},
+{cat:"4. Mania Treatment",q:"Why are antidepressants generally avoided as monotherapy in pediatric bipolar depression?",opts:["Risk of precipitating a manic switch before a mood stabilizer is established","Antidepressants have no effect on any depression","They are contraindicated in all pediatric patients","Mood stabilizers eliminate any need to treat depression"],c:0,e:"Antidepressant monotherapy risks precipitating a manic switch if started before a mood stabilizer is in place."},
+{cat:"4. Mania Treatment",q:"How does bipolar DEPRESSION treatment compare to manic-phase treatment in terms of evidence and difficulty?",opts:["Bipolar depression treatment is harder, with more limited efficacy data","Bipolar depression treatment is simpler and better studied","Both phases are equally well studied","Bipolar depression requires no treatment"],c:0,e:"Bipolar depression treatment is harder than manic-phase treatment, with more limited efficacy data available."},
+{cat:"4. Mania Treatment",q:"Which atypical antipsychotic is often noted as effective and faster-acting for pediatric mania compared to mood stabilizers alone?",opts:["Risperidone","Fluoxetine","Buspirone","Clonidine"],c:0,e:"Risperidone has shown faster and more effective response than divalproex or lithium alone for early-age pediatric mania in comparative research."},
+
+{cat:"5. MDD Treatment",q:"Which two medications are FDA-approved for pediatric MDD?",opts:["Fluoxetine and escitalopram","Sertraline and paroxetine","Bupropion and venlafaxine","Lithium and valproate"],c:0,e:"Fluoxetine (age 8+) and escitalopram (age 12+) are the two FDA-approved medications for pediatric MDD."},
+{cat:"5. MDD Treatment",q:"For nonpsychotic depression, what is the recommended treatment sequence?",opts:["Psychotherapy first-line; medication added if no improvement in 4\u20136 weeks","Medication always first, regardless of severity","ECT as initial treatment","No treatment until age 18"],c:0,e:"Psychotherapy is typically first-line for nonpsychotic depression, with medication added if needed within 4\u20136 weeks."},
+{cat:"5. MDD Treatment",q:"For MORE SEVERE depression, what does Dulcan recommend as initial treatment?",opts:["Medication as initial treatment","Psychotherapy alone, always","Watchful waiting with no intervention","ECT exclusively, regardless of severity"],c:0,e:"For more severe depression, medication is indicated as initial treatment, unlike the psychotherapy-first approach for milder cases."},
+{cat:"5. MDD Treatment",q:"Which treatment is recommended specifically for Seasonal Affective Disorder?",opts:["Morning bright white light therapy","Nighttime blue light exposure","Complete darkness therapy","Tanning bed exposure"],c:0,e:"Morning bright white light therapy is the recommended treatment for seasonal affective disorder."},
+{cat:"5. MDD Treatment",q:"For severe/psychotic depression unresponsive to adequate pharmacotherapy, what should be considered?",opts:["ECT","Long-term benzodiazepine use","Immediate cessation of all treatment","Increased psychotherapy frequency only"],c:0,e:"ECT may be considered for severe, especially psychotic, depression unresponsive to adequate medication trials."},
+{cat:"5. MDD Treatment",q:"Approximately what percentage of mild-to-moderate pediatric depression responds to supportive treatment alone?",opts:["Up to 60%","Less than 5%","100%, without exception","0%"],c:0,e:"Up to 60% of mild-to-moderate depression responds to supportive treatment alone, per Dulcan."},
+
+{cat:"6. SSRI Activating Symptoms",q:"Which populations are noted as potentially more vulnerable to SSRI activation effects?",opts:["Children with ASD, brain injury, or undiagnosed bipolar disorder","Adults with well-controlled hypertension","Elderly patients with osteoarthritis only","Patients with seasonal allergies"],c:0,e:"These specific pediatric populations are noted as more vulnerable to CNS-activating SSRI effects."},
+{cat:"6. SSRI Activating Symptoms",q:"Which of the following is a recognized feature of TEAS (Treatment-Emergent Activation Syndrome)?",opts:["Hypomania","Bradycardia","Hypersomnia","Weight loss as primary feature"],c:0,e:"Hypomania is a recognized TEAS feature, along with agitation, irritability, impulsivity, insomnia, and suicidality."},
+{cat:"6. SSRI Activating Symptoms",q:"What does the FDA black-box warning for antidepressants primarily address?",opts:["A small but statistically significant increased risk of suicidal thinking in youth","A universal, guaranteed suicide risk in all patients","An identical risk across all age groups","A risk only after 2 years of treatment"],c:0,e:"The warning addresses a small but statistically significant increased suicidal thinking risk, based on pediatric/young-adult trial data."},
+{cat:"6. SSRI Activating Symptoms",q:"What is an appropriate response if TEAS is suspected in a patient on an SSRI?",opts:["Consider a dose decrease or discontinuation, with close monitoring for suicidality","Automatically double the dose","Ignore the symptoms since they always resolve on their own","Switch immediately to a benzodiazepine regardless of presentation"],c:0,e:"Appropriate management includes considering dose adjustment paired with close monitoring for suicidality and mood changes."},
+
+{cat:"7. Antipsychotic Side Effects",q:"Which antipsychotic has the highest EPS rating among Haldol, Paliperidone, Olanzapine, and Risperidone?",opts:["Haloperidol","Olanzapine","Paliperidone","Risperidone"],c:0,e:"Haloperidol, a first-generation antipsychotic, carries the highest EPS rating of this group."},
+{cat:"7. Antipsychotic Side Effects",q:"Which antipsychotic carries the highest weight gain AND diabetes/lipid risk rating?",opts:["Olanzapine","Haloperidol","Paliperidone","Risperidone"],c:0,e:"Olanzapine has the highest weight gain and diabetes/lipid risk ratings among these four."},
+{cat:"7. Antipsychotic Side Effects",q:"Which two antipsychotics are tied for highest prolactin elevation?",opts:["Risperidone and Paliperidone","Haloperidol and Olanzapine","Olanzapine and Risperidone","Haloperidol and Paliperidone"],c:0,e:"Risperidone and paliperidone are tied for the highest prolactin elevation rating of the four."},
+{cat:"7. Antipsychotic Side Effects",q:"Which antipsychotic causes more QTc prolongation than risperidone?",opts:["Paliperidone","Haloperidol","Olanzapine","None of these cause QTc prolongation"],c:0,e:"Paliperidone causes more QTc prolongation than risperidone, its parent compound."},
+{cat:"7. Antipsychotic Side Effects",q:"Which antipsychotic's OROS tablet formulation carries a rare GI obstruction risk in patients with strictures?",opts:["Paliperidone","Haloperidol","Risperidone","Olanzapine"],c:0,e:"Paliperidone's non-deformable OROS shell can rarely cause GI obstructive symptoms in patients with strictures."},
+{cat:"7. Antipsychotic Side Effects",q:"Which serious reaction (rash, fever, lymphadenopathy, eosinophilia) is associated with olanzapine?",opts:["DRESS syndrome","Stevens-Johnson syndrome","Anaphylaxis","Serotonin syndrome"],c:0,e:"DRESS syndrome is a rare but serious reaction associated with olanzapine."},
+{cat:"7. Antipsychotic Side Effects",q:"All first-generation antipsychotics carry which TD risk level compared to second-generation agents?",opts:["Moderate risk, vs. low risk for SGAs","Low risk, vs. moderate risk for SGAs","Identical risk to SGAs","No TD risk at all"],c:0,e:"FGAs carry moderate TD risk while SGAs carry low TD risk overall."},
+{cat:"7. Antipsychotic Side Effects",q:"Which antipsychotic is often favored as first-choice for first-episode psychosis, given its overall tolerability balance?",opts:["Risperidone","Haloperidol","Olanzapine","Paliperidone"],c:0,e:"Risperidone is often favored for first-episode psychosis given a more balanced overall tolerability profile."},
+
+{cat:"8. Schizotypal vs Schizophrenia vs Delusional",q:"How many of the 9 schizotypal criteria are required for diagnosis?",opts:["5","2","9","1"],c:0,e:"Schizotypal Personality Disorder requires 5 of the 9 specified criteria."},
+{cat:"8. Schizotypal vs Schizophrenia vs Delusional",q:"Which personality disorder cluster includes Schizotypal PD?",opts:["Cluster A","Cluster B","Cluster C","Not a personality disorder"],c:0,e:"Schizotypal PD is a Cluster A (odd/eccentric) personality disorder."},
+{cat:"8. Schizotypal vs Schizophrenia vs Delusional",q:"What is the minimum duration for Delusional Disorder?",opts:["1 month","1 week","6 months","1 year"],c:0,e:"Delusional Disorder requires a minimum duration of 1 month."},
+{cat:"8. Schizotypal vs Schizophrenia vs Delusional",q:"In Delusional Disorder, functioning outside the delusion's direct impact is typically:",opts:["Not markedly impaired","Severely and globally impaired","Impossible to assess","Worse than in Schizophrenia"],c:0,e:"Delusional Disorder patients typically function well outside the delusion's direct impact, unlike Schizophrenia."},
+{cat:"8. Schizotypal vs Schizophrenia vs Delusional",q:"Which feature distinguishes ideas of reference (schizotypal) from delusions of reference (schizophrenia)?",opts:["Ideas of reference are held with less conviction, not reaching delusional intensity","They are identical","Ideas of reference only occur in schizophrenia","Delusions require no hallucinations to be present"],c:0,e:"Ideas of reference are held with less conviction than true delusions and do not reach delusional intensity."},
+
+{cat:"9. Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"What is Schizophreniform Disorder's duration range?",opts:["1 to 6 months","1 day to 1 month","6 months to 1 year","2 to 5 years"],c:0,e:"Schizophreniform Disorder requires a duration of 1 to 6 months."},
+{cat:"9. Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"What total duration is required for Schizophrenia, including active-phase symptoms?",opts:["\u22656 months total, incl. \u22651 month active-phase","\u22651 month total","\u22656 years","No minimum duration"],c:0,e:"Schizophrenia requires \u22656 months total duration, including \u22651 month of active-phase symptoms."},
+{cat:"9. Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"In BPAD I with psychotic features, when does psychosis occur?",opts:["During a manic and/or depressive episode","Independent of any mood episode","Only during euthymic periods","Only before the first mood episode"],c:0,e:"In BPAD I with psychotic features, psychosis occurs during manic and/or depressive episodes, not independently."},
+{cat:"9. Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"What proportion of schizophreniform patients recover without progressing to schizophrenia?",opts:["About 1/3","About 90%","0%","100%"],c:0,e:"Roughly 1/3 of schizophreniform patients recover; most others are eventually diagnosed with schizophrenia or schizoaffective disorder."},
+{cat:"9. Schizophreniform vs Schizophrenia vs Delusional vs BPAD1",q:"If a BPAD I patient's delusions persist 8 weeks after full mood episode resolution, what should be reconsidered?",opts:["Schizoaffective disorder or schizophrenia","Continuing BPAD I unchanged","Automatically diagnosing Delusional Disorder","No reconsideration is needed"],c:0,e:"Persistent psychosis well beyond mood episode resolution is inconsistent with BPAD I with psychotic features."},
+
+{cat:"10. Antipsychotic Noncompliance",q:"Approximately what percentage of patients become nonadherent within 1\u20132 years?",opts:["40\u201350%","5\u201310%","90\u201395%","Less than 1%"],c:0,e:"An estimated 40\u201350% of patients become nonadherent to antipsychotic treatment within 1\u20132 years."},
+{cat:"10. Antipsychotic Noncompliance",q:"For a patient with 2+ psychotic episodes, what duration of maintenance treatment do most experts recommend?",opts:["Indefinite maintenance treatment","Exactly 1 year, then stop","1 month only","No maintenance treatment is needed"],c:0,e:"Most experts recommend indefinite maintenance treatment after 2 or more psychotic episodes."},
+{cat:"10. Antipsychotic Noncompliance",q:"Which strategy directly addresses a clinician not knowing when oral doses are missed?",opts:["Switching to a long-acting injectable (LAI)","Increasing the oral dose","Adding a second oral medication","Discontinuing all treatment"],c:0,e:"LAIs let the clinician know relatively quickly when a dose is missed, unlike daily oral dosing."},
+{cat:"10. Antipsychotic Noncompliance",q:"For a patient after a FIRST psychotic episode achieving remission, how long should maintenance treatment continue?",opts:["At least 1 year","Stop immediately at remission","1 month only","Indefinitely, with no distinction from repeat episodes"],c:0,e:"Guidelines recommend at least 1 year of maintenance treatment after remission of a first psychotic episode — repeat episodes warrant indefinite treatment instead."},
+
+{cat:"11. RAD",q:"RAD cannot be diagnosed before what developmental age?",opts:["9 months","2 years","5 years","No minimum age"],c:0,e:"RAD cannot be diagnosed before a developmental age of 9 months, when focused attachment normally emerges."},
+{cat:"11. RAD",q:"What is the core, most effective treatment for RAD?",opts:["Placement in a nurturing environment with opportunity for secure attachment","SSRIs as first-line","Antipsychotic medication","Stimulant medication"],c:0,e:"The core treatment for RAD is a nurturing environment supporting secure attachment; no medication targets core symptoms."},
+{cat:"11. RAD",q:"Which of these is a core symptom domain of RAD?",opts:["Failure to seek or respond to comfort from a preferred caregiver","Indiscriminate sociability with strangers","Restricted, repetitive interests","Hyperactive, impulsive behavior"],c:0,e:"Failing to seek/respond to comfort from a preferred caregiver is a core RAD symptom, distinguishing it from DSED."},
+{cat:"11. RAD",q:"Which of the following is one of RAD's three qualifying etiologic patterns?",opts:["Repeated changes of primary caregivers","A single instance of appropriate discipline","Consistent warm caregiving from one parent","Enrollment in quality daycare"],c:0,e:"Repeated changes of primary caregivers is one of DSM-5's three qualifying etiologic patterns for RAD."},
+{cat:"11. RAD",q:"Which finding would be inconsistent with a diagnosis of RAD?",opts:["Onset of symptoms after age 5","A documented history of social neglect","Reduced positive affect","Minimal response to comfort from a preferred caregiver"],c:0,e:"RAD has onset before age 5 — symptom onset after age 5 would be inconsistent with the diagnosis."},
+
+{cat:"12. EBT for MDD",q:"Which therapy is based on the premise that depression occurs within an interpersonal framework?",opts:["IPT-A","Standard CBT","DBT","ERP"],c:0,e:"IPT-A is built on the premise that depression occurs within an interpersonal framework, addressing role transitions and conflicts."},
+{cat:"12. EBT for MDD",q:"Which CBT component addresses anhedonia and social withdrawal in adolescent MDD?",opts:["Behavioral activation","Cognitive restructuring","Exposure hierarchy","Thought-stopping"],c:0,e:"Behavioral activation increases engagement in rewarding activities to counter anhedonia and withdrawal."},
+{cat:"12. EBT for MDD",q:"In CBT for adolescent MDD, what role do parents typically play?",opts:["Coaches for between-session assignments","No role at all","Sole decision-makers for treatment","Co-therapists delivering CBT content"],c:0,e:"Parents typically act as coaches for between-session behavioral assignments."},
+{cat:"12. EBT for MDD",q:"Which population characteristic makes IPT-A most likely to be effective?",opts:["Depression as the primary diagnosis with minimal comorbidity","Depression with extensive, complex comorbidity","Complete absence of interpersonal stressors","Onset only in early childhood"],c:0,e:"IPT-A works best when depression is the primary diagnosis with minimal comorbidity."},
+
+{cat:"13. Cyclothymia vs PDD",q:"What is the minimum duration for Cyclothymic Disorder in adults?",opts:["2 years","1 year","6 months","5 years"],c:0,e:"Cyclothymic Disorder requires \u22652 years in adults (\u22651 year in children/adolescents)."},
+{cat:"13. Cyclothymia vs PDD",q:"What is the maximum symptom-free gap allowed for PDD?",opts:["2 months","6 months","1 month","No gap allowed"],c:0,e:"PDD requires never being symptom-free for more than 2 months at a stretch."},
+{cat:"13. Cyclothymia vs PDD",q:"Which disorder specifically requires that full episode criteria have NEVER been met?",opts:["Cyclothymic Disorder","Persistent Depressive Disorder","Both equally","Neither"],c:0,e:"Cyclothymic Disorder requires that criteria for a full major depressive, manic, or hypomanic episode have never been met."},
+{cat:"13. Cyclothymia vs PDD",q:"What does 'double depression' refer to?",opts:["A full MDD episode occurring within a chronic PDD course","Two unrelated depressive disorders diagnosed simultaneously","A depressive episode of double normal duration","A misdiagnosis requiring correction"],c:0,e:"\"Double depression\" describes a full MDD episode occurring within an ongoing chronic PDD course."},
+{cat:"13. Cyclothymia vs PDD",q:"Which mood presentation can substitute for 'depressed mood' in a child being evaluated for PDD?",opts:["Irritable mood","Euphoric mood","Anxious mood exclusively","No substitution is allowed"],c:0,e:"Irritable mood can substitute for depressed mood in children being evaluated for PDD, similar to the MDD criteria."},
+
+{cat:"14. TD vs NMS",q:"Which lab finding is classic for NMS?",opts:["Elevated creatine phosphokinase (CPK)","Low white blood cell count","Low glucose","Elevated TSH"],c:0,e:"Elevated CPK from muscle rigidity/breakdown is classic for NMS."},
+{cat:"14. TD vs NMS",q:"How quickly does NMS typically evolve, compared to TD?",opts:["24\u201372 hours for NMS; months to years for TD","Both evolve over an identical 24\u201372 hour window","TD evolves faster than NMS","Neither has a characteristic time course"],c:0,e:"NMS is an acute emergency evolving over 24\u201372 hours; TD develops slowly over months to years."},
+{cat:"14. TD vs NMS",q:"Which movement pattern is classic for TD?",opts:["Oro-buccal-lingual movements (chewing, lip-smacking)","Lead-pipe muscular rigidity","Autonomic instability with diaphoresis","Acute laryngospasm"],c:0,e:"TD classically presents with involuntary oro-buccal-lingual movements."},
+{cat:"14. TD vs NMS",q:"Which medication class is FDA-approved first-line specifically for TD?",opts:["VMAT2 inhibitors (valbenazine, deutetrabenazine)","Beta-blockers","Anticholinergics","Benzodiazepines"],c:0,e:"Valbenazine and deutetrabenazine, both VMAT2 inhibitors, are FDA-approved first-line for TD."},
+{cat:"14. TD vs NMS",q:"Which management step for TD is discouraged because it only masks symptoms and worsens the underlying problem?",opts:["Increasing the antipsychotic dose","Switching to a lower-EPS-liability SGA","Using the AIMS scale for monitoring","Considering valbenazine"],c:0,e:"Increasing the antipsychotic dose can temporarily mask TD symptoms but worsens the underlying receptor supersensitivity over time."},
+
+{cat:"15. Akathisia vs Dystonic Reaction",q:"Which medication class is most effective first-line for akathisia?",opts:["Beta-blockers (e.g., propranolol)","Anticholinergics as first choice","Stimulants","SSRIs"],c:0,e:"Beta-blockers, particularly propranolol, are most effective first-line for akathisia."},
+{cat:"15. Akathisia vs Dystonic Reaction",q:"Which population is at increased risk for acute dystonic reactions?",opts:["Young men under 30","Middle-aged women","Only patients over 65","Only infants"],c:0,e:"Acute dystonic reactions are more common in young men under 30, especially on high-potency agents."},
+{cat:"15. Akathisia vs Dystonic Reaction",q:"What is the appropriate emergency treatment for acute dystonia?",opts:["IM/IV anticholinergic (benztropine or diphenhydramine)","Immediate antipsychotic dose increase","Oral beta-blocker only","No intervention needed"],c:0,e:"Acute dystonic reactions are treated emergently with IM/IV anticholinergics."},
+{cat:"15. Akathisia vs Dystonic Reaction",q:"Which population is specifically noted as increased risk for AKATHISIA (not dystonia)?",opts:["Middle-aged women","Young men under 30","Only children under 10","Only patients over 90"],c:0,e:"Middle-aged women are noted as an increased-risk population specifically for akathisia."},
+{cat:"15. Akathisia vs Dystonic Reaction",q:"Why is untreated akathisia clinically significant beyond the discomfort itself?",opts:["It's associated with poor treatment outcome and adherence","It has no significance beyond discomfort","It always resolves spontaneously","It only matters in elderly patients"],c:0,e:"Untreated akathisia is associated with poor treatment outcome and adherence — patients may stop medication due to unexplained restlessness."},
+
+{cat:"16. Valproic Acid",q:"Which valproate side effect is idiosyncratic and highest-risk in children under 2?",opts:["Hepatotoxicity","Fine tremor","Mild sedation","Hair loss"],c:0,e:"Valproate hepatotoxicity is rare, idiosyncratic (NOT dose-related), and highest-risk in children under 2."},
+{cat:"16. Valproic Acid",q:"What should be checked if a patient on valproate develops severe abdominal pain with nausea/vomiting?",opts:["Lipase and amylase, for possible pancreatitis","Only a repeat CBC","Only a chest X-ray","No workup is needed"],c:0,e:"Valproate-associated pancreatitis is rare but potentially fatal, warranting prompt lipase/amylase evaluation."},
+{cat:"16. Valproic Acid",q:"Which valproate complication can occur despite normal LFTs and a normal drug level?",opts:["Hyperammonemic encephalopathy","Simple hair loss","Fine tremor","Mild sedation"],c:0,e:"Hyperammonemic encephalopathy can occur even with normal LFTs and normal valproate levels — check ammonia specifically."},
+{cat:"16. Valproic Acid",q:"Which valproate side effect is dose-related, reversible, and monitored via CBC with platelets?",opts:["Thrombocytopenia","Hepatotoxicity","Teratogenicity","Pancreatitis"],c:0,e:"Thrombocytopenia is dose-related and reversible, monitored via CBC with platelets."},
+{cat:"16. Valproic Acid",q:"What should be done if a patient on valproate develops significant hair loss?",opts:["Reassure the patient it is usually reversible; some clinicians add zinc/selenium supplementation","Immediately and permanently discontinue valproate","Refer for emergency dermatologic evaluation","Ignore the concern entirely"],c:0,e:"Hair loss on valproate is usually reversible; reassurance is appropriate, with zinc/selenium supplementation sometimes added."},
+
+{cat:"17. Lithium",q:"What is the target lithium level for maintenance therapy?",opts:["0.6\u20131.0 mEq/L","0.2\u20130.4 mEq/L","1.5\u20132.0 mEq/L","2.5\u20133.0 mEq/L"],c:0,e:"Maintenance lithium therapy targets 0.6\u20131.0 mEq/L."},
+{cat:"17. Lithium",q:"Which baseline labs should be checked before starting lithium?",opts:["TSH/T4, BUN/creatinine, electrolytes, pregnancy test","Only a CBC","Only a urinalysis","No baseline labs are needed"],c:0,e:"Baseline labs include TSH/T4, BUN/creatinine, electrolytes, and pregnancy test, plus ECG if cardiac risk factors are present."},
+{cat:"17. Lithium",q:"Which medication class increases lithium toxicity risk through reduced renal clearance?",opts:["NSAIDs, ACE inhibitors, and thiazide diuretics","Antihistamines","Topical steroids","Acetaminophen"],c:0,e:"\"No ACE in the hole\" — NSAIDs, ACE inhibitors, and thiazide diuretics increase lithium levels."},
+{cat:"17. Lithium",q:"Approximately what percentage of patients on lithium develop hypothyroidism?",opts:["7\u20138%, more common in women","50%, more common in men","Less than 1%","Nearly 100%"],c:0,e:"Hypothyroidism occurs in about 7\u20138% of lithium patients, roughly 9x more common in women."},
+{cat:"17. Lithium",q:"Which renal side effect can occur with chronic lithium use, often reversible on discontinuation?",opts:["Nephrogenic diabetes insipidus","Acute renal failure in all patients","Permanent, irreversible renal failure","No renal side effects occur"],c:0,e:"Nephrogenic diabetes insipidus is usually reversible on discontinuation, or treatable with HCTZ/amiloride."},
+{cat:"17. Lithium",q:"What unique clinical benefit does lithium offer beyond mood stabilization?",opts:["Documented anti-suicide effects in both bipolar and unipolar mood disorders","Complete elimination of other medications' side effects","Guaranteed absence of any side effects","No monitoring requirements"],c:0,e:"Lithium has documented anti-suicide effects in both bipolar and unipolar mood disorders, a unique advantage."},
+
+{cat:"18. Therapy for Anger and Anxiety",q:"Which technique is the core first-line intervention for pediatric OCD and phobias?",opts:["Exposure and Response Prevention (ERP)","Psychoanalysis","Play therapy exclusively","Hypnosis"],c:0,e:"ERP is the core evidence-based technique for pediatric OCD and phobias."},
+{cat:"18. Therapy for Anger and Anxiety",q:"Which therapy uses functional behavior analysis (Antecedents-Behaviors-Consequences)?",opts:["Behavior Therapy / Parent Management Training","Interpersonal Psychotherapy","Exposure and Response Prevention","Psychodynamic therapy"],c:0,e:"Behavior therapy/PMT uses ABC functional analysis to address aggressive/oppositional behavior."},
+{cat:"18. Therapy for Anger and Anxiety",q:"Which therapy is specifically indicated for severe emotional dysregulation with self-injury or suicidality, beyond standard CBT?",opts:["Dialectical Behavior Therapy (DBT/DBT-A)","Play therapy alone","Standard psychoanalysis","Aversive conditioning"],c:0,e:"DBT/DBT-A is specifically indicated for severe emotional dysregulation involving self-injury or suicidality."},
+
+{cat:"19. Play Therapy",q:"How does the therapist typically approach a child's difficult feelings in play therapy?",opts:["Through the metaphor of the child's symbolic play, not direct confrontation","By directly telling the child their feelings","By ending the session when hard themes emerge","By avoiding discussion of the play entirely"],c:0,e:"Therapists use the metaphor of symbolic play rather than direct confrontation of feelings."},
+
+{cat:"20. DBT and CBT Techniques",q:"Which DBT skill teaches surviving a crisis without making things worse?",opts:["Distress tolerance","Mindfulness","Emotion regulation","Interpersonal effectiveness"],c:0,e:"Distress tolerance teaches surviving crisis moments without resorting to self-harm or maladaptive behavior."},
+{cat:"20. DBT and CBT Techniques",q:"Which DBT module is considered foundational, underlying the other three?",opts:["Mindfulness","Distress tolerance","Emotion regulation","Interpersonal effectiveness"],c:0,e:"Mindfulness is the foundational DBT skill underlying the other three modules."},
+{cat:"20. DBT and CBT Techniques",q:"Which CBT technique increases engagement in rewarding activities to counter anergy?",opts:["Behavioral activation","Cognitive restructuring","Exposure and Response Prevention","Thought-stopping"],c:0,e:"Behavioral activation increases engagement in rewarding activities to counter anergy and anhedonia."},
+{cat:"20. DBT and CBT Techniques",q:"Which DBT treatment mode provides brief crisis coaching between sessions?",opts:["Telephone/skills coaching","Individual therapy","Group skills training","Therapist consultation team"],c:0,e:"Telephone/skills coaching provides brief real-time crisis coaching between scheduled sessions."},
+{cat:"20. DBT and CBT Techniques",q:"Which CBT technique identifies and challenges negative automatic thoughts?",opts:["Cognitive restructuring","Behavioral activation","Exposure hierarchy","Relaxation training exclusively"],c:0,e:"Cognitive restructuring specifically targets negative automatic thoughts, replacing them with balanced self-statements."},
+
+{cat:"EXTRA — TADS & TORDIA Specifics",q:"In the TADS trial, which arm produced the fastest and most robust improvement in adolescent MDD?",opts:["Fluoxetine + CBT combined","CBT alone","Placebo","Fluoxetine + lithium"],c:0,e:"Combined treatment worked fastest; fluoxetine alone also beat CBT alone/placebo, but combination had a particular edge in mild-to-moderate depression."},
+{cat:"EXTRA — TADS & TORDIA Specifics",q:"In TADS, how did CBT alone compare to placebo at 12 weeks?",opts:["CBT alone did not significantly separate from placebo","CBT alone was dramatically superior to placebo","CBT alone was superior to fluoxetine alone","CBT alone worked faster than combination therapy"],c:0,e:"CBT alone did not significantly separate from placebo at the 12-week mark, unlike fluoxetine (with or without CBT)."},
+{cat:"EXTRA — TADS & TORDIA Specifics",q:"Which SSRI did the TORDIA trial predominantly use for its 'switch to a different SSRI' treatment arm?",opts:["Citalopram","Sertraline","Paroxetine","Escitalopram"],c:0,e:"TORDIA's 'switch to a different SSRI' arm predominantly used citalopram, as an alternative to venlafaxine."},
+{cat:"EXTRA — TADS & TORDIA Specifics",q:"Per TORDIA, which combination showed the best outcomes for adolescents with treatment-resistant depression?",opts:["Switching medication (SSRI or venlafaxine) AND adding CBT","Increasing the original SSRI dose alone, with no other changes","Switching to CBT alone, discontinuing all medication","Adding a benzodiazepine to the existing SSRI"],c:0,e:"TORDIA found that adding CBT to either medication switch was more effective than a medication switch alone."},
+{cat:"EXTRA — TADS & TORDIA Specifics",q:"Between switching to a second SSRI and switching to venlafaxine in TORDIA, which had a more favorable side-effect profile?",opts:["A second SSRI, with fewer side effects than venlafaxine","Venlafaxine, with fewer side effects than a second SSRI","Both had identical side-effect burdens","Neither option caused any measurable side effects"],c:0,e:"No efficacy difference was found between the two switch options, but venlafaxine caused more side effects, making an SSRI switch generally preferred."}
+];
+
+let current=0, score=0, locked=false; const missed=[];
+
+(function(){
+  function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+  Q.forEach(item=>{const correctText=item.opts[item.c];shuffleArray(item.opts);item.c=item.opts.indexOf(correctText);});
+})();
+
+function render(){
+  const card=document.getElementById('quizCard');
+  document.getElementById('qnum').textContent=current+1;
+  document.getElementById('scoretally').textContent=score+" correct";
+  document.getElementById('fill').style.width=(current/Q.length*100)+'%';
+  if(current>=Q.length){renderResults();return;}
+  const item=Q[current]; locked=false;
+  card.innerHTML=`<span class="cat-tag">${item.cat}</span><p class="qtext">${item.q}</p><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>`;
+  const optsDiv=document.getElementById('opts');
+  item.opts.forEach((t,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>select(i);optsDiv.appendChild(b);});
+}
+function select(i){
+  if(locked)return; locked=true;
+  const item=Q[current]; const opts=document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{o.classList.add('locked'); if(idx===item.c)o.classList.add('correct'); if(idx===i&&i!==item.c)o.classList.add('incorrect');});
+  const fb=document.getElementById('feedback'); fb.classList.add('show');
+  const right=i===item.c; if(right)score++; else missed.push(item);
+  fb.innerHTML=`<span class="verdict ${right?'right':'wrong'}">${right?"Correct.":"Not quite."}</span>${item.e}`;
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').onclick=()=>{current++;render();};
+}
+function renderResults(){
+  const card=document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML=`Done \u00b7 <b>${Q.length}</b> questions`;
+  const pct=Math.round(score/Q.length*100);
+  let mh = missed.length ? `<div class="missed"><h3>Reread just these before tomorrow:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>` : `<div class="missed"><h3>Clean sweep \u2014 you're ready.</h3></div>`;
+  card.innerHTML=`<div class="results"><div class="score">${score}/${Q.length}</div><div class="scoreline">${pct}% \u2014 ${pct>=80?"Exam-ready across all 20 topics. Good luck tomorrow.":pct>=60?"Solid — target the missed list below tonight.":"Worth a full review pass using the missed list below before tomorrow."}</div>${mh}<div class="navrow" style="justify-content:center;margin-top:16px;"><button class="btn ghost" onclick="restart()">Try again</button></div></div>`;
+}
+function restart(){current=0;score=0;missed.length=0;document.querySelector('.progress-label span:first-child').innerHTML=`Question <b id="qnum">1</b> of <span id="qtotal">${Q.length}</span>`;render();}
+render();
+</script>
+</body>
+</html>
