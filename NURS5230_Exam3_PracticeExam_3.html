@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 — Exam 3 Practice Exam</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #4a5568;
+    --paper: #faf8f3;
+    --paper-line: #e4dfd3;
+    --rule: #c9c0aa;
+    --navy: #1f3864;
+    --navy-deep: #142544;
+    --clinical-teal: #0e6b64;
+    --correct: #1e6b3e;
+    --correct-bg: #e7f3ea;
+    --incorrect: #a3312a;
+    --incorrect-bg: #faeae8;
+    --amber: #9a6b12;
+    --amber-bg: #fbf1de;
+    --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #eae6da;
+      --ink-soft: #b7b1a0;
+      --paper: #171a1f;
+      --paper-line: #2a2f38;
+      --rule: #3c4250;
+      --navy: #6f8fc9;
+      --navy-deep: #0e1620;
+      --clinical-teal: #5fb8ac;
+      --correct: #7fce9a;
+      --correct-bg: #163325;
+      --incorrect: #e69890;
+      --incorrect-bg: #3a1e1c;
+      --amber: #e0b258;
+      --amber-bg: #3a2f16;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #eae6da; --ink-soft: #b7b1a0; --paper: #171a1f; --paper-line: #2a2f38;
+    --rule: #3c4250; --navy: #6f8fc9; --navy-deep: #0e1620; --clinical-teal: #5fb8ac;
+    --correct: #7fce9a; --correct-bg: #163325; --incorrect: #e69890; --incorrect-bg: #3a1e1c;
+    --amber: #e0b258; --amber-bg: #3a2f16;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--font-sans);
+  }
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+
+  .masthead {
+    background: var(--navy-deep);
+    color: #f2efe6;
+    padding: 22px 24px 18px;
+    border-bottom: 4px solid var(--clinical-teal);
+  }
+  .masthead-inner {
+    max-width: 760px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  }
+  .masthead h1 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; margin: 0; font-weight: 600; letter-spacing: 0.2px;
+  }
+  .masthead .sub {
+    font-size: 0.82rem; color: #c7cede; margin-top: 4px; font-family: var(--font-sans);
+  }
+  .exam-badge {
+    font-family: var(--font-sans); font-size: 0.72rem; color: var(--navy-deep);
+    background: #d9c896; padding: 4px 10px; border-radius: 2px; white-space: nowrap;
+    font-weight: 600;
+  }
+
+  main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  /* progress rail */
+  .progress-rail { margin-bottom: 22px; }
+  .progress-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 8px; }
+  .progress-track { height: 6px; background: var(--paper-line); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--clinical-teal); transition: width 0.25s ease; }
+  .score-chip { font-variant-numeric: tabular-nums; }
+
+  /* landing */
+  .landing { text-align: left; }
+  .landing h2 { font-family: var(--font-serif); font-size: 1.6rem; margin: 0 0 10px; }
+  .landing p { color: var(--ink-soft); line-height: 1.6; max-width: 58ch; }
+  .landing .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px; margin: 22px 0 28px; padding: 18px; background: var(--navy-deep);
+    border-radius: 3px; color: #f2efe6;
+  }
+  .meta-item .num { font-family: var(--font-serif); font-size: 1.5rem; color: #d9c896; display: block; }
+  .meta-item .label { font-size: 0.74rem; color: #c7cede; text-transform: none; }
+
+  /* question card */
+  .case-card {
+    border: 1px solid var(--paper-line);
+    background: color-mix(in srgb, var(--paper) 96%, var(--ink) 4%);
+    border-radius: 2px;
+    padding: 22px 22px 6px;
+    margin-bottom: 18px;
+  }
+  .case-label {
+    font-size: 0.72rem; letter-spacing: 0.3px; color: var(--clinical-teal);
+    font-weight: 600; margin-bottom: 10px;
+  }
+  .vignette {
+    font-family: var(--font-serif); font-size: 1.08rem; line-height: 1.62;
+    color: var(--ink); margin-bottom: 16px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .question-stem { font-size: 1rem; font-weight: 600; margin-bottom: 16px; line-height: 1.5; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .option {
+    display: flex; align-items: flex-start; gap: 12px;
+    border: 1px solid var(--rule); border-radius: 2px;
+    padding: 12px 14px; cursor: pointer; background: var(--paper);
+    transition: border-color 0.15s ease, background 0.15s ease;
+    font-size: 0.96rem; line-height: 1.45;
+  }
+  .option:hover:not(.locked) { border-color: var(--navy); }
+  .option .letter {
+    font-family: var(--font-serif); font-weight: 700; color: var(--navy);
+    flex-shrink: 0; width: 22px;
+  }
+  .option.selected:not(.locked) { border-color: var(--navy); background: color-mix(in srgb, var(--navy) 8%, var(--paper)); }
+  .option.locked { cursor: default; }
+  .option.correct-answer { border-color: var(--correct); background: var(--correct-bg); }
+  .option.correct-answer .letter { color: var(--correct); }
+  .option.wrong-answer { border-color: var(--incorrect); background: var(--incorrect-bg); }
+  .option.wrong-answer .letter { color: var(--incorrect); }
+  .option-tag { margin-left: auto; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+  .option-tag.correct-tag { background: var(--correct); color: #fff; }
+  .option-tag.wrong-tag { background: var(--incorrect); color: #fff; }
+
+  .submit-row { display: flex; justify-content: flex-end; margin-bottom: 18px; }
+  .btn {
+    font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600;
+    padding: 10px 22px; border-radius: 2px; border: none; cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.05s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--navy-deep); }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1px solid var(--rule); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--navy); }
+  .btn-wide { width: 100%; }
+
+  .rationale {
+    border-top: 1px dashed var(--rule); margin-top: 4px; padding: 16px 0 20px;
+    animation: fadein 0.25s ease;
+  }
+  @keyframes fadein { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  .rationale-verdict { font-weight: 700; font-size: 0.92rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .rationale-verdict.is-correct { color: var(--correct); }
+  .rationale-verdict.is-incorrect { color: var(--incorrect); }
+  .verdict-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .verdict-dot.dot-correct { background: var(--correct); }
+  .verdict-dot.dot-incorrect { background: var(--incorrect); }
+  .rationale-text { font-size: 0.94rem; line-height: 1.6; color: var(--ink-soft); }
+  .rationale-tag { font-size: 0.72rem; color: var(--clinical-teal); font-weight: 600; margin-bottom: 8px; display: block; }
+
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center; margin-top: 8px;
+  }
+  .nav-row .spacer { flex: 1; }
+
+  /* summary screen */
+  .summary { text-align: left; }
+  .summary h2 { font-family: var(--font-serif); font-size: 1.8rem; margin: 0 0 6px; }
+  .score-hero {
+    display: flex; align-items: baseline; gap: 14px; margin: 20px 0 6px;
+    padding: 24px; background: var(--navy-deep); border-radius: 3px; color: #f2efe6;
+  }
+  .score-hero .big { font-family: var(--font-serif); font-size: 3rem; color: #d9c896; line-height: 1; }
+  .score-hero .pct { font-size: 1.1rem; color: #c7cede; }
+  .summary-note { color: var(--ink-soft); font-size: 0.9rem; margin: 14px 0 26px; line-height: 1.6; }
+
+  .topic-table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+  .topic-table th, .topic-table td {
+    text-align: left; padding: 9px 10px; font-size: 0.88rem;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .topic-table th { color: var(--ink-soft); font-weight: 600; font-size: 0.76rem; }
+  .topic-table td.num-col { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bar-cell { display: flex; align-items: center; gap: 8px; }
+  .bar-track { flex: 1; height: 6px; background: var(--paper-line); border-radius: 3px; overflow: hidden; min-width: 60px; }
+  .bar-fill { height: 100%; background: var(--clinical-teal); }
+  .bar-fill.weak { background: var(--incorrect); }
+
+  .review-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+  .review-item {
+    border: 1px solid var(--paper-line); border-left: 3px solid var(--incorrect);
+    padding: 12px 14px; border-radius: 2px; font-size: 0.88rem; cursor: pointer;
+    background: color-mix(in srgb, var(--paper) 96%, var(--ink) 4%);
+  }
+  .review-item .q-num { color: var(--incorrect); font-weight: 700; margin-right: 6px; }
+  .review-item .q-topic { color: var(--ink-soft); font-size: 0.78rem; }
+
+  .jump-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 20px 0 8px; }
+  .jump-dot {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: center; font-size: 0.72rem;
+    cursor: pointer; background: var(--paper); color: var(--ink-soft); flex-shrink: 0;
+  }
+  .jump-dot.answered-correct { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .jump-dot.answered-incorrect { background: var(--incorrect); border-color: var(--incorrect); color: #fff; }
+  .jump-dot.current { outline: 2px solid var(--navy); outline-offset: 2px; }
+
+  footer { text-align: center; padding: 18px; font-size: 0.74rem; color: var(--ink-soft); }
+
+  @media (max-width: 520px) {
+    .masthead h1 { font-size: 1.2rem; }
+    .vignette { font-size: 1rem; }
+    .score-hero .big { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <h1>NURS 5230 — Exam 3 Practice Exam</h1>
+      <div class="sub">Anxiety, OCD & Related, and Trauma- and Stressor-Related Disorders.</div>
+    </div>
+    <div class="exam-badge">Practice Exam 3 of 3</div>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<footer>NURS 5230 &middot; Exam 3 Prep &middot; 50 vignette-style items &middot; Not a substitute for course materials</footer>
+
+<script>
+const QUESTIONS = [{"topic":"Trauma Victim S/Sx","vignette":"A 12-year-old boy who survived a school shooting now has intense psychological distress and sweating whenever he hears a loud bang, and he has become unable to feel happiness even during activities he used to enjoy.","question":"His physiologic reactivity to trauma cues and inability to experience positive emotions best represent which two symptom clusters, respectively?","options":["Avoidance; Arousal","Intrusion; Negative alterations in mood","Arousal; Avoidance","Negative alterations in mood; Intrusion"],"correct":1,"rationale":"Marked physiologic reactivity to trauma cues is an intrusion symptom (Criterion B); persistent inability to experience positive emotions is a negative alteration in mood (Criterion D)."},{"topic":"Trauma Victim S/Sx","vignette":"A 4-year-old who experienced a traumatic medical procedure now repeatedly reenacts the procedure using her stuffed animals during play, appearing distressed each time.","question":"What is the clinical significance of this repetitive play?","options":["It is unrelated to trauma and simply reflects imagination","It represents the developmentally appropriate expression of intrusive trauma memories in young children","It indicates the child has a primary thought disorder","It should be actively discouraged by caregivers immediately"],"correct":1,"rationale":"Repetitive, trauma-themed reenactment play is the developmentally appropriate way young children express intrusive memories (Criterion B), rather than verbalizing them directly as older children or adults might."},{"topic":"Trauma Victim S/Sx","vignette":"A teenager exposed to a violent home invasion now has frequent angry outbursts, exaggerated startle to sudden movements, and trouble concentrating in school, alongside recurrent unwanted memories of the event.","question":"Which two symptom clusters are represented by the angry outbursts/poor concentration versus the recurrent unwanted memories, respectively?","options":["Avoidance; Negative mood","Arousal and reactivity; Intrusion","Intrusion; Arousal and reactivity","Negative mood; Avoidance"],"correct":1,"rationale":"Angry outbursts, exaggerated startle, and poor concentration are arousal/reactivity symptoms (Criterion E); recurrent unwanted memories are intrusion symptoms (Criterion B)."},{"topic":"PTSD S/Sx and Triggers","vignette":"A 9-year-old with PTSD after a hurricane becomes inconsolable and clings to her mother whenever it starts raining heavily, even though she cannot explain her distress.","question":"What clinical concept best explains this reaction?","options":["A conditioned trauma trigger activating an intrusion/arousal response","Malingering to avoid going outside","A new, unrelated specific phobia of rain with no trauma connection","Normal developmental fear of weather with no clinical significance"],"correct":0,"rationale":"Heavy rain is a plausible trauma reminder following a hurricane; this represents a trigger activating an intrusion/arousal response, even without the child's full conscious recognition of the connection."},{"topic":"PTSD S/Sx and Triggers","vignette":"A clinician explains that in young children, being triggered often does not present as a clear verbal statement of fear.","question":"Which presentation is most consistent with a triggered response in a young child?","options":["A calm, detailed verbal description of the traumatic memory","Sudden meltdown, freezing, aggression, or somatic complaints like a stomachache","A completely flat, unaffected demeanor with no behavioral change","Improved academic performance"],"correct":1,"rationale":"In children, triggered responses often manifest behaviorally — meltdowns, freezing, aggression, clinging, or somatic complaints — rather than a clearly stated verbal expression of fear, especially in younger children with limited verbal capacity to articulate the experience."},{"topic":"PTSD and Substance Use","vignette":"A 17-year-old with PTSD following a violent assault has begun using alcohol nightly, stating it helps her stop replaying the assault in her mind before sleep.","question":"Which underlying mechanism best explains this pattern?","options":["Primary alcohol use disorder with no relationship to her PTSD","The self-medication hypothesis, in which PTSD symptoms drive substance use as a coping mechanism","Evidence that her trauma history is fabricated","A normal, low-risk adolescent behavior requiring no further assessment"],"correct":1,"rationale":"Using alcohol specifically to suppress intrusive trauma memories reflects the self-medication hypothesis, in which PTSD symptoms (intrusion, hyperarousal, insomnia) drive substance use as a maladaptive coping strategy."},{"topic":"PTSD and Substance Use","vignette":"A prescriber is choosing a treatment approach for an adolescent with PTSD and a co-occurring substance use disorder who is ambivalent about discussing trauma details.","question":"Which feature makes Seeking Safety particularly appropriate for this patient?","options":["It requires an immediate, detailed trauma narrative before any coping skills are taught","It is present-focused and does not require detailed trauma narrative work, fitting patients not yet ready for exposure","It is designed exclusively for adults with no adolescent adaptation","It treats only the substance use component and ignores PTSD symptoms entirely"],"correct":1,"rationale":"Seeking Safety is present-focused and specifically does not require a detailed trauma narrative, making it appropriate for patients ambivalent or not yet ready to engage in trauma-focused exposure work, while still addressing both PTSD and substance use."},{"topic":"PTSD in the School Setting","vignette":"A trauma-exposed 13-year-old has begun missing school frequently and receiving disciplinary referrals for disruptive behavior, which the school interprets as defiance.","question":"What is the most appropriate initial recommendation to the school?","options":["Immediate expulsion for repeated disruptive behavior","Psychoeducation for teachers/staff, with family consent, so behaviors are understood as trauma reactions rather than defiance","No communication with the school regarding the trauma history under any circumstances","Recommending the student be held back a grade"],"correct":1,"rationale":"Providing psychoeducation to school staff (with family consent) helps reframe disruptive behaviors as trauma reactions rather than willful defiance, which is a foundational trauma-informed school recommendation before other supports are considered."},{"topic":"PTSD in the School Setting","vignette":"A PMHNP is asked about a specific evidence-based intervention that can be delivered in a group format during the school day for trauma-exposed students with limited outpatient access.","question":"Which intervention best fits this description?","options":["EMDR delivered one-on-one only","CBITS (Cognitive-Behavioral Intervention for Trauma in Schools)","Inpatient hospitalization","Long-term individual psychoanalysis"],"correct":1,"rationale":"CBITS is specifically designed as a school-day, group-delivered adaptation of TF-CBT, ideal when outpatient therapy access is limited or trauma exposure is community/school-wide."},{"topic":"PTSD Recommended Therapies","vignette":"A therapist is using bilateral stimulation, such as guided eye movements, while the patient briefly holds a trauma memory in mind, to facilitate adaptive reprocessing.","question":"Which therapy modality is being described?","options":["Trauma-Focused CBT","EMDR (Eye Movement Desensitization and Reprocessing)","Seeking Safety","Motivational Interviewing"],"correct":1,"rationale":"EMDR uses bilateral stimulation (eye movements, taps, or tones) while briefly holding the trauma memory in mind, to facilitate adaptive reprocessing of the traumatic memory; it is evidence-based across age groups."},{"topic":"PTSD Recommended Therapies","vignette":"A prescriber notes that effective pediatric trauma therapies consistently include one particular feature regardless of the specific model used.","question":"What feature is most consistently shared across effective pediatric trauma therapy models?","options":["Exclusion of the caregiver from all treatment sessions","Caregiver/family involvement, including screening and treating the caregiver's own trauma symptoms","Reliance on medication as the primary intervention","Avoidance of any discussion of the traumatic event"],"correct":1,"rationale":"Family/caregiver involvement is a consistent feature across effective pediatric trauma therapy models (TF-CBT, CPP, CBITS, etc.), including screening and treating the caregiver's own trauma symptoms, since parental symptoms predict worse child outcomes."},{"topic":"PTSD Recommended Therapies","vignette":"A 10-year-old boy exposed to war-related violence as a refugee is being considered for a structured trauma therapy model designed specifically for this population.","question":"Which model is most specifically suited to this population?","options":["Narrative Exposure Therapy (KidNET)","Standard outpatient talk therapy with no trauma-specific structure","Applied Behavior Analysis","Group therapy focused solely on social skills"],"correct":0,"rationale":"Narrative Exposure Therapy (KidNET) is specifically designed for children exposed to war or refugee-related trauma, making it the most appropriate specialized model for this population."},{"topic":"What is Trauma-Focused Therapy","vignette":"A supervisor asks a trainee to distinguish trauma-focused therapy from a generic supportive therapy approach for a child with PTSD.","question":"What is the key distinguishing feature of trauma-focused therapy?","options":["It never involves building rapport with the child","It directly and explicitly processes the traumatic experience and its psychological aftermath","It focuses exclusively on medication management","It avoids any discussion of safety or stabilization"],"correct":1,"rationale":"Trauma-focused therapy is distinguished by directly and explicitly addressing the traumatic experience and its aftermath (through stabilization, titrated processing, and correcting trauma-related distortions), rather than only providing general rapport-building or coping support."},{"topic":"What is Trauma-Focused Therapy","vignette":"On an exam, a vignette describes a school-age child receiving therapy that includes psychoeducation, relaxation training, cognitive processing, and a trauma narrative, with conjoint parent sessions.","question":"This description corresponds to which specific trauma-focused therapy?","options":["Trauma-Focused CBT (TF-CBT)","Standard supportive counseling","Applied Behavior Analysis","Motivational Interviewing"],"correct":0,"rationale":"This description maps directly onto the PRACTICE components of TF-CBT: Psychoeducation, Relaxation, Affective modulation, Cognitive processing, Trauma narrative, In-vivo mastery, Conjoint sessions, and Enhancing safety."},{"topic":"Trauma Narratives","vignette":"A therapist has spent several sessions helping a child build coping and relaxation skills before finally beginning to help the child construct a detailed account of the traumatic event.","question":"What is this detailed account, developed with therapist support, called within TF-CBT?","options":["The safety plan","The trauma narrative","The behavior chart","The family genogram"],"correct":1,"rationale":"The trauma narrative is the specific TF-CBT component in which the child, with therapist support, develops a detailed verbal, written, drawn, or play-based account of the traumatic event(s) and associated thoughts/feelings."},{"topic":"Trauma Narratives","vignette":"During trauma narrative development, a child's therapist notices the child believes the traumatic event was her own fault.","question":"Which TF-CBT component would most directly address this distorted belief?","options":["Relaxation training","Cognitive processing, to identify and correct the distorted self-blame","Enhancing safety alone","In-vivo mastery of trauma reminders"],"correct":1,"rationale":"Cognitive processing, part of the trauma narrative work, is specifically used to identify and correct trauma-related cognitive distortions such as self-blame, helping the child develop a more accurate understanding of the event."},{"topic":"PTSD vs Acute Stress Disorder","vignette":"A 16-year-old was in a school lockdown situation involving an active threat 2 weeks ago and now has intrusive memories, avoidance, dissociation, and sleep disturbance causing clinically significant distress.","question":"Which diagnosis best fits, based on the timeline described?","options":["PTSD, because the symptoms are already severe","Acute Stress Disorder, because the timeline falls within the 3-day to 1-month window","Adjustment Disorder","Specific Phobia"],"correct":1,"rationale":"At 2 weeks post-trauma, the appropriate diagnosis is Acute Stress Disorder, since PTSD cannot be diagnosed until symptoms have persisted beyond 1 month, regardless of symptom severity."},{"topic":"PTSD vs Acute Stress Disorder","vignette":"A clinician is teaching that both PTSD and Acute Stress Disorder share the same underlying trigger requirement.","question":"What is this shared Criterion A trauma exposure requirement?","options":["Any stressful life event, regardless of severity","Exposure to actual or threatened death, serious injury, or sexual violence, via direct experience, witnessing, or learning it happened to a close family member/friend","A diagnosis of a chronic medical illness only","Exposure to mild interpersonal conflict"],"correct":1,"rationale":"Both PTSD and Acute Stress Disorder require the same Criterion A trauma exposure — actual or threatened death, serious injury, or sexual violence, experienced directly, witnessed, or learned about happening to a close family member or friend."},{"topic":"PTSD vs Acute Stress Disorder","vignette":"A prescriber explains that if a patient's Acute Stress Disorder symptoms are still present and significant at the 6-week mark after the trauma, the diagnosis should be updated.","question":"What is the appropriate updated diagnosis at this point?","options":["The diagnosis remains Acute Stress Disorder indefinitely","PTSD, since the 1-month duration threshold has been exceeded","Generalized Anxiety Disorder","No diagnosis, since Acute Stress Disorder always resolves by 6 weeks"],"correct":1,"rationale":"When symptoms persist beyond the 1-month threshold, the diagnosis converts from Acute Stress Disorder to PTSD; this is an expected and recognized diagnostic transition."},{"topic":"Nightmares — Medication","vignette":"A 12-year-old with well-managed PTSD continues to have distressing, function-impairing nightmares despite consistent engagement in TF-CBT and good sleep hygiene.","question":"Which medication would be the most appropriate next step, given the specific symptom being targeted?","options":["Prazosin, given its targeted evidence for trauma-related nightmares","A stimulant medication","An antihistamine as first-line for nightmares","A mood stabilizer as first-line for nightmares"],"correct":0,"rationale":"Prazosin has the best-known targeted evidence specifically for trauma-related nightmares among the medication options, making it the most appropriate next step in a case where nightmares persist despite adequate psychotherapy."},{"topic":"Nightmares — Medication","vignette":"A prescriber initiates prazosin for a child's trauma-related nightmares and educates the family on important safety monitoring.","question":"What should the family be specifically counseled to monitor for?","options":["Signs of orthostatic hypotension, such as dizziness upon standing","Signs of hyperglycemia","Signs of hyperthyroidism","Signs of tardive dyskinesia"],"correct":0,"rationale":"Prazosin is an alpha-1 antagonist that can cause orthostatic hypotension; families should be counseled to monitor for dizziness or lightheadedness upon standing, particularly during initiation and titration."},{"topic":"Divorcing Parents / Adjustment Disorder","vignette":"A 12-year-old develops irritability and mild anxiety within 6 weeks of her parents announcing their divorce, causing some distress but not meeting full criteria for an anxiety or mood disorder, and the presentation is expected to improve once the family situation stabilizes.","question":"Which diagnosis and treatment approach best fit this presentation?","options":["Persistent depressive disorder; long-term SSRI treatment","Adjustment disorder; time-limited, present-focused family therapy","Bipolar II disorder; mood stabilizer","Generalized anxiety disorder; benzodiazepine as first-line"],"correct":1,"rationale":"Distress arising within 3 months of an identifiable stressor, not meeting criteria for another specific disorder, and expected to be time-limited fits adjustment disorder; family therapy addressing the disrupted family system and communication is the best-fit approach."},{"topic":"Divorcing Parents / Adjustment Disorder","vignette":"A family therapist notices that whenever the divorcing parents are in session together, one parent repeatedly interrupts and blames the other, escalating tension each time.","question":"Which structured technique would most directly reduce this escalating pattern?","options":["Allowing the pattern to continue without intervention","A talking stick or similar rule ensuring only the current speaker may talk without interruption","Immediately terminating all joint sessions permanently","Increasing session length to allow more time for arguing"],"correct":1,"rationale":"A structured communication rule such as a talking stick directly addresses interrupting and escalating conflict by ensuring only the person holding the object may speak while others listen without interrupting."},{"topic":"Talking Stick Basics","vignette":"A clinician explains that using a talking stick is not itself a formal, named psychotherapy model but rather a practical technique used within a broader treatment approach.","question":"Within which broader treatment context is the talking stick technique most commonly applied?","options":["Individual cognitive-behavioral therapy for specific phobia","Family or group therapy, as a structured communication ground rule","Pharmacologic management visits","Neuropsychological testing sessions"],"correct":1,"rationale":"The talking stick is a practical, structured communication ground rule used within family or group therapy, not a standalone named psychotherapy model, helping manage turn-taking and reduce chaotic communication."},{"topic":"Grounding vs Desensitization","vignette":"A therapist notices a patient becoming overwhelmed and dissociative mid-session and immediately shifts to having the patient describe the texture of the chair and notice their breathing.","question":"What is the primary clinical goal of this in-the-moment intervention?","options":["To begin processing the trauma memory directly","To stabilize the patient by reorienting them to present-moment safety","To assess for a co-occurring psychotic disorder","To end the therapeutic relationship"],"correct":1,"rationale":"This is a grounding technique used to stabilize an overwhelmed or dissociating patient by reorienting attention to present-moment sensory input; it is not intended to process the trauma memory in that moment."},{"topic":"Grounding vs Desensitization","vignette":"A clinician explains that attempting exposure-based trauma processing before a patient has developed adequate self-regulation skills carries a specific clinical risk.","question":"What is that risk?","options":["The patient will develop tolerance to the therapy too quickly","The patient may become overwhelmed or retraumatized","The patient will require a higher medication dose","There is no meaningful risk to sequencing"],"correct":1,"rationale":"Introducing exposure-based techniques such as desensitization before a patient has stabilization/grounding skills in place risks overwhelming the patient or causing retraumatization, which is why stabilization work precedes trauma processing."},{"topic":"Separation vs Social Anxiety","vignette":"An 8-year-old refuses to attend a friend's overnight birthday party, has repeated nightmares about something happening to his parents, and develops physical complaints whenever separation from his mother is anticipated, though he is comfortable at school as long as he knows pickup will happen as planned.","question":"Which diagnosis is most consistent with this presentation?","options":["Social Anxiety Disorder","Separation Anxiety Disorder","Generalized Anxiety Disorder","Panic Disorder"],"correct":1,"rationale":"The anxiety centers specifically on separation from attachment figures (fear of harm to parents, distress anticipating separation), with adequate functioning otherwise, consistent with Separation Anxiety Disorder."},{"topic":"Separation vs Social Anxiety","vignette":"A 12-year-old refuses to answer questions in class or work in small groups, fearing classmates will laugh at her, and this fear persists even though her best friend, who she trusts completely, sits beside her in every class.","question":"Which diagnosis is most consistent with this presentation?","options":["Separation Anxiety Disorder","Social Anxiety Disorder","Selective Mutism","Specific Phobia"],"correct":1,"rationale":"The anxiety persists despite a trusted friend's presence and centers on fear of social judgment/scrutiny, which is the defining feature of Social Anxiety Disorder rather than Separation Anxiety Disorder."},{"topic":"Separation vs Social Anxiety","vignette":"A prescriber is comparing the typical age of onset for Separation Anxiety Disorder versus Social Anxiety Disorder.","question":"Which statement is most accurate?","options":["Both disorders typically begin in late adolescence","Separation Anxiety Disorder typically begins around school entry; Social Anxiety Disorder tends to begin in adolescence","Social Anxiety Disorder typically begins in infancy, before separation anxiety","Both disorders have identical, indistinguishable ages of onset"],"correct":1,"rationale":"Separation Anxiety Disorder typically has its onset around school entry (early/middle childhood), while Social Anxiety Disorder tends to begin somewhat later, in adolescence."},{"topic":"Social Anxiety Dx and Therapy","vignette":"A 14-year-old with social anxiety disorder and her family are exploring treatment options, and the family specifically asks about the evidence for combining structured social skills practice with graded exposure.","question":"Which treatment model specifically combines these elements and has shown superiority over medication alone in trials?","options":["Social Effectiveness Therapy for Children (SET-C)","Applied Behavior Analysis","EMDR","Seeking Safety"],"correct":0,"rationale":"SET-C combines graded exposure with social skills training and outperformed fluoxetine alone and placebo in a head-to-head trial, supporting psychotherapy as first-line treatment for pediatric social anxiety disorder."},{"topic":"Social Anxiety Dx and Therapy","vignette":"A prescriber is considering medication options for an adolescent with severe social anxiety disorder who has had an inadequate response to CBT alone.","question":"Which class of medication has the best evidence base for this indication?","options":["Benzodiazepines as first-line","SSRIs, such as fluoxetine, fluvoxamine, or sertraline","Stimulants","Mood stabilizers"],"correct":1,"rationale":"SSRIs (fluoxetine, fluvoxamine, sertraline) have the best evidence base for pediatric social anxiety disorder when medication is indicated, while benzodiazepines lack controlled efficacy evidence in youth."},{"topic":"Panic Disorder Dx","vignette":"A 15-year-old experiences a sudden episode of chest tightness, dizziness, tingling in her hands, and a fear of dying, peaking within several minutes while she was calmly watching television with no identifiable trigger.","question":"Which feature is most important in classifying this as an unexpected panic attack?","options":["The presence of chest tightness specifically","The absence of an identifiable external trigger despite a calm baseline situation","The fact that it occurred while watching television","The presence of tingling in her hands"],"correct":1,"rationale":"An unexpected panic attack, by definition, occurs without an apparent trigger or in situations not typically associated with anxiety; the absence of an identifiable cause during a calm activity is the key classifying feature for Panic Disorder."},{"topic":"Panic Disorder Dx","vignette":"A clinician explains that a single panic attack does not meet criteria for Panic Disorder unless a second requirement is also met.","question":"What is that second requirement?","options":["The attack must occur exactly twice within 24 hours","At least 1 month of persistent worry about additional attacks or significant related behavior change following the attack","The attack must be witnessed by a medical professional","The patient must be over age 18"],"correct":1,"rationale":"Criterion B requires that at least one attack be followed by at least 1 month of persistent concern about additional attacks, worry about their consequences, or significant maladaptive behavior change — this is what elevates an isolated attack to a disorder."},{"topic":"Panic Disorder Dx","vignette":"A 16-year-old with recurrent unexpected panic attacks has begun avoiding crowded places, public transportation, and being outside alone, fearing she could not escape or get help if an attack occurred.","question":"Which additional diagnosis is most likely co-occurring, based on this avoidance pattern?","options":["Selective Mutism","Agoraphobia","Separation Anxiety Disorder","Obsessive-Compulsive Disorder"],"correct":1,"rationale":"Fear/avoidance of multiple situations (crowds, public transit, being outside alone) due to concern about difficulty escaping or getting help is characteristic of Agoraphobia, which is a distinct DSM-5 diagnosis that frequently co-occurs with Panic Disorder."},{"topic":"Selective Mutism","vignette":"A 5-year-old boy speaks normally with his parents and siblings at home but has been completely silent at preschool for 4 months, despite normal hearing and language testing, and appears visibly anxious when peers or teachers attempt to engage him.","question":"Which diagnosis is most consistent with this presentation?","options":["Autism Spectrum Disorder","Selective Mutism","Expressive Language Disorder","Intellectual Disability"],"correct":1,"rationale":"Consistent failure to speak in a specific setting (school) despite normal speech elsewhere, with normal language ability, duration beyond 1 month, and visible anxiety are all consistent with Selective Mutism, an anxiety disorder in DSM-5."},{"topic":"Selective Mutism","vignette":"A family asks whether their child's selective mutism is related to a completely separate, unrelated diagnostic category from anxiety disorders.","question":"What is the most accurate response?","options":["Selective mutism is unrelated to anxiety and reflects a primary communication disorder only","Selective mutism is classified as an anxiety disorder and is thought by many experts to represent an early childhood manifestation of social anxiety","Selective mutism is a form of autism spectrum disorder","Selective mutism always indicates a hearing impairment"],"correct":1,"rationale":"Selective mutism is classified as an anxiety disorder in DSM-5, and many experts view it as an early childhood manifestation of social anxiety, given the strong clinical overlap and family history patterns."},{"topic":"Insomnia Treatment","vignette":"A 9-year-old has developed difficulty falling asleep over several months, and her parents ask about starting a prescription sleep aid, since they read online it would work quickly.","question":"What is the most appropriate initial counseling point?","options":["Prescription sedative-hypnotics are recommended for chronic use in children and should be started immediately","Behavioral/sleep hygiene interventions are first-line, and sedative-hypnotics are not recommended for chronic use in youth","Antipsychotics are the preferred first-line sleep medication in children","No intervention is appropriate until the child is an adult"],"correct":1,"rationale":"Behavioral and sleep hygiene interventions are first-line for pediatric insomnia; sedative-hypnotics are not recommended for chronic use in children due to limited evidence and risk of paradoxical activation."},{"topic":"Insomnia Treatment","vignette":"After consistent sleep hygiene measures fail to resolve a child's insomnia, the family asks about melatonin as a next step.","question":"What is the most accurate counseling point regarding melatonin in this context?","options":["Melatonin has FDA approval specifically for pediatric insomnia and is the gold-standard first choice","Melatonin is the best-supported pharmacologic option for short-term use, though it lacks formal FDA approval for pediatric insomnia","Melatonin is contraindicated in all children under 12","Melatonin should replace behavioral interventions entirely going forward"],"correct":1,"rationale":"Melatonin is the best-supported pharmacologic option for short-term pediatric insomnia with a favorable side-effect profile, though no medication, including melatonin, currently has formal FDA approval for this specific indication in children."},{"topic":"OCD Dx and Medications","vignette":"A 13-year-old spends over 2 hours daily on symmetry-related compulsions and arranging objects, causing significant distress and interference with schoolwork, and he has already tried 8 weeks of CBT with ERP with only minimal improvement.","question":"What is the most appropriate next step?","options":["Discontinue all treatment, since CBT failed","Consider adding an FDA-approved SSRI such as sertraline, fluoxetine, or fluvoxamine, since CBT alone with ERP has shown insufficient benefit","Recommend inpatient hospitalization as the only remaining option","Switch immediately to clomipramine as first-line, bypassing SSRIs entirely"],"correct":1,"rationale":"When ERP alone provides insufficient benefit, adding an FDA-approved SSRI (sertraline, fluoxetine, or fluvoxamine) is appropriate; combination CBT plus medication is the most effective approach per the POTS trial, and clomipramine is typically reserved for treatment-resistant cases due to its side-effect profile."},{"topic":"OCD Dx and Medications","vignette":"A prescriber is explaining to a family why OCD medication doses and trial durations often differ from those used for depression.","question":"What is the most accurate explanation?","options":["OCD requires lower doses and shorter trials than depression","OCD generally requires higher SSRI doses and a longer trial period (at least 12 weeks) than typical depression treatment","OCD and depression require identical dosing and trial duration in all cases","Medication is never used for OCD, only for depression"],"correct":1,"rationale":"OCD treatment generally requires higher SSRI doses and a longer adequate trial (at least 12 weeks at an optimal dose) compared to depression, reflecting its typically slower medication response."},{"topic":"OCD Dx and Medications","vignette":"A child with OCD and a comorbid tic disorder has had a partial response to an adequate SSRI trial combined with ERP.","question":"Which augmentation strategy is best supported in this specific comorbidity scenario?","options":["Adding a benzodiazepine as monotherapy","Adding a low-dose atypical antipsychotic, such as risperidone or aripiprazole, given the comorbid tics","Discontinuing the SSRI and using only supportive counseling","Adding a stimulant medication for the OCD symptoms"],"correct":1,"rationale":"Augmentation with a low-dose atypical antipsychotic (risperidone or aripiprazole are best-supported) is particularly indicated for partial responders with comorbid tics, which is a recognized clinical scenario favoring this approach."},{"topic":"OCD Patient Education","vignette":"A mother has been completing her son's morning checking rituals for him so he will not be late to school, and she asks whether this is helpful.","question":"What is the most important psychoeducation point to share?","options":["This is an excellent long-term strategy that should continue indefinitely","This is a form of family accommodation, which, though well-intentioned, tends to reinforce OCD symptoms over time","This has no impact on OCD symptoms either way","She should instead punish her son for having the rituals"],"correct":1,"rationale":"Participating in or completing a child's compulsions is a form of family accommodation; although well-intentioned, it reinforces the obsession-compulsion cycle, and reducing accommodation (gradually, with support) is a key treatment target."},{"topic":"OCD Patient Education","vignette":"A family expresses frustration that their child's OCD symptoms have not resolved even though he has completed 4 weeks of an adequate SSRI dose.","question":"What is the most appropriate psychoeducation response?","options":["The medication has failed and should be stopped immediately","Full therapeutic benefit for OCD often takes longer than for depression, and continuing to at least 12 weeks at an optimal dose is recommended before reassessing efficacy","There is no expected timeline, and the family's concern is unfounded","OCD medications typically show full effect within 24–48 hours"],"correct":1,"rationale":"OCD medication trials require patience — full benefit often takes longer than for depression, and it is recommended to continue at least 12 weeks at an optimal dose before determining a lack of adequate response."},{"topic":"PANDAS","vignette":"A previously healthy 7-year-old develops severe, abrupt-onset obsessive-compulsive symptoms along with new choreiform movements within 3 weeks of a confirmed streptococcal throat infection.","question":"Which condition should be highest on the differential given this specific presentation?","options":["Generalized Anxiety Disorder","PANDAS","Tourette syndrome unrelated to infection","Selective Mutism"],"correct":1,"rationale":"The combination of abrupt-onset OCD symptoms, neurological findings (choreiform movements), and temporal association with a confirmed strep infection in a prepubertal child is the classic presentation prompting consideration of PANDAS."},{"topic":"PANDAS","vignette":"A resident asks how PANDAS differs from the broader concept of PANS (Pediatric Acute-onset Neuropsychiatric Syndrome).","question":"What is the key distinction?","options":["PANDAS and PANS are identical terms with no meaningful difference","PANDAS specifically requires a streptococcal trigger, while PANS is a broader concept describing abrupt-onset neuropsychiatric symptoms without requiring a confirmed strep link","PANS only applies to adults, while PANDAS only applies to children","PANDAS is diagnosed exclusively by MRI, while PANS is diagnosed by blood tests"],"correct":1,"rationale":"PANDAS specifically implicates a streptococcal infection as the trigger, while PANS is a broader, less pathogen-specific concept describing abrupt-onset neuropsychiatric symptoms (including OCD) without requiring a confirmed strep link."},{"topic":"Sertraline","vignette":"A prescriber is asked which single pediatric psychiatric indication sertraline carries full FDA approval for.","question":"What is the correct answer?","options":["Major depressive disorder in children age 6 and older","Obsessive-Compulsive Disorder in children age 6 and older","Generalized anxiety disorder in children age 6 and older","Bipolar disorder in children age 6 and older"],"correct":1,"rationale":"Sertraline's FDA-approved pediatric indication is OCD in children age 6 and older; other pediatric uses (depression, panic disorder, PTSD, social anxiety, separation anxiety) are off-label extrapolations from adult indications."},{"topic":"Sertraline","vignette":"A prescriber notes that sertraline can interfere with a specific laboratory test, which is important to communicate to other providers ordering urine studies.","question":"Which laboratory interference is clinically relevant with sertraline?","options":["A false-positive urine benzodiazepine immunoassay","A false-negative pregnancy test","A false-positive glucose tolerance test","A false-negative thyroid panel"],"correct":0,"rationale":"Sertraline can cause a false-positive urine benzodiazepine immunoassay, which is clinically relevant information to share with other providers, particularly in settings where urine drug screening is used for other purposes."},{"topic":"Sertraline","vignette":"A prescriber is counseling a family about medication interactions before starting sertraline in an adolescent who was recently prescribed a different psychiatric medication by another provider.","question":"Which combination would represent the most serious contraindication requiring a washout period before starting sertraline?","options":["A stimulant medication for ADHD","A monoamine oxidase inhibitor (MAOI), requiring a 14-day washout","An antihistamine for seasonal allergies","A topical acne medication"],"correct":1,"rationale":"Combining sertraline with an MAOI carries a serious risk of serotonin syndrome; MAOIs are contraindicated with sertraline, and a 14-day washout period is required before starting sertraline after MAOI discontinuation, or vice versa."},{"topic":"PTSD S/Sx and Triggers","vignette":"A 16-year-old with PTSD reports that certain anniversaries related to her trauma consistently bring on a worsening of her symptoms each year, even without any other clear trigger present that day.","question":"What clinical concept does this pattern best illustrate?","options":["An anniversary reaction, a recognized type of trauma trigger tied to the calendar date of the event","A completely unrelated seasonal affective disorder","Evidence that her PTSD has resolved","A sign of factitious disorder"],"correct":0,"rationale":"Anniversary reactions — symptom worsening around the calendar date of a traumatic event — are a recognized type of trauma trigger, illustrating how triggers can be tied to temporal reminders as well as sensory ones."},{"topic":"Talking Stick Basics","vignette":"A family therapist explains that the talking stick technique, while simple, serves a deeper function beyond just controlling who speaks.","question":"Beyond enforcing turn-taking, what additional therapeutic function does the talking stick serve?","options":["It has no additional function beyond determining who speaks","It models respectful listening as a family skill and helps ensure quieter members, often the child, are heard","It replaces the need for the therapist to be present","It is used to assign blame for family conflict"],"correct":1,"rationale":"Beyond enforcing turn-taking, the talking stick models respectful listening as a family skill and helps ensure that quieter or frequently interrupted members, often the child, get an uninterrupted opportunity to be heard."}];
+const TOTAL = QUESTIONS.length;
+
+let state = {
+  screen: "landing", // landing | quiz | summary
+  index: 0,
+  answers: new Array(TOTAL).fill(null), // selected option index or null
+  submitted: new Array(TOTAL).fill(false),
+};
+
+function letterFor(i) { return String.fromCharCode(65 + i); }
+
+function saveState() {
+  try {
+    localStorage.setItem("nurs5230_exam3_state", JSON.stringify({
+      index: state.index, answers: state.answers, submitted: state.submitted, screen: state.screen
+    }));
+  } catch(e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem("nurs5230_exam3_state");
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (saved && Array.isArray(saved.answers) && saved.answers.length === TOTAL) {
+      state.index = saved.index || 0;
+      state.answers = saved.answers;
+      state.submitted = saved.submitted || new Array(TOTAL).fill(false);
+      if (saved.screen === "summary") state.screen = "summary";
+      else if (saved.answers.some(a => a !== null)) state.screen = "quiz";
+    }
+  } catch(e) {}
+}
+
+function computeScore() {
+  let correct = 0, answered = 0;
+  for (let i = 0; i < TOTAL; i++) {
+    if (state.submitted[i]) {
+      answered++;
+      if (state.answers[i] === QUESTIONS[i].correct) correct++;
+    }
+  }
+  return { correct, answered };
+}
+
+function computeTopicBreakdown() {
+  const byTopic = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!byTopic[q.topic]) byTopic[q.topic] = { correct: 0, total: 0 };
+    if (state.submitted[i]) {
+      byTopic[q.topic].total++;
+      if (state.answers[i] === q.correct) byTopic[q.topic].correct++;
+    }
+  });
+  return byTopic;
+}
+
+function render() {
+  const app = document.getElementById("app");
+  if (state.screen === "landing") app.innerHTML = renderLanding();
+  else if (state.screen === "quiz") app.innerHTML = renderQuiz();
+  else app.innerHTML = renderSummary();
+  attachHandlers();
+  saveState();
+}
+
+function renderLanding() {
+  const hasProgress = state.answers.some(a => a !== null);
+  return `
+    <div class="landing">
+      <h2>NURS 5230 — Exam 3 Practice Exam</h2>
+      <p>Anxiety, OCD & Related, and Trauma- and Stressor-Related Disorders. Fifty vignette-style, moderate-to-difficult multiple choice questions covering every topic on your Exam 3 study guide. Answer each question and submit to see the rationale immediately, then move to the next case. Your final grade appears once you submit the full exam.</p>
+      <div class="meta-grid">
+        <div class="meta-item"><span class="num">${TOTAL}</span><span class="label">Vignette questions</span></div>
+        <div class="meta-item"><span class="num">Mod&ndash;High</span><span class="label">Difficulty level</span></div>
+        <div class="meta-item"><span class="num">21</span><span class="label">Topics covered</span></div>
+      </div>
+      <button class="btn btn-primary" id="startBtn">${hasProgress ? "Resume exam" : "Begin exam"}</button>
+      ${hasProgress ? '<button class="btn btn-ghost" id="restartBtn" style="margin-left:10px;">Start over</button>' : ""}
+    </div>
+  `;
+}
+
+function renderQuiz() {
+  const i = state.index;
+  const q = QUESTIONS[i];
+  const submitted = state.submitted[i];
+  const selected = state.answers[i];
+  const pct = Math.round(((i) / TOTAL) * 100);
+  const sc = computeScore();
+
+  let optionsHtml = q.options.map((opt, oi) => {
+    let cls = "option";
+    let tag = "";
+    if (submitted) {
+      cls += " locked";
+      if (oi === q.correct) { cls += " correct-answer"; tag = '<span class="option-tag correct-tag">Correct</span>'; }
+      else if (oi === selected) { cls += " wrong-answer"; tag = '<span class="option-tag wrong-tag">Your answer</span>'; }
+    } else if (selected === oi) {
+      cls += " selected";
+    }
+    return `<div class="${cls}" data-oi="${oi}">
+      <span class="letter">${letterFor(oi)}</span>
+      <span>${opt}</span>
+      ${tag}
+    </div>`;
+  }).join("");
+
+  let rationaleHtml = "";
+  if (submitted) {
+    const isCorrect = selected === q.correct;
+    rationaleHtml = `
+      <div class="rationale">
+        <span class="rationale-tag">Rationale</span>
+        <div class="rationale-verdict ${isCorrect ? "is-correct" : "is-incorrect"}">
+          <span class="verdict-dot ${isCorrect ? "dot-correct" : "dot-incorrect"}"></span>
+          ${isCorrect ? "Correct" : "Incorrect \u2014 correct answer is " + letterFor(q.correct)}
+        </div>
+        <div class="rationale-text">${q.rationale}</div>
+      </div>
+    `;
+  }
+
+  const submitDisabled = selected === null || submitted;
+  const isLast = i === TOTAL - 1;
+
+  return `
+    <div class="progress-rail">
+      <div class="progress-row">
+        <span>Question ${i + 1} of ${TOTAL}</span>
+        <span class="score-chip">${sc.answered} answered &middot; ${sc.correct} correct so far</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-label">CLINICAL VIGNETTE</div>
+      <div class="vignette">${q.vignette}</div>
+      <div class="question-stem">${q.question}</div>
+      <div class="options" id="optionsWrap">${optionsHtml}</div>
+      ${!submitted ? `<div class="submit-row"><button class="btn btn-primary" id="submitBtn" ${submitDisabled ? "disabled" : ""}>Submit answer</button></div>` : ""}
+      ${rationaleHtml}
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="backBtn" ${i === 0 ? "disabled" : ""}>&larr; Back</button>
+      <div class="spacer"></div>
+      ${isLast
+        ? `<button class="btn btn-primary" id="finishBtn" ${!submitted ? "disabled" : ""}>Submit exam for final grade</button>`
+        : `<button class="btn btn-primary" id="nextBtn" ${!submitted ? "disabled" : ""}>Next &rarr;</button>`
+      }
+    </div>
+  `;
+}
+
+function renderSummary() {
+  const sc = computeScore();
+  const pct = Math.round((sc.correct / TOTAL) * 100);
+  const breakdown = computeTopicBreakdown();
+  const topics = Object.keys(breakdown).sort();
+
+  let rows = topics.map(t => {
+    const b = breakdown[t];
+    const p = b.total ? Math.round((b.correct / b.total) * 100) : 0;
+    const weak = b.total && (b.correct / b.total) < 0.6;
+    return `<tr>
+      <td>${t}</td>
+      <td class="num-col">${b.correct}/${b.total}</td>
+      <td><div class="bar-cell"><div class="bar-track"><div class="bar-fill ${weak ? "weak" : ""}" style="width:${p}%"></div></div><span style="min-width:34px;text-align:right;">${p}%</span></div></td>
+    </tr>`;
+  }).join("");
+
+  const missed = [];
+  QUESTIONS.forEach((q, i) => {
+    if (state.answers[i] !== q.correct) missed.push(i);
+  });
+
+  let missedHtml = missed.length
+    ? `<div class="review-list">` + missed.map(i => `
+        <div class="review-item" data-jump="${i}">
+          <span class="q-num">Q${i + 1}</span>${QUESTIONS[i].question}
+          <div class="q-topic">${QUESTIONS[i].topic}</div>
+        </div>
+      `).join("") + `</div>`
+    : '<p class="summary-note">No missed questions \u2014 clean sweep.</p>';
+
+  let jumpDots = QUESTIONS.map((q, i) => {
+    let cls = "jump-dot";
+    if (state.submitted[i]) cls += state.answers[i] === q.correct ? " answered-correct" : " answered-incorrect";
+    return `<div class="${cls}" data-jump="${i}">${i + 1}</div>`;
+  }).join("");
+
+  return `
+    <div class="summary">
+      <h2>Final Grade</h2>
+      <div class="score-hero">
+        <div class="big">${sc.correct}/${TOTAL}</div>
+        <div class="pct">${pct}% correct</div>
+      </div>
+      <p class="summary-note">Review your performance by topic below to target your remaining study time, or jump back into any question to re-read its rationale.</p>
+
+      <table class="topic-table">
+        <thead><tr><th>Topic</th><th>Score</th><th>Accuracy</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+
+      <h2 style="font-size:1.1rem;">Questions to revisit</h2>
+      ${missedHtml}
+
+      <h2 style="font-size:1.1rem;">Jump to any question</h2>
+      <div class="jump-nav">${jumpDots}</div>
+
+      <div class="nav-row" style="margin-top:24px;">
+        <button class="btn btn-ghost" id="restartBtn2">Restart exam</button>
+        <div class="spacer"></div>
+      </div>
+    </div>
+  `;
+}
+
+function attachHandlers() {
+  const startBtn = document.getElementById("startBtn");
+  if (startBtn) startBtn.onclick = () => { state.screen = "quiz"; render(); };
+
+  const restartBtn = document.getElementById("restartBtn");
+  if (restartBtn) restartBtn.onclick = resetExam;
+  const restartBtn2 = document.getElementById("restartBtn2");
+  if (restartBtn2) restartBtn2.onclick = resetExam;
+
+  const optWrap = document.getElementById("optionsWrap");
+  if (optWrap && !state.submitted[state.index]) {
+    optWrap.querySelectorAll(".option").forEach(el => {
+      el.onclick = () => {
+        state.answers[state.index] = parseInt(el.getAttribute("data-oi"), 10);
+        render();
+      };
+    });
+  }
+
+  const submitBtn = document.getElementById("submitBtn");
+  if (submitBtn) submitBtn.onclick = () => {
+    state.submitted[state.index] = true;
+    render();
+  };
+
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) backBtn.onclick = () => { if (state.index > 0) { state.index--; render(); window.scrollTo(0,0); } };
+
+  const nextBtn = document.getElementById("nextBtn");
+  if (nextBtn) nextBtn.onclick = () => { if (state.index < TOTAL - 1) { state.index++; render(); window.scrollTo(0,0); } };
+
+  const finishBtn = document.getElementById("finishBtn");
+  if (finishBtn) finishBtn.onclick = () => { state.screen = "summary"; render(); window.scrollTo(0,0); };
+
+  document.querySelectorAll("[data-jump]").forEach(el => {
+    el.onclick = () => {
+      state.index = parseInt(el.getAttribute("data-jump"), 10);
+      state.screen = "quiz";
+      render();
+      window.scrollTo(0,0);
+    };
+  });
+}
+
+function resetExam() {
+  state = { screen: "landing", index: 0, answers: new Array(TOTAL).fill(null), submitted: new Array(TOTAL).fill(false) };
+  try { localStorage.removeItem("nurs5230_exam3_state"); } catch(e) {}
+  render();
+}
+
+loadState();
+render();
+</script>
+</body>
+</html>
