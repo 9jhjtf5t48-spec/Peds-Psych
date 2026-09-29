@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5230 Exam 4 Practice Exam 4</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card-bg: #ffffff; --text: #1a1d23; --text-muted: #5b6270;
+    --border: #e1e4e9; --primary: #2f6f4f; --primary-dark: #234f38;
+    --danger: #b3261e; --danger-bg: #fdecea; --success: #1e7d43; --success-bg: #e9f7ee;
+    --accent-bg: #f0f4f2; --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a; --card-bg: #1d2025; --text: #eceef1; --text-muted: #9aa1ad;
+      --border: #2b2f36; --primary: #5fb98a; --primary-dark: #7fd1a6;
+      --danger: #f2857b; --danger-bg: #3a2220; --success: #7fd1a6; --success-bg: #1c2f22;
+      --accent-bg: #20262a; --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+  .card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 24px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  h2 { font-size:1.1rem; margin:0 0 16px; color:var(--text-muted); font-weight:500;}
+  .badge { display:inline-block; background:var(--accent-bg); color:var(--primary); border-radius:20px; padding:4px 12px; font-size:0.8rem; font-weight:600; margin-bottom:14px; }
+  .btn { display:inline-block; background:var(--primary); color:#fff; border:none; border-radius:8px; padding:12px 22px; font-size:1rem; font-weight:600; cursor:pointer; text-align:center; }
+  .btn:hover { background:var(--primary-dark); }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .btn.secondary { background:transparent; color:var(--primary); border:1px solid var(--primary); }
+  .btn.secondary:hover { background:var(--accent-bg); }
+  .row { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+  .progress-bar { height:6px; background:var(--border); border-radius:4px; overflow:hidden; margin-bottom:18px; }
+  .progress-fill { height:100%; background:var(--primary); transition:width .25s ease; }
+  .topic-tag { font-size:0.75rem; text-transform:uppercase; letter-spacing:.03em; color:var(--text-muted); font-weight:600; margin-bottom:8px; }
+  .qnum { color: var(--text-muted); font-size:0.85rem; margin-bottom:4px; }
+  .vignette { background:var(--accent-bg); border-radius:8px; padding:14px 16px; margin-bottom:14px; font-size:0.97rem; }
+  .question-text { font-weight:600; margin:0 0 16px; font-size:1.05rem; }
+  .option { display:flex; align-items:flex-start; gap:10px; border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-bottom:10px; cursor:pointer; transition: background .15s, border-color .15s; }
+  .option:hover { background: var(--accent-bg); }
+  .option.selected { border-color:var(--primary); background:var(--accent-bg); }
+  .option.correct { border-color:var(--success); background:var(--success-bg); }
+  .option.incorrect { border-color:var(--danger); background:var(--danger-bg); }
+  .option input { margin-top:3px; }
+  .letter { font-weight:700; min-width:18px; }
+  .rationale { margin-top:16px; padding:14px 16px; border-radius:8px; font-size:0.93rem; }
+  .rationale.correct-box { background:var(--success-bg); border:1px solid var(--success); }
+  .rationale.incorrect-box { background:var(--danger-bg); border:1px solid var(--danger); }
+  .rationale-label { font-weight:700; margin-bottom:6px; display:block; }
+  .summary-stat { text-align:center; margin: 10px 0 24px; }
+  .summary-score { font-size:3rem; font-weight:800; color:var(--primary); }
+  .summary-pct { font-size:1.2rem; color:var(--text-muted); }
+  table.topics { width:100%; border-collapse:collapse; margin-top:10px; font-size:0.9rem; }
+  table.topics th, table.topics td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); }
+  table.topics th { color:var(--text-muted); font-weight:600; font-size:0.8rem; text-transform:uppercase; }
+  .pillcorrect { color:var(--success); font-weight:700; }
+  .pillwrong { color:var(--danger); font-weight:700; }
+  footer { text-align:center; color:var(--text-muted); font-size:0.8rem; margin-top:24px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const QUESTIONS = [{"topic":"AN vs BN vs BED vs ARFID vs Pica","vignette":"A 13-year-old girl has lost 18% of her body weight over 5 months through severe caloric restriction and compulsive exercise. She weighs herself 10 times a day and states she 'can still see fat' on her thighs despite a BMI of 15.2.","question":"Which DSM-5 criterion is illustrated by her belief that she 'can still see fat' despite being underweight?","options":["Disturbance in the way body weight/shape is experienced (Criterion C)","Persistent eating of nonnutritive substances (a Pica criterion)","Recurrent binge eating with loss of control (a bulimia criterion)","Restriction of energy intake leading to low body weight (Criterion A)"],"correct":0,"rationale":"Anorexia Criterion C covers disturbance in how body weight/shape is experienced, undue influence of weight/shape on self-evaluation, or persistent lack of recognition of the seriousness of low body weight — her perceptual distortion despite objective underweight status is a textbook example."},{"topic":"AN vs BN vs BED vs ARFID vs Pica","vignette":"A 19-year-old male eats a large pizza and a box of cookies within 45 minutes, feeling completely unable to stop, then immediately runs 6 miles and skips his next two meals. This pattern occurs about twice a week.","question":"Which combination of behaviors places this presentation in the bulimia nervosa category rather than binge-eating disorder?","options":["The binge occurs within a discrete 2-hour period","He reports a sense of loss of control during the binge","The binge is followed by compensatory behavior (excessive exercise, fasting) aimed at preventing weight gain","The episodes occur at least twice weekly"],"correct":2,"rationale":"Both BN and BED share loss-of-control binge eating within a discrete period, occurring at least weekly. What makes this bulimia rather than BED is the compensatory behavior — excessive exercise and fasting after the binge, specifically aimed at preventing weight gain."},{"topic":"AN vs BN vs BED vs ARFID vs Pica","vignette":"A toddler with autism spectrum disorder has been eating small amounts of carpet fiber and drywall dust for the past 6 weeks. A blood lead level returns at 6 mcg/dL.","question":"Given this lead level, what is the recommended next step?","options":["Immediate inpatient psychiatric admission","Pediatric consultation, since the level exceeds the 4 mcg/dL threshold for referral","A trial of an SSRI to reduce the ingestion behavior","No further action is needed since this level is within normal limits"],"correct":1,"rationale":"For Pica, periodic blood lead testing is recommended given the toxicity risk from nonfood substances like paint, dust, or soil, with pediatric consultation recommended if levels exceed 4 mcg/dL — this child's level of 6 mcg/dL crosses that threshold."},{"topic":"ARFID s/sx","vignette":"A 6-year-old has eaten fewer than 10 total foods since birth, all of similar beige color and crunchy texture. He gags and cries when offered anything with a different texture, though his growth curve has stayed stable.","question":"Which of the three common ARFID presentations does this best represent?","options":["Fear-based avoidance following an aversive eating experience","Apparent lack of interest in eating/food","Sensory-based avoidance of food characteristics","Body-image-driven restriction"],"correct":2,"rationale":"Texture-driven food refusal without any history of a specific aversive event, and without a low appetite drive, points to the sensory-based avoidance subtype of ARFID — the second most common of the three subtypes."},{"topic":"ARFID s/sx","vignette":"A 7-year-old girl with newly diagnosed ARFID is found on labs to have iron-deficiency anemia and low vitamin D. Her growth chart shows a drop from the 50th to the 15th percentile for weight over the past year.","question":"Which DSM-5 ARFID Criterion A consequence is demonstrated by these lab findings?","options":["Significant nutritional deficiency","Marked interference with psychosocial functioning","Significant weight loss alone, without any nutritional deficiency","Dependence on enteral feeding or oral supplements"],"correct":0,"rationale":"ARFID Criterion A requires at least one of four functional consequences: significant weight loss/failure to grow, significant nutritional deficiency, dependence on enteral feeding/supplements, or marked psychosocial interference. Iron-deficiency anemia and low vitamin D directly demonstrate a significant nutritional deficiency."},{"topic":"Therapies for eating disorders","vignette":"A 14-year-old with a 6-month history of anorexia nervosa has a stable, engaged family willing to participate actively in her care.","question":"What treatment approach should be recommended first, and what is the parents' role in it?","options":["Individual CBT alone, with parents excluded from sessions","Immediate long-term inpatient admission regardless of medical stability","Family-Based Treatment (Maudsley model), with parents empowered to take charge of refeeding at home","Fluoxetine as first-line monotherapy before any psychotherapy is attempted"],"correct":2,"rationale":"Family-Based Treatment (the Maudsley model) has the strongest empirical support for adolescent anorexia nervosa, with parents empowered as part of the solution and placed in charge of refeeding at home — not blamed for causing the illness."},{"topic":"Therapies for eating disorders","vignette":"A hospitalized 15-year-old with severe anorexia nervosa is started on a refeeding protocol. The team deliberately limits initial caloric advancement and monitors phosphate closely.","question":"What complication is this cautious approach designed to prevent?","options":["Neuroleptic malignant syndrome","Refeeding syndrome","Alcohol withdrawal seizures","Serotonin syndrome"],"correct":1,"rationale":"Too-rapid refeeding in a severely malnourished patient risks refeeding syndrome, marked by dangerous electrolyte shifts (especially phosphate) — a key patient-safety consideration guiding gradual caloric advancement (roughly 1 lb/week outpatient, 2-3 lb/week inpatient)."},{"topic":"Enuresis vs Encopresis","vignette":"A 6-year-old boy has nighttime wetting episodes 4 times per week for the past 5 months, with no daytime accidents.","question":"Does this presentation meet DSM-5 criteria for enuresis, and which subtype applies?","options":["No — the frequency threshold of twice weekly has not been met","No — age 6 is below the minimum diagnostic age of 7","Yes — nocturnal-only enuresis, meeting both the age and frequency thresholds","Yes, but this should be classified as diurnal enuresis"],"correct":2,"rationale":"Enuresis requires age ≥5 years and frequency ≥2x/week for ≥3 consecutive months (or clinically significant distress). At age 6 with 4 nighttime episodes weekly for 5 months and no daytime accidents, this meets criteria for the nocturnal-only (monosymptomatic) subtype, the most common presentation."},{"topic":"Enuresis vs Encopresis","vignette":"A 5-year-old girl has soiled her underwear with normal-formed stool on 3 separate occasions over the past 4 months, always during arguments with her older brother. Physical exam and abdominal imaging show no evidence of constipation.","question":"Which encopresis specifier applies, and what association is commonly seen with this presentation?","options":["Without constipation and overflow incontinence — often associated with oppositional or deliberate soiling behavior","This does not meet diagnostic criteria because the stool is normal-formed","This requires an additional diagnosis of major depressive disorder before encopresis can be coded","With constipation and overflow incontinence — the most common subtype overall"],"correct":0,"rationale":"Encopresis without constipation and overflow incontinence ('functional nonretentive fecal incontinence') presents with normal-form stool and intermittent, often situational soiling, and is frequently associated with ODD/conduct disorder or deliberate soiling tied to family conflict."},{"topic":"Nocturnal enuresis treatment","vignette":"A 9-year-old with persistent nocturnal enuresis has already tried fluid restriction and voiding before bed without success. His parents want the treatment option with the best durable, long-term success rate.","question":"Which treatment should be recommended?","options":["Intranasal DDAVP as monotherapy","Oral DDAVP as monotherapy","The urine alarm ('bell and pad')","An anticholinergic medication"],"correct":2,"rationale":"The urine alarm is first-line for persistent nocturnal enuresis, with the highest success rate of behavioral options (~75% at 6 months, ~56% sustained at 12 months) — substantially better long-term durability than medication, which carries a high relapse rate on discontinuation."},{"topic":"Nocturnal enuresis treatment","vignette":"A family needs a short-term solution for their 11-year-old's bedwetting before a week-long summer camp, with no time to establish a urine alarm program beforehand.","question":"What is an appropriate short-term option, and what counseling point should accompany it?","options":["Oral DDAVP, with reassurance that relapse after discontinuation is rare","Oral DDAVP, with counseling that most children relapse once it is discontinued","Intranasal DDAVP, preferred for its lower hyponatremia risk compared with oral form","The urine alarm, since it works within 2-3 nights"],"correct":1,"rationale":"DDAVP can provide short-term help for situational needs like camp, but most children relapse when it is stopped. Oral form is preferred over intranasal spray due to a hyponatremia risk specific to the nasal spray formulation."},{"topic":"Encopresis treatment","vignette":"An 8-year-old with chronic constipation and fecal soiling is found to have a large palpable stool mass on exam, confirming the constipation/overflow subtype of encopresis.","question":"What is the correct treatment sequence?","options":["A behavioral toileting program alone, without addressing the impaction first","Weekly parent-administered enemas as an ongoing maintenance strategy","Initial bowel cleanout (PEG or enemas), then bowel retraining (stool softener, high-fiber diet, toileting routine) combined with a behavioral program","Immediate psychiatric referral before any medical management"],"correct":2,"rationale":"For constipation-type encopresis, treatment always begins with bowel cleanout (oral PEG or enemas), followed by bowel retraining (stool softener/mineral oil, high-fiber diet, regular toileting routine) combined with the behavioral program — behavioral measures alone will fail if impaction persists."},{"topic":"Encopresis treatment","vignette":"A 9-year-old without any constipation has been intentionally smearing stool during conflicts with his stepfather. Bowel exam and imaging are normal.","question":"What treatment approach is indicated?","options":["A daily suppository regimen","A high-fiber diet as the sole intervention","Bowel cleanout with PEG followed by mineral oil","Family behavioral treatment addressing the exacerbating family dynamics"],"correct":3,"rationale":"Encopresis without constipation, particularly when manipulative or deliberate, calls for family behavioral treatment addressing the underlying family dynamics driving the behavior — not the bowel-cleanout protocol reserved for the constipation/overflow subtype."},{"topic":"ODD vs CD vs IED","vignette":"An 11-year-old has an 8-month history of frequently losing his temper, arguing with his teachers, and deliberately annoying his younger sibling. He has never damaged property, stolen anything, or hurt another person or animal.","question":"Which diagnosis fits this pattern?","options":["Disruptive mood dysregulation disorder","Conduct disorder","Oppositional defiant disorder","Intermittent explosive disorder"],"correct":2,"rationale":"Angry/irritable mood, argumentative/defiant behavior, and vindictiveness lasting ≥6 months, without any violation of others' rights or major societal norms, is classic ODD. Conduct disorder requires more serious rights-violating behavior, which is absent here."},{"topic":"ODD vs CD vs IED","vignette":"A 13-year-old has, over the past year, broken into a neighbor's shed, deliberately set fire to a trash can, and been physically cruel to a stray cat. His first symptom (fire-setting at a friend's house) occurred at age 9.","question":"Which conduct disorder specifier applies, and what is its prognostic implication?","options":["Unspecified onset — no prognostic information can be inferred","Childhood-onset type — associated with a better long-term prognosis than adolescent-onset","Adolescent-onset type — associated with a better prognosis for remission","Childhood-onset type — associated with more physical aggression and higher risk of progressing to adult antisocial personality disorder"],"correct":3,"rationale":"Childhood-onset conduct disorder (≥1 symptom before age 10) carries a worse prognosis — more physical aggression and higher risk of progression to adult antisocial personality disorder — compared with adolescent-onset CD, which has a better prognosis for remission."},{"topic":"ODD vs CD vs IED","vignette":"A 10-year-old has had twice-weekly verbal outbursts and object-throwing (not directed at people) for the past 4 months, clearly disproportionate to minor frustrations, causing significant family distress.","question":"Does this presentation meet the minimum age requirement for intermittent explosive disorder?","options":["No — IED requires a minimum age of 10 years, which is not yet met","IED has no minimum age requirement","Yes — IED requires a minimum age of 6 years, which is met here","No — IED requires a minimum age of 12 years"],"correct":2,"rationale":"IED Criterion E requires chronological age ≥6 years (or equivalent developmental level). At age 10, this child meets the age threshold, and the twice-weekly verbal/non-destructive outbursts for 3+ months satisfy the frequency arm of Criterion A."},{"topic":"Meds for physically aggressive children","vignette":"A 14-year-old is acutely agitated and physically aggressive on an inpatient unit, with a suspected underlying psychotic process. The team needs a rapid-acting agent.","question":"Which class of medication is preferred for this scenario?","options":["A selective serotonin reuptake inhibitor for immediate sedation","Benzodiazepines as the default first-line choice","Haloperidol as the preferred first-line agent","Second-generation antipsychotics, particularly risperidone or olanzapine"],"correct":3,"rationale":"Second-generation antipsychotics — particularly risperidone and olanzapine — are preferred over haloperidol for acutely agitated youth, given comparable efficacy, rapid onset, sedative effect, rapidly-dissolving oral forms, and lower extrapyramidal side effects. Benzodiazepines are avoided by default due to paradoxical disinhibition risk."},{"topic":"Meds for physically aggressive children","vignette":"An 8-year-old with autism spectrum disorder has chronic, severe irritability and aggression unresponsive to behavioral interventions alone.","question":"Which medications carry FDA approval specifically for irritability/aggression associated with ASD?","options":["Lorazepam and clonazepam","Haloperidol and chlorpromazine","Risperidone and aripiprazole","Sertraline and fluoxetine"],"correct":2,"rationale":"For chronic/severe aggression associated with ASD or intellectual disability, risperidone and aripiprazole are the FDA-approved options for irritability/aggression, distinct from the acute-agitation preference for risperidone/olanzapine in general pediatric aggression."},{"topic":"PTSD vs ASD vs Dissociative Disorder vs Adjustment Disorder","vignette":"A 15-year-old was assaulted 3 weeks ago. She now has intrusive memories, avoidance of places resembling the assault site, dissociative episodes, and marked hyperarousal.","question":"Given this timeframe, which diagnosis is most appropriate right now?","options":["Adjustment disorder","Depersonalization/derealization disorder","Acute stress disorder","PTSD"],"correct":3,"rationale":"PTSD requires symptoms persisting beyond 1 month post-trauma; acute stress disorder covers 3 days to 1 month. At 3 weeks out, with qualifying Criterion-A trauma exposure and symptoms, this has now crossed into the PTSD timeframe."},{"topic":"PTSD vs ASD vs Dissociative Disorder vs Adjustment Disorder","vignette":"A 13-year-old describes recurring episodes of feeling detached from her own body, as if 'floating above and watching myself.' She recognizes these feelings are not literally real and has no identifiable trauma history.","question":"What feature of her presentation distinguishes it from a psychotic process?","options":["The presence of an identifiable trauma trigger","The presence of auditory hallucinations accompanying the episodes","Reality testing remains intact — she recognizes the experience is not literally real","Symptom persistence beyond 6 months"],"correct":2,"rationale":"Depersonalization/derealization disorder is defined by intact reality testing — the person knows the unreality feeling isn't literally true — distinguishing it from psychosis. Unlike PTSD/ASD, no specific Criterion-A trauma is required for this diagnosis."},{"topic":"Trauma therapy","vignette":"A 12-year-old with new-onset PTSD is referred for psychotherapy, without a specific treatment model requested by the referring provider.","question":"Which model is the safest, most defensible first-line choice absent further detail?","options":["Medication management as the primary intervention","Psychodynamic psychotherapy","Play therapy alone","Trauma-Focused CBT (TF-CBT)"],"correct":3,"rationale":"TF-CBT is the gold-standard trauma therapy with the strongest empirical support in youth. Psychotherapy is first-line for trauma-related presentations; medication remains adjunctive only."},{"topic":"Trauma therapy","vignette":"A therapist begins working with a traumatized 9-year-old by teaching diaphragmatic breathing and developing a family safety plan before any discussion of the traumatic event itself.","question":"What principle does this treatment sequencing reflect?","options":["Medication should be initiated before any psychotherapy begins","Trauma narrative work should always begin in the first session","Grounding/stabilization skills are taught before any trauma memory processing — safety and self-regulation come first","Family involvement should be delayed until stabilization is fully complete"],"correct":2,"rationale":"Across effective trauma therapy models, grounding/stabilization skills are taught before any trauma memory processing (narrative work, exposure) — safety and self-regulation always come first, regardless of the specific model used."},{"topic":"TF-CBT / PRACTICE","vignette":"A trainee is learning the 8 components of TF-CBT using the mnemonic taught in her program.","question":"Which mnemonic and component order is correct?","options":["TRAUMA: Triage, Rapport, Assessment, Understanding, Mastery, Aftercare","PRACTICE: Psychoeducation, Relaxation, Assessment, Cognitive processing, Trauma narrative, Imagery, Conjoint sessions, Evaluation","PROCESS: Psychoeducation, Relaxation, Ordering, Cognitive work, Exposure, Safety, Stabilization","PRACTICE: Psychoeducation/Parenting, Relaxation, Affective modulation, Cognitive processing, Trauma narrative, In-vivo mastery, Conjoint sessions, Enhancing safety"],"correct":3,"rationale":"PRACTICE is the core TF-CBT mnemonic: Psychoeducation and Parenting skills, Relaxation, Affective modulation, Cognitive processing/coping, Trauma narrative and processing, In-vivo mastery of trauma reminders, Conjoint child-parent sessions, Enhancing safety."},{"topic":"TF-CBT / PRACTICE","vignette":"A TF-CBT therapist has just finished teaching diaphragmatic breathing and progressive muscle relaxation to an 8-year-old survivor of a house fire, and has begun helping him name and rate the intensity of his fear and guilt.","question":"Which PRACTICE component is currently being addressed, and what comes immediately after it?","options":["Trauma narrative — beginning detailed exposure to the traumatic memory immediately","Enhancing safety — the final planning component","Cognitive processing/coping — identifying and correcting distorted trauma-related thoughts such as self-blame","Conjoint child-parent sessions — before any individual work is completed"],"correct":2,"rationale":"After Psychoeducation/Parenting, Relaxation, and Affective modulation, the next component is Cognitive processing/coping — identifying and correcting distorted trauma-related thoughts (e.g., self-blame) — which precedes the trauma narrative component."},{"topic":"Insomnia treatment","vignette":"An 8-year-old has nightly difficulty falling asleep without a parent present, resulting in daytime irritability and academic difficulty over the past 4 months.","question":"Before treating this as a standalone sleep disorder, what should be evaluated first?","options":["A benzodiazepine trial should be started immediately","This should be treated as a normal developmental variant requiring no evaluation","A sleep study should be ordered before any other evaluation","An underlying psychiatric cause (anxiety, ADHD, mood disorder, PTSD) or a substance such as caffeine or stimulant medication"],"correct":3,"rationale":"Before treating insomnia as standalone, an underlying psychiatric cause or substance should be screened for and addressed as the primary driver, rather than jumping directly to symptomatic insomnia treatment."},{"topic":"Insomnia treatment","vignette":"A 10-year-old continues to struggle with sleep onset despite two weeks of consistent bedtime routine, no screens after dinner, and a fixed wake time. His parents ask about a supplement they read about online.","question":"What is the best-supported short-term pharmacologic option for pediatric insomnia, and what is its regulatory status in children?","options":["Melatonin — no medication currently has FDA approval for pediatric insomnia","A benzodiazepine, which carries FDA approval for pediatric insomnia","A stimulant medication used off-label for sleep initiation","Diphenhydramine, which has strong evidence and FDA approval for chronic pediatric use"],"correct":0,"rationale":"Melatonin is the best-supported short-term pharmacologic option for pediatric insomnia, though no medication currently carries FDA approval for this indication in children. Sedative-hypnotics are not recommended for chronic use given paradoxical activation risk."},{"topic":"Nightmare treatment","vignette":"A 9-year-old has frequent, extremely dysphoric dreams involving threats to his safety. Upon waking, he becomes immediately oriented, alert, and is able to describe the dream in detail.","question":"What feature distinguishes this presentation from a sleep terror?","options":["Occurring in the first half of the sleep period rather than the second half","The child's age, since sleep terrors occur only in children under age 5","The presence of a detailed, well-remembered dream, which also occurs in sleep terrors","Rapid full orientation on waking — in sleep terrors, the child instead remains confused and unresponsive"],"correct":3,"rationale":"Rapid full orientation on waking distinguishes a nightmare from a sleep terror (an NREM parasomnia), where the child remains confused/unresponsive. Nightmares typically occur in the second half of the major sleep episode and are well-remembered."},{"topic":"Nightmare treatment","vignette":"A 14-year-old with PTSD has severe, nightly trauma-related nightmares unresponsive to imagery rehearsal therapy and relaxation training after an adequate trial.","question":"Which medication has the best-known targeted evidence for trauma-related nightmares in this scenario?","options":["Diphenhydramine","Prazosin, with monitoring of orthostatic blood pressure","Bupropion","A benzodiazepine"],"correct":1,"rationale":"Prazosin (an alpha-1 antagonist) has the best-known targeted evidence for trauma-related nightmares — started low, with monitoring of orthostatic blood pressure. No medication carries FDA approval for pediatric nightmares."},{"topic":"AUD s/sx and treatment","vignette":"A 16-year-old drinks heavily most weekends, has unsuccessfully tried to cut back twice, spends significant time recovering from hangovers before school, and continues drinking despite a recent alcohol-related car accident.","question":"How many of the 11 DSM-5 Criterion A symptoms must be present within 12 months to diagnose alcohol use disorder?","options":["At least 4 of 11","All 11","At least 1 of 11","At least 2 of 11"],"correct":3,"rationale":"AUD Criterion A requires ≥2 of 11 symptoms within a 12-month period, with severity then rated: mild = 2-3 criteria, moderate = 4-5, severe = ≥6."},{"topic":"AUD s/sx and treatment","vignette":"A family asks whether their 17-year-old with newly diagnosed alcohol use disorder should aim for moderation or complete abstinence.","question":"What is the recommended treatment goal for adolescent AUD?","options":["Abstinence, not 'controlled drinking'","Controlled drinking with a defined weekly limit","Abstinence is recommended only if a comorbid psychiatric diagnosis is present","No specific goal is recommended; the choice should be entirely patient-directed"],"correct":0,"rationale":"The treatment goal for adolescent AUD is abstinence, not controlled drinking. Medical detoxification is rarely necessary in adolescents, and treatment emphasizes group therapy, self-help programs, motivational interviewing, and family therapy."},{"topic":"Cannabis withdrawal s/sx and treatment","vignette":"A 17-year-old who has used cannabis daily for 9 months stops abruptly. Within a week she develops irritability, insomnia with disturbing dreams, decreased appetite, and abdominal discomfort.","question":"How many of the listed symptoms are required, and within what approximate timeframe, to diagnose cannabis withdrawal?","options":["All listed symptoms developing within approximately 2 weeks of cessation","At least 1 symptom developing within 24 hours of cessation","At least 5 symptoms developing within approximately 1 month of cessation","At least 3 symptoms developing within approximately 1 week of cessation"],"correct":3,"rationale":"Cannabis withdrawal requires ≥3 of the listed symptoms (irritability/anger/aggression, nervousness/anxiety, sleep difficulty, decreased appetite/weight loss, restlessness, depressed mood, or ≥1 physical symptom) developing within approximately 1 week after cessation of heavy, prolonged use."},{"topic":"Cannabis withdrawal s/sx and treatment","vignette":"A 16-year-old is 4 days into cannabis cessation with irritability and disrupted sleep. His mother asks the prescriber whether a specific medication can be started to directly treat the withdrawal.","question":"What is the correct answer regarding pharmacotherapy for cannabis withdrawal, and what is the recommended approach instead?","options":["Yes, naltrexone is FDA-approved specifically for cannabis withdrawal","No FDA-approved medication exists; treatment is primarily supportive care with symptom-targeted management","No medication or psychotherapy has any established role; withdrawal simply resolves untreated","Yes, buprenorphine is FDA-approved specifically for cannabis withdrawal"],"correct":1,"rationale":"No medication is FDA-approved for cannabis withdrawal. Treatment is primarily supportive care with symptom-targeted management, alongside standard SUD treatment (motivational interviewing, CBT, family therapy, contingency management)."},{"topic":"Motivational Interviewing","vignette":"A clinician trained in motivational interviewing consistently uses four core communication skills throughout sessions with an ambivalent adolescent patient.","question":"Which mnemonic and skill set describes these core MI communication skills?","options":["SMART: Specific, Measurable, Achievable, Realistic, Timed","CARE: Compassion, Acceptance, Reflection, Empathy","SOAP: Subjective, Objective, Assessment, Plan","OARS: Open-ended questions, Affirmations, Reflections, Summarizing"],"correct":3,"rationale":"OARS — Open-ended questions, Affirmations, Reflections, Summarizing — is the core communication toolkit of motivational interviewing."},{"topic":"Motivational Interviewing","vignette":"A patient tells his clinician he isn't sure vaping is really a problem. Rather than listing the health risks, the clinician asks him to describe what he likes about vaping and what, if anything, concerns him about it.","question":"What core MI philosophy does this approach reflect?","options":["The practitioner does not argue, persuade, or confront — resistance is 'rolled with,' and the patient voices their own reasons for change, reinforcing motivation more than being told","The practitioner should always directly confront ambivalence to accelerate change","MI is only effective when paired with direct advice-giving in every session","MI requires the practitioner to set the treatment goals on the patient's behalf"],"correct":0,"rationale":"MI's central philosophy is that the practitioner does not argue, persuade, or confront — resistance is 'rolled with,' and eliciting the patient's own change talk reinforces motivation more effectively than being told what to do, reflecting the 'evocation' element of the MI Spirit."},{"topic":"Change theory","vignette":"A 17-year-old with cannabis use disorder states, 'I don't see why this is even a problem — everyone I know uses.' She shows no interest in discussing any change.","question":"Which Transtheoretical Model stage best fits, and what is the clinician's primary task at this stage?","options":["Action — support and reinforce new behavior","Preparation — help build a concrete, specific plan","Contemplation — explore ambivalence and decisional balance","Precontemplation — raise awareness, avoid confrontation, express empathy"],"correct":3,"rationale":"This patient shows no awareness of a problem and no interest in change — classic Precontemplation. The clinician's task is to raise awareness while avoiding confrontation and expressing empathy, rather than pushing action-oriented language."},{"topic":"Change theory","vignette":"A patient tells his clinician, 'I know my drinking is becoming a problem, but I'm not sure I'm ready to actually stop. Part of me still doesn't want to give it up.'","question":"Which Transtheoretical Model stage does this reflect?","options":["Precontemplation","Contemplation","Maintenance","Preparation"],"correct":1,"rationale":"Awareness that a problem exists, paired with clear ambivalence and no firm commitment to change, is the hallmark of Contemplation. The clinician's task here is to explore that ambivalence and evoke reasons for/against change."},{"topic":"Children and foster care","vignette":"A 9-year-old has moved through 6 different foster placements in 3 years, despite each home being adequate, due to administrative delays and disrupted matches.","question":"What is the primary concern with this pattern, independent of the original maltreatment that led to placement?","options":["Repeated placement changes matter only if the child is under age 3","This pattern is protective because it exposes the child to varied caregiving styles","This pattern carries no additional impact beyond the original maltreatment","Multiple foster placement changes/disruptions is itself an independent risk factor for poorer psychiatric outcomes"],"correct":3,"rationale":"A child moved through a succession of foster placements — rather than rapid reunification or permanency — is a recognized risk for worse outcomes; repeated placement changes themselves become an added adverse experience, independent of the original maltreatment."},{"topic":"Children and foster care","vignette":"A 7-year-old was removed from her home due to severe neglect and placed with a loving foster family. The foster parents ask why their daughter has ongoing attachment difficulties despite feeling this new home is safe.","question":"What explains the elevated psychiatric risk seen in children adopted or fostered past infancy?","options":["Risk stems not just from loss of the primary attachment figure, but often from the neglect, abuse, and multiple caregiver changes that preceded placement","Foster care itself is the primary cause of all attachment difficulties, regardless of prior history","Risk is exclusively genetic and unrelated to placement history","Attachment difficulties in foster children are always permanent and unresponsive to new caregiving"],"correct":0,"rationale":"Children adopted or fostered past infancy are at higher risk for psychiatric problems because of what led to placement — not just loss of the primary attachment figure, but often neglect, abuse, and multiple caregiver changes. Many show attachment difficulties, though some form stable relationships with new caregivers."},{"topic":"Mandated reporter","vignette":"An NP has a reasonable suspicion, but not definitive proof, that a 7-year-old patient is being physically abused at home based on an inconsistent explanation for a bruising pattern.","question":"What is the legal threshold and obligation in this situation?","options":["The clinician must report — reasonable suspicion, not certainty, is the legal threshold, and reporting is a legal, not optional, obligation","Reporting is discretionary and left to the clinician's personal judgment","The clinician should wait until definitive proof is obtained before reporting","The clinician should first confront the parents directly instead of reporting"],"correct":0,"rationale":"Reasonable suspicion, not certainty, is the legal threshold for mandated reporting — the clinician does not need to prove abuse occurred before reporting. This is a legal, not optional, obligation in all states."},{"topic":"Mandated reporter","vignette":"An NP files a report for suspected abuse in good faith, but the subsequent investigation does not substantiate the allegation.","question":"What is the legal consequence for the NP in this scenario?","options":["The clinician's license is automatically reviewed following any unsubstantiated report","The clinician is immune from liability for reporting in good faith, even if the investigation does not substantiate abuse","The clinician must formally retract the report to avoid legal consequences","The clinician faces legal liability for filing an unsubstantiated report"],"correct":1,"rationale":"Clinicians acting in good faith are immune from liability for reporting, even if the investigation does not substantiate abuse. Legal penalties, by contrast, can be assessed for failing to report — this asymmetry is intentional."},{"topic":"Grief in children","vignette":"A teacher reports that an 8-year-old boy whose older brother died three weeks ago was laughing and playing tag at recess, only to burst into tears at his desk 20 minutes later when a classmate mentioned brothers.","question":"How should this pattern be interpreted?","options":["This is a concerning sign of emotional detachment requiring immediate evaluation","This is normal grief behavior — children's grief tends to be intermittent, not continuous, unlike adults' sustained mourning","This indicates the child does not understand that death is permanent","This suggests the child lacked a meaningful attachment to his brother"],"correct":1,"rationale":"Children's grief is intermittent, not continuous — a child who plays normally and then suddenly grieves intensely when reminded of the loss is showing normal, not concerning, grief behavior, unlike the sustained mourning more typical of adults."},{"topic":"Grief in children","vignette":"A 5-year-old girl tells her aunt that her mother died 'because I was bad and didn't listen to her that morning.'","question":"What is the most appropriate clinical response to this belief?","options":["Spontaneously reassure the child that he was not responsible — magical thinking in young children can lead them to believe they caused the death","Avoid discussing the death directly until the child is older","Explain the actual medical cause of death in detail to logically correct the belief","Allow the belief to persist without comment since children naturally outgrow it"],"correct":0,"rationale":"Magical thinking in young children can lead them to believe they caused a death — they are often too frightened or guilty to voice this belief and should be spontaneously reassured they were not responsible."},{"topic":"Group therapy techniques","vignette":"A teenager in a group for adolescents with anxiety says, 'I always thought I was the only one who checks the stove five times before leaving the house — knowing other people here do it too is such a relief.'","question":"Which of Yalom's therapeutic factors is being illustrated?","options":["Universality","Catharsis","Altruism","Imitative behavior"],"correct":0,"rationale":"Universality is the realization 'I am not alone' in one's struggles — exactly what this member describes upon hearing others share similar experiences, distinct from altruism (helping others) or catharsis (relief from expressing strong emotion)."},{"topic":"Group therapy techniques","vignette":"In the second week of a new adolescent process group, members glance frequently at the facilitator for cues on how to behave, say little about themselves, and seem visibly anxious about being judged by the others.","question":"Which stage of Tuckman's model of group development does this represent?","options":["Performing","Forming","Norming","Storming"],"correct":1,"rationale":"Forming (orientation) is characterized by members adapting to the group, seeking guidance/approval from the leader, limited self-disclosure, and possible anxiety — the earliest stage before the necessary friction of Storming emerges."},{"topic":"Angry patient during family therapy","vignette":"Before starting the first session with a family known to child protective services for repeated volatile arguments, the therapist opens by stating that everyone will get a turn to speak, no one will raise their voice, and no one will bring up what was said in session once they leave.","question":"What is the primary purpose of this intervention?","options":["Rule-setting should only occur after the first major conflict arises in session","Rule-setting at the very start of the first session is the single most important preventive intervention for managing anger/conflict — it establishes the clinician as being 'in charge' of the frame and protects safety","This step is optional and mainly serves a legal/liability purpose","This intervention is primarily meant to punish the family for prior behavior"],"correct":1,"rationale":"Setting clear rules at the start of every family session — especially with chaotic, high-conflict, or abusive families — establishes the clinician as being 'in charge' of the frame and protects safety. This is proactive, not reactive."},{"topic":"Angry patient during family therapy","vignette":"A mother begins raising her voice and cutting off her son mid-sentence during a session. The therapist softens her tone, slows her pace, and says, 'It sounds like this really matters to you — can we find a way to say it that he can actually hear?'","question":"What technique is the therapist using in this moment of escalating anger?","options":["Reflective statements that validate the emotion without validating the behavior, combined with lowering her own voice/pace rather than matching intensity","Matching the father's volume and intensity to demonstrate active engagement","Ignoring the outburst entirely and continuing with the planned agenda","Direct confrontation of the father's behavior to assert authority"],"correct":0,"rationale":"In the moment of escalating anger, the recommended approach is to name what's happening calmly, redirect to established rules, lower one's own voice/pace, and use reflective statements that validate the emotion without validating the behavior — exactly as illustrated here."},{"topic":"Learning domains","vignette":"After a psychoeducation session, a father can correctly list the core symptoms of separation anxiety disorder, but he continues to allow his son to skip school whenever he complains of stomachaches before drop-off.","question":"Which learning domain has been addressed, and which remains unaddressed?","options":["Cognitive domain addressed; affective and/or psychomotor domains remain unaddressed","Psychomotor domain addressed; cognitive domain remains unaddressed","Affective domain addressed; cognitive domain remains unaddressed","All three domains have already been fully addressed"],"correct":0,"rationale":"The cognitive domain covers acquiring knowledge and intellectual understanding — this parent can state facts about OCD, satisfying the cognitive domain. No behavior change (psychomotor) or attitude shift (affective) has yet occurred."},{"topic":"Learning domains","vignette":"A nurse practitioner has a mother physically practice, and correctly demonstrate back, a specific breathing technique to use with her anxious daughter during a panic episode, rather than only explaining the technique verbally.","question":"Which learning domain is targeted by having her physically demonstrate the technique?","options":["None of the three domains applies to skill demonstration","Psychomotor domain","Affective domain","Cognitive domain"],"correct":1,"rationale":"The psychomotor domain covers physical skills and hands-on ability to perform a task — a parent correctly demonstrating a de-escalation technique is a clear example of psychomotor-domain learning, distinct from knowing facts (cognitive) or expressing willingness (affective)."},{"topic":"NSSI","vignette":"A 16-year-old is found to have superficial cutting marks on her forearms. She reports she cuts to 'make the numbness go away' and explicitly denies any wish to die.","question":"What is the key distinguishing feature between NSSI and a suicide attempt?","options":["The specific body location of the injury","The use of a sharp object rather than another method","No intent to die — the goal is typically emotion regulation, not death","The presence of any physical scarring"],"correct":2,"rationale":"The key distinguishing feature from suicide attempts is no intent to die. The goal of NSSI is typically emotion regulation or, less commonly, interpersonal communication — not death."},{"topic":"NSSI","vignette":"A 15-year-old with a history of NSSI over the past year presents for an unrelated medical visit.","question":"What is the recommended clinical practice given her NSSI history?","options":["Risk assessment is only warranted if the patient specifically requests it","A thorough suicide risk assessment should be performed, since NSSI is a significant risk factor for future suicide attempts even though the acute intent differs","NSSI and suicide attempts should be documented and treated identically","No suicide risk assessment is needed since NSSI by definition excludes suicidal intent"],"correct":1,"rationale":"NSSI is a significant risk factor for future suicide attempts, even though the acute intent differs — every NSSI presentation requires a thorough suicide risk assessment, since the two behaviors are related but distinct."}];
+const STORAGE_KEY = "nurs5230_exam44_state";
+const EXAM_TITLE = "NURS 5230 Exam 4 Practice Exam 4";
+const EXAM_SUBTITLE = "Modules 6-7: Feeding/Eating, Elimination, Disruptive/Conduct, Trauma, Substance Use & Special Circumstances";
+const TOPIC_COUNT = 24;
+
+function seededShuffle(arr, seed) {
+  const a = arr.slice(); let s = seed;
+  for (let i = a.length - 1; i > 0; i--) {
+    s = (s * 9301 + 49297) % 233280;
+    const j = Math.floor((s / 233280) * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let state = loadState();
+
+function defaultState() {
+  return { screen: "landing", idx: 0, answers: {}, submitted: {}, order: QUESTIONS.map((_,i)=>i) };
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return defaultState();
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function startQuiz() {
+  state = defaultState();
+  state.screen = "quiz";
+  saveState();
+  render();
+}
+
+function resumeOrStart() {
+  if (state.screen === "quiz" || state.screen === "summary") { render(); return; }
+  startQuiz();
+}
+
+function selectOption(qIdx, optIdx) {
+  if (state.submitted[qIdx]) return;
+  state.answers[qIdx] = optIdx;
+  saveState();
+  render();
+}
+
+function submitAnswer(qIdx) {
+  if (state.answers[qIdx] === undefined) return;
+  state.submitted[qIdx] = true;
+  saveState();
+  render();
+}
+
+function nextQuestion() {
+  if (state.idx < QUESTIONS.length - 1) { state.idx++; saveState(); render(); }
+  else { finishQuiz(); }
+}
+function prevQuestion() {
+  if (state.idx > 0) { state.idx--; saveState(); render(); }
+}
+function finishQuiz() {
+  state.screen = "summary";
+  saveState();
+  render();
+}
+function restart() {
+  state = defaultState();
+  saveState();
+  render();
+}
+
+function computeScore() {
+  let correct = 0;
+  const byTopic = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!byTopic[q.topic]) byTopic[q.topic] = { correct: 0, total: 0 };
+    byTopic[q.topic].total++;
+    if (state.submitted[i] && state.answers[i] === q.correct) {
+      correct++;
+      byTopic[q.topic].correct++;
+    }
+  });
+  return { correct, total: QUESTIONS.length, byTopic };
+}
+
+function render() {
+  const app = document.getElementById("app");
+  if (state.screen === "landing") app.innerHTML = renderLanding();
+  else if (state.screen === "quiz") app.innerHTML = renderQuiz();
+  else app.innerHTML = renderSummary();
+  attachHandlers();
+  window.scrollTo(0,0);
+}
+
+function renderLanding() {
+  const hasProgress = Object.keys(state.submitted).length > 0 && state.screen !== "landing";
+  return `
+  <div class="card">
+    <span class="badge">NURS 5230 &middot; Practice Exam</span>
+    <h1>${escapeHtml(EXAM_TITLE)}</h1>
+    <h2>${escapeHtml(EXAM_SUBTITLE)}</h2>
+    <p style="color:var(--text-muted); font-size:0.95rem;">${QUESTIONS.length} vignette-style questions &middot; covers ${TOPIC_COUNT} topics from your instructor's study guide &middot; instant rationale after each answer &middot; final score + topic breakdown at the end.</p>
+    <div class="row">
+      <button class="btn" id="start-btn">Start Exam</button>
+    </div>
+  </div>
+  <footer>Self-graded practice tool. Not affiliated with your program.</footer>
+  `;
+}
+
+function renderQuiz() {
+  const i = state.idx;
+  const q = QUESTIONS[i];
+  const submitted = !!state.submitted[i];
+  const selected = state.answers[i];
+  const pct = Math.round((i / QUESTIONS.length) * 100);
+  const letters = ["A","B","C","D"];
+
+  let optionsHtml = q.options.map((opt, oi) => {
+    let cls = "option";
+    if (submitted) {
+      if (oi === q.correct) cls += " correct";
+      else if (oi === selected) cls += " incorrect";
+    } else if (selected === oi) cls += " selected";
+    return `<div class="${cls}" data-oi="${oi}">
+      <span class="letter">${letters[oi]}.</span>
+      <span>${escapeHtml(opt)}</span>
+    </div>`;
+  }).join("");
+
+  let rationaleHtml = "";
+  if (submitted) {
+    const isCorrect = selected === q.correct;
+    rationaleHtml = `<div class="rationale ${isCorrect ? "correct-box" : "incorrect-box"}">
+      <span class="rationale-label">${isCorrect ? "Correct" : "Incorrect"} &mdash; ${escapeHtml(letters[q.correct])}. ${escapeHtml(q.options[q.correct])}</span>
+      ${escapeHtml(q.rationale)}
+    </div>`;
+  }
+
+  return `
+  <div class="card">
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="qnum">Question ${i+1} of ${QUESTIONS.length}</div>
+    <div class="topic-tag">${escapeHtml(q.topic)}</div>
+    ${q.vignette ? `<div class="vignette">${escapeHtml(q.vignette)}</div>` : ""}
+    <p class="question-text">${escapeHtml(q.question)}</p>
+    <div id="options">${optionsHtml}</div>
+    ${rationaleHtml}
+    <div class="row">
+      <button class="btn secondary" id="back-btn" ${i===0?"disabled":""}>Back</button>
+      ${submitted
+        ? `<button class="btn" id="next-btn">${i === QUESTIONS.length-1 ? "See Results" : "Next"}</button>`
+        : `<button class="btn" id="submit-btn" ${selected===undefined?"disabled":""}>Submit Answer</button>`
+      }
+    </div>
+  </div>
+  `;
+}
+
+function renderSummary() {
+  const { correct, total, byTopic } = computeScore();
+  const pct = Math.round((correct/total)*100);
+  const rows = Object.keys(byTopic).map(t => {
+    const s = byTopic[t];
+    return `<tr><td>${escapeHtml(t)}</td><td>${s.correct}/${s.total}</td></tr>`;
+  }).join("");
+  return `
+  <div class="card">
+    <span class="badge">Results</span>
+    <h1>${escapeHtml(EXAM_TITLE)}</h1>
+    <div class="summary-stat">
+      <div class="summary-score">${correct}/${total}</div>
+      <div class="summary-pct">${pct}% correct</div>
+    </div>
+    <table class="topics">
+      <thead><tr><th>Topic</th><th>Score</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="row">
+      <button class="btn" id="restart-btn">Retake Exam</button>
+    </div>
+  </div>
+  `;
+}
+
+function attachHandlers() {
+  const startBtn = document.getElementById("start-btn");
+  if (startBtn) startBtn.onclick = startQuiz;
+  const restartBtn = document.getElementById("restart-btn");
+  if (restartBtn) restartBtn.onclick = restart;
+  const backBtn = document.getElementById("back-btn");
+  if (backBtn) backBtn.onclick = prevQuestion;
+  const nextBtn = document.getElementById("next-btn");
+  if (nextBtn) nextBtn.onclick = nextQuestion;
+  const submitBtn = document.getElementById("submit-btn");
+  if (submitBtn) submitBtn.onclick = () => submitAnswer(state.idx);
+  document.querySelectorAll(".option").forEach(el => {
+    el.onclick = () => selectOption(state.idx, parseInt(el.dataset.oi,10));
+  });
+}
+
+render();
+</script>
+</body>
+</html>
