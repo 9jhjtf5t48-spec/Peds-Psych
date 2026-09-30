@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Therapy Components Drill</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card-bg: #ffffff; --text: #1a1d23; --text-muted: #5b6270;
+    --border: #e1e4e9; --primary: #2f6f4f; --primary-dark: #234f38;
+    --danger: #b3261e; --danger-bg: #fdecea; --success: #1e7d43; --success-bg: #e9f7ee;
+    --accent-bg: #f0f4f2; --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a; --card-bg: #1d2025; --text: #eceef1; --text-muted: #9aa1ad;
+      --border: #2b2f36; --primary: #5fb98a; --primary-dark: #7fd1a6;
+      --danger: #f2857b; --danger-bg: #3a2220; --success: #7fd1a6; --success-bg: #1c2f22;
+      --accent-bg: #20262a; --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+  .card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 24px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  h2 { font-size:1.1rem; margin:0 0 16px; color:var(--text-muted); font-weight:500;}
+  .badge { display:inline-block; background:var(--accent-bg); color:var(--primary); border-radius:20px; padding:4px 12px; font-size:0.8rem; font-weight:600; margin-bottom:14px; }
+  .btn { display:inline-block; background:var(--primary); color:#fff; border:none; border-radius:8px; padding:12px 22px; font-size:1rem; font-weight:600; cursor:pointer; text-align:center; }
+  .btn:hover { background:var(--primary-dark); }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .btn.secondary { background:transparent; color:var(--primary); border:1px solid var(--primary); }
+  .btn.secondary:hover { background:var(--accent-bg); }
+  .row { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+  .progress-bar { height:6px; background:var(--border); border-radius:4px; overflow:hidden; margin-bottom:18px; }
+  .progress-fill { height:100%; background:var(--primary); transition:width .25s ease; }
+  .topic-tag { font-size:0.75rem; text-transform:uppercase; letter-spacing:.03em; color:var(--text-muted); font-weight:600; margin-bottom:8px; }
+  .qnum { color: var(--text-muted); font-size:0.85rem; margin-bottom:4px; }
+  .vignette { background:var(--accent-bg); border-radius:8px; padding:14px 16px; margin-bottom:14px; font-size:0.97rem; }
+  .question-text { font-weight:600; margin:0 0 16px; font-size:1.05rem; }
+  .option { display:flex; align-items:flex-start; gap:10px; border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-bottom:10px; cursor:pointer; transition: background .15s, border-color .15s; }
+  .option:hover { background: var(--accent-bg); }
+  .option.selected { border-color:var(--primary); background:var(--accent-bg); }
+  .option.correct { border-color:var(--success); background:var(--success-bg); }
+  .option.incorrect { border-color:var(--danger); background:var(--danger-bg); }
+  .option input { margin-top:3px; }
+  .letter { font-weight:700; min-width:18px; }
+  .rationale { margin-top:16px; padding:14px 16px; border-radius:8px; font-size:0.93rem; }
+  .rationale.correct-box { background:var(--success-bg); border:1px solid var(--success); }
+  .rationale.incorrect-box { background:var(--danger-bg); border:1px solid var(--danger); }
+  .rationale-label { font-weight:700; margin-bottom:6px; display:block; }
+  .summary-stat { text-align:center; margin: 10px 0 24px; }
+  .summary-score { font-size:3rem; font-weight:800; color:var(--primary); }
+  .summary-pct { font-size:1.2rem; color:var(--text-muted); }
+  table.topics { width:100%; border-collapse:collapse; margin-top:10px; font-size:0.9rem; }
+  table.topics th, table.topics td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); }
+  table.topics th { color:var(--text-muted); font-weight:600; font-size:0.8rem; text-transform:uppercase; }
+  .pillcorrect { color:var(--success); font-weight:700; }
+  .pillwrong { color:var(--danger); font-weight:700; }
+  footer { text-align:center; color:var(--text-muted); font-size:0.8rem; margin-top:24px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const QUESTIONS = [{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the 'P' in TF-CBT's PRACTICE mnemonic stand for?","options":["Progressive relaxation","Processing and Planning","Positive reinforcement","Psychoeducation and Parenting skills"],"correct":3,"rationale":"The 'P' stands for Psychoeducation and Parenting skills — education about trauma reactions plus parenting strategies to support the child. It is the first component in the PRACTICE sequence."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the 'R' in PRACTICE stand for?","options":["Reframing","Reflection","Recapitulation","Relaxation"],"correct":3,"rationale":"The 'R' stands for Relaxation — teaching calming/self-regulation techniques such as breathing and progressive muscle relaxation. It is the second component, following Psychoeducation/Parenting."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the first 'A' in PRACTICE stand for?","options":["Affective modulation","Altruism","Assessment","Acceptance"],"correct":0,"rationale":"The first 'A' stands for Affective modulation — building skills to identify and manage difficult emotions. It comes third, after Psychoeducation/Parenting and Relaxation."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the 'C' in PRACTICE stand for?","options":["Catharsis","Cognitive processing/coping","Corrective feedback","Change talk"],"correct":1,"rationale":"The 'C' stands for Cognitive processing/coping — identifying and correcting distorted trauma-related thoughts, such as self-blame. It comes fourth, right before the trauma narrative component."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the second 'T' in PRACTICE stand for?","options":["Termination planning","Trust-building exercises","Trauma narrative and processing","Transtheoretical stage assessment"],"correct":2,"rationale":"The 'T' stands for Trauma narrative and processing — the gradual, therapist-supported development of a detailed account of the traumatic event(s), to reduce avoidance and integrate the memory. It comes fifth, after the stabilization components."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the second 'I' in PRACTICE stand for?","options":["In-vivo mastery of trauma reminders","Imitative behavior","Interpersonal learning","Imparting information"],"correct":0,"rationale":"The second 'I' stands for In-vivo mastery of trauma reminders — real-world graded exposure to safe trauma reminders that are being avoided. It comes sixth, after the trauma narrative."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the second 'C' in PRACTICE stand for?","options":["Conjoint child-parent sessions","Contingency management","Corrective recapitulation","Cognitive restructuring"],"correct":0,"rationale":"The second 'C' stands for Conjoint child-parent sessions — where the child shares progress/narrative with the caregiver in a supported setting. It comes seventh, near the end of the sequence."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"What does the 'E' in PRACTICE stand for, and where does it fall in the sequence?","options":["Enhancing safety — the final component","Empathy — the fifth component","Evaluation — the third component","Evocation — the first component"],"correct":0,"rationale":"The 'E' stands for Enhancing safety — safety planning and future skills for the child and family. It is the eighth and final PRACTICE component, typically addressed as treatment nears completion."},{"topic":"TF-CBT: PRACTICE mnemonic","vignette":"","question":"Which group of PRACTICE components must always be completed before the Trauma narrative component begins?","options":["Conjoint sessions and Enhancing safety","In-vivo mastery and Enhancing safety","None — the Trauma narrative can be done first if the child is motivated","Psychoeducation/Parenting, Relaxation, Affective modulation, Cognitive processing (the P-R-A-C portion)"],"correct":3,"rationale":"The stabilization/coping-skills components — Psychoeducation/Parenting, Relaxation, Affective modulation, Cognitive processing (P-R-A-C) — always come before trauma narrative work. Trauma processing is never the starting point in TF-CBT."},{"topic":"MI: OARS components","vignette":"","question":"In the OARS framework, what does the 'O' stand for?","options":["Objective feedback","Ongoing assessment","Outcome tracking","Open-ended questions"],"correct":3,"rationale":"'O' stands for Open-ended questions — questions that cannot be answered yes/no or with a short answer, used to draw out the patient's own thinking."},{"topic":"MI: OARS components","vignette":"","question":"In OARS, what is the difference between a 'simple' and a 'complex' reflection?","options":["There is no meaningful difference between the two types","A simple reflection restates the patient's exact words verbatim; a complex reflection paraphrases using clinical terminology","A simple reflection is used only in the Planning phase; a complex reflection is used only in Engaging","A simple reflection stays with what the patient said; a complex reflection adds to it or highlights a discrepancy"],"correct":3,"rationale":"A simple reflection stays close to what the patient explicitly said, while a complex reflection adds meaning, emotion, or highlights a discrepancy the patient hasn't stated outright — both fall under the 'R' (Reflections) in OARS."},{"topic":"MI: OARS components","vignette":"","question":"What is the purpose of 'Summarizing,' the final letter in OARS?","options":["Pulling together what's been said, often ending on the 'change talk' side of the patient's ambivalence","Providing the patient with a formal written treatment plan","Restating the session's billing codes for documentation","Ending every session regardless of what has been discussed"],"correct":0,"rationale":"Summarizing pulls together what's been said in the conversation, and is often strategically used to end on the 'change talk' side of the patient's ambivalence, reinforcing their own reasons for changing."},{"topic":"MI: Spirit of MI","vignette":"","question":"Which element of the 'Spirit' of MI refers to working with the patient rather than on them?","options":["Compassion","Acceptance","Partnership","Evocation"],"correct":2,"rationale":"Partnership describes working with, not on, the patient — a collaborative rather than expert-driven stance, one of the four elements of the MI Spirit alongside Acceptance, Compassion, and Evocation."},{"topic":"MI: Spirit of MI","vignette":"","question":"Which element of the 'Spirit' of MI involves respecting patient autonomy and affirming strengths?","options":["Partnership","Evocation","Acceptance","Compassion"],"correct":2,"rationale":"Acceptance involves respecting the patient's autonomy, affirming their strengths, and conveying accurate empathy — distinct from Partnership (collaboration) and Evocation (drawing out the patient's own motivation)."},{"topic":"MI: Spirit of MI","vignette":"","question":"Which element of the 'Spirit' of MI means prioritizing the patient's well-being above other goals?","options":["Evocation","Compassion","Partnership","Acceptance"],"correct":1,"rationale":"Compassion is the MI Spirit element that means prioritizing the patient's well-being — one of four elements, alongside Partnership, Acceptance, and Evocation."},{"topic":"MI: 4 phases","vignette":"","question":"Put the 4 phases of the MI process in the correct order.","options":["Engaging, Focusing, Evoking, Planning","Planning, Focusing, Engaging, Evoking","Evoking, Engaging, Focusing, Planning","Focusing, Engaging, Planning, Evoking"],"correct":0,"rationale":"The 4 phases of MI occur in order: Engaging (building rapport) → Focusing (guiding toward a clear target for change) → Evoking (eliciting the patient's own change talk) → Planning (building a concrete plan once change talk predominates)."},{"topic":"MI: 4 phases","vignette":"","question":"During which MI phase does the clinician primarily 'roll with resistance' and use open questions rather than unsolicited advice?","options":["Focusing","Planning","Evoking","Engaging"],"correct":0,"rationale":"During the Focusing phase, the clinician guides the conversation toward a clear direction/target for change, using open questions rather than unsolicited advice and 'rolling with resistance' rather than confronting it."},{"topic":"MI: 4 phases","vignette":"","question":"During which MI phase does the clinician primarily elicit and reinforce the patient's own 'change talk' while avoiding arguing for change?","options":["Focusing","Engaging","Planning","Evoking"],"correct":3,"rationale":"The Evoking phase is where the clinician elicits and reinforces the patient's own stated reasons/desire for change ('change talk'), while avoiding arguing for change themselves."},{"topic":"MI: FRAMES protocol","vignette":"","question":"In the FRAMES protocol, what does the 'R' stand for?","options":["Readiness assessment","Relapse prevention","Reflections","Responsibility for change placed with the individual"],"correct":3,"rationale":"In FRAMES (Feedback, Responsibility, Advice, Menu, Empathy, Self-efficacy), the 'R' stands for Responsibility — placing responsibility for change with the individual rather than the clinician."},{"topic":"MI: FRAMES protocol","vignette":"","question":"Which two components come after 'Advice' and before 'Self-efficacy' in the FRAMES protocol?","options":["Motivation and Encouragement","Menu (of change options) and Empathy","Monitoring and Evaluation","Mentoring and Escalation"],"correct":1,"rationale":"FRAMES spells out: Feedback, Responsibility, Advice, Menu (of change options), Empathy, Self-efficacy — Menu and Empathy fall between Advice and Self-efficacy."},{"topic":"Change theory: TTM stages","vignette":"","question":"Put the 5 stages of the Transtheoretical Model of Change in the correct order.","options":["Precontemplation, Contemplation, Preparation, Action, Maintenance","Contemplation, Precontemplation, Preparation, Maintenance, Action","Preparation, Precontemplation, Contemplation, Action, Maintenance","Precontemplation, Preparation, Contemplation, Action, Maintenance"],"correct":0,"rationale":"The correct order is Precontemplation → Contemplation → Preparation → Action → Maintenance, with Relapse as a common (but not required) detour back to an earlier stage."},{"topic":"Change theory: TTM stages","vignette":"","question":"In the Precontemplation stage, what is the clinician's primary task?","options":["Focus on relapse-prevention planning","Help the patient build a concrete, specific plan","Raise awareness while avoiding confrontation and expressing empathy","Support and reinforce new behavior"],"correct":2,"rationale":"In Precontemplation, the patient is not yet considering change and may be unaware of or minimizing the problem — the clinician's task is to raise awareness, avoid confrontation, and express empathy."},{"topic":"Change theory: TTM stages","vignette":"","question":"In the Contemplation stage, what is the clinician's primary task?","options":["Reinforce gains and prevent relapse","Explore ambivalence and evoke reasons for/against change (decisional balance)","Raise awareness that a problem exists","Help build a concrete, specific plan"],"correct":1,"rationale":"In Contemplation, the patient is aware a problem exists and is considering change but remains ambivalent with no commitment yet — the clinician explores that ambivalence and evokes reasons for/against change."},{"topic":"Change theory: TTM stages","vignette":"","question":"In the Preparation stage, what is the clinician's primary task?","options":["Support and reinforce new behavior","Help build a concrete, specific plan and strengthen commitment","Normalize relapse as part of the process","Raise awareness and avoid confrontation"],"correct":1,"rationale":"In Preparation, the patient intends to act soon and may have already taken small steps — the clinician's task is to help build a concrete, specific plan and strengthen commitment."},{"topic":"Change theory: TTM stages","vignette":"","question":"Which stage is described as the patient 'actively modifying behavior/environment,' and is the most visible stage of change?","options":["Contemplation","Action","Maintenance","Preparation"],"correct":1,"rationale":"The Action stage is when the patient is actively modifying their behavior/environment — the most visible stage. The clinician's task is to support and reinforce the new behavior and help problem-solve barriers."},{"topic":"Change theory: TTM stages","vignette":"","question":"What language shift typically signals a patient's readiness to move from Contemplation/Preparation into Action?","options":["A shift from using 'I' statements to using 'we' statements","A shift from short sentences to longer, more detailed sentences","A shift from 'need to'/'should' toward 'will'/'going to'/'plan to'","A shift from talking about the future to talking about the past"],"correct":2,"rationale":"Readiness to progress toward planning/action is signaled by a shift in language — from 'need to'/'should' toward 'will'/'going to'/'plan to' — a practical cue clinicians listen for in session."},{"topic":"Change theory: TTM stages","vignette":"","question":"How should relapse be conceptualized within the Transtheoretical Model?","options":["As proof that the Transtheoretical Model does not apply to that patient","As evidence that the patient should be discharged from treatment","As a required stage that every patient must pass through exactly once","As an expected, predictable part of the change process, not a catastrophe or treatment failure"],"correct":3,"rationale":"Relapse is a common but non-required detour back to an earlier stage, and should be reframed as an expected, predictable part of the change process — not a catastrophe or reason to end treatment."},{"topic":"Group therapy: Yalom's factors","vignette":"","question":"Which of Yalom's therapeutic factors is described as the realization that 'I am not alone' in one's struggles?","options":["Catharsis","Instillation of hope","Altruism","Universality"],"correct":3,"rationale":"Universality is the realization that one is not alone in their struggles, gained through hearing other group members share similar experiences."},{"topic":"Group therapy: Yalom's factors","vignette":"","question":"Which of Yalom's therapeutic factors describes how helping other group members boosts a person's own self-worth?","options":["Universality","Altruism","Imitative behavior","Interpersonal learning"],"correct":1,"rationale":"Altruism describes how helping others in the group boosts a member's own sense of self-worth, distinct from universality (feeling less alone) and interpersonal learning (insight into relational patterns)."},{"topic":"Group therapy: Yalom's factors","vignette":"","question":"Which Yalom factor did he consider the single most foundational, enabling members to tolerate conflict and accept feedback from one another?","options":["Existential factors","Corrective recapitulation of the primary family group","Group cohesiveness","Development of socializing techniques"],"correct":2,"rationale":"Group cohesiveness — the sense of belonging and mutual acceptance — is considered by Yalom the primary therapeutic factor, foundational to a group's ability to tolerate conflict and accept feedback."},{"topic":"Group therapy: Yalom's factors","vignette":"","question":"Which Yalom factor describes the group re-enacting family dynamics in a way that allows them to be worked through differently?","options":["Group cohesiveness","Imitative behavior","Corrective recapitulation of the primary family group","Universality"],"correct":2,"rationale":"Corrective recapitulation of the primary family group refers to the group re-enacting family-of-origin dynamics in a way that can be worked through differently than they were originally."},{"topic":"Group therapy: Yalom's factors","vignette":"","question":"Which Yalom factor describes the relief of expressing strong emotions in a supportive setting?","options":["Catharsis","Altruism","Existential factors","Imparting information"],"correct":0,"rationale":"Catharsis refers to the relief that comes from expressing strong emotions in a supportive group setting."},{"topic":"Group therapy: Yalom's factors","vignette":"","question":"Which Yalom factor involves gaining insight into one's own relational patterns through interactions within the group?","options":["Imparting information","Interpersonal learning","Development of socializing techniques","Imitative behavior"],"correct":1,"rationale":"Interpersonal learning involves gaining insight into one's own relational patterns through the process of interacting with other group members in real time."},{"topic":"Group therapy: Tuckman's stages","vignette":"","question":"Put Tuckman's 5 stages of group development in the correct order.","options":["Norming, Forming, Storming, Adjourning, Performing","Forming, Norming, Storming, Performing, Adjourning","Forming, Storming, Norming, Performing, Adjourning","Storming, Forming, Norming, Adjourning, Performing"],"correct":2,"rationale":"Tuckman's stages occur in order: Forming (orientation) → Storming (conflict) → Norming (aligning around goals) → Performing (deep, autonomous work) → Adjourning (termination)."},{"topic":"Group therapy: Tuckman's stages","vignette":"","question":"Which Tuckman stage is characterized by members seeking guidance from the leader, limited self-disclosure, and possible anxiety?","options":["Storming","Norming","Performing","Forming"],"correct":3,"rationale":"Forming (orientation) is characterized by members adapting to the group, seeking guidance/approval from the leader, limited self-disclosure, and possible anxiety."},{"topic":"Group therapy: Tuckman's stages","vignette":"","question":"Which Tuckman stage involves necessary conflict as members find their place, and should NOT be seen as a failed or pathological stage?","options":["Adjourning","Norming","Forming","Storming"],"correct":3,"rationale":"Storming involves conflict as members find their place and differing ideas surface — this is necessary friction for the group to mature, not a sign of failure."},{"topic":"Group therapy: Tuckman's stages","vignette":"","question":"Which Tuckman stage is characterized by members aligning around common goals and building trust?","options":["Norming","Storming","Performing","Adjourning"],"correct":0,"rationale":"Norming is the stage where members align around common goals and trust builds, coming after the conflict of Storming and before the deep work of Performing."},{"topic":"Group therapy: Tuckman's stages","vignette":"","question":"Which Tuckman stage is characterized by autonomous, honest, deeper work, with members feeling ownership of the group?","options":["Norming","Performing","Forming","Storming"],"correct":1,"rationale":"Performing is the stage of autonomous, honest, deeper work, where members feel ownership of the group — the culmination of the earlier Forming, Storming, and Norming stages."},{"topic":"Group therapy: Tuckman's stages","vignette":"","question":"Which Tuckman stage involves addressing termination, where members may have strong emotional reactions to the group ending?","options":["Performing","Forming","Adjourning","Norming"],"correct":2,"rationale":"Adjourning is the final stage, where termination is addressed and members may have strong emotional reactions to the group ending — the leader's role is to directly address this rather than avoid it."},{"topic":"Eating disorder therapies","vignette":"","question":"Which therapy model has the strongest empirical support for adolescent anorexia nervosa, and what is the parents' role in it?","options":["Dialectical behavior therapy — parents co-lead each session as co-therapists","Family-Based Treatment (Maudsley model) — parents are empowered to take charge of refeeding at home","Cognitive-behavioral therapy — parents are excluded from all sessions","Interpersonal psychotherapy — parents attend only the intake session"],"correct":1,"rationale":"Family-Based Treatment (the Maudsley model) has the strongest empirical support for adolescent anorexia nervosa. Parents are empowered as part of the solution — not blamed — and placed in charge of refeeding at home."},{"topic":"Eating disorder therapies","vignette":"","question":"What is Parent-Focused Treatment (PFT), and how does its outcome compare with standard conjoint Family-Based Treatment in one RCT?","options":["A modification where the therapist meets with parents only; found to be more efficient at achieving weight restoration in one RCT","A version of FBT used only for bulimia nervosa, not anorexia","A modification where only the adolescent is seen individually; found to be less effective than standard FBT","An inpatient-only version of FBT; found to have identical outcomes to outpatient FBT"],"correct":0,"rationale":"Parent-Focused Treatment (PFT) is a modification of FBT where the therapist meets with the parents only rather than the whole family; one RCT found it more efficient at achieving weight restoration than standard conjoint FBT."},{"topic":"Eating disorder therapies","vignette":"","question":"Which psychotherapy is most effective for bulimia nervosa in adults, and what medication has the best pediatric evidence for BN?","options":["CBT is most effective; fluoxetine (up to 60 mg/day) has the best pediatric evidence","Psychodynamic therapy is most effective; topiramate has the best pediatric evidence","Interpersonal psychotherapy is most effective; risperidone has the best pediatric evidence","Family-Based Treatment is most effective; lisdexamfetamine has the best pediatric evidence"],"correct":0,"rationale":"CBT is the most effective treatment for bulimia nervosa in adults. Fluoxetine, studied at doses up to 60 mg/day, has the best pharmacologic evidence among adolescents with BN — the only eating disorder with meaningful medication support."},{"topic":"Eating disorder therapies","vignette":"","question":"Which two psychotherapies are first-line for binge-eating disorder, and which medication is FDA-approved for BED in adults?","options":["Motivational interviewing and psychodynamic therapy are first-line; topiramate is FDA-approved","Exposure and response prevention and EMDR are first-line; risperidone is FDA-approved","CBT and interpersonal psychotherapy are first-line; lisdexamfetamine is FDA-approved","Family-Based Treatment and DBT are first-line; fluoxetine is FDA-approved"],"correct":2,"rationale":"CBT and interpersonal psychotherapy are first-line psychotherapies for binge-eating disorder; lisdexamfetamine is FDA-approved for BED in adults, though pediatric data remain limited."},{"topic":"Eating disorder therapies","vignette":"","question":"What is the primary treatment approach for ARFID, and which professionals are commonly involved on the treatment team?","options":["Fluoxetine as first-line monotherapy, with behavioral therapy as an optional adjunct","Inpatient hospitalization is required for all ARFID cases regardless of severity","Family-Based Treatment identical to the anorexia nervosa protocol","Multidisciplinary behavioral interventions (graded food exposure, positive reinforcement), often involving SLP/OT feeding-team support"],"correct":3,"rationale":"ARFID treatment is multidisciplinary and behavioral, tailored to the specific restrictive driver (lack of interest, sensory, or fear-based), often involving speech-language pathology and occupational therapy feeding-team support — distinct from the Maudsley FBT model used for anorexia."},{"topic":"Eating disorder therapies","vignette":"","question":"What is the target refeeding rate for anorexia nervosa, and what complication does too-rapid refeeding risk?","options":["5 lb/week regardless of setting; too-rapid refeeding risks neuroleptic malignant syndrome","No specific target exists; the only risk of rapid refeeding is gastrointestinal discomfort","As rapid as tolerated, with no specific weekly target; too-rapid refeeding risks serotonin syndrome","Roughly 1 lb/week outpatient or 2-3 lb/week inpatient, toward ~90% of ideal body weight; too-rapid refeeding risks refeeding syndrome"],"correct":3,"rationale":"Target weight gain in AN refeeding is gradual — roughly 1 lb/week outpatient or 2-3 lb/week inpatient, toward ~90% of ideal body weight — because too-rapid refeeding risks refeeding syndrome, marked by dangerous electrolyte shifts."},{"topic":"Trauma therapy models","vignette":"","question":"Which trauma therapy model is described as school-based group TF-CBT?","options":["CBITS (Cognitive Behavioral Intervention for Trauma in Schools)","Child-Parent Psychotherapy","Seeking Safety","Trauma Systems Therapy"],"correct":0,"rationale":"CBITS is school-based group TF-CBT, designed to deliver trauma-focused treatment to groups of students within the school setting."},{"topic":"Trauma therapy models","vignette":"","question":"Which trauma therapy model is designed for young children and their caregiver as a dyad?","options":["Seeking Safety","CBITS","Child-Parent Psychotherapy","Narrative Exposure Therapy/KidNET"],"correct":2,"rationale":"Child-Parent Psychotherapy is specifically designed to work with young children and their caregiver together, as a dyad, rather than with the child alone."},{"topic":"Trauma therapy models","vignette":"","question":"Which trauma therapy model was specifically designed to address PTSD co-occurring with substance use?","options":["Child-Parent Psychotherapy","Trauma Systems Therapy","Seeking Safety","CBITS"],"correct":2,"rationale":"Seeking Safety is the trauma therapy model specifically designed for PTSD co-occurring with substance use, addressing both conditions simultaneously."},{"topic":"Trauma therapy models","vignette":"","question":"Which trauma therapy model was specifically developed for war/refugee trauma populations, using a structured lifeline narrative approach?","options":["Child-Parent Psychotherapy","Narrative Exposure Therapy / KidNET","Trauma Systems Therapy","CBITS"],"correct":1,"rationale":"Narrative Exposure Therapy (and its child-adapted version, KidNET) was specifically developed for war/refugee trauma populations, using a structured lifeline narrative approach."},{"topic":"Trauma therapy models","vignette":"","question":"Across all effective trauma therapy models for children, which two features are consistently emphasized regardless of the specific model used?","options":["Group format exclusively, with individual therapy discouraged in all cases","Family/caregiver involvement (including screening the caregiver's own trauma symptoms) and grounding/stabilization skills taught before any trauma memory processing","Individual-only treatment with no caregiver involvement, and beginning with the trauma narrative immediately","Medication as the primary intervention and psychotherapy as purely adjunctive"],"correct":1,"rationale":"Two consistent features across effective trauma therapy models: family/caregiver involvement (including screening/treating the caregiver's own trauma symptoms), and grounding/stabilization skills taught before any trauma memory processing — safety and self-regulation always come first."},{"topic":"Trauma therapy models","vignette":"","question":"When a vignette asks for 'the' recommended trauma therapy without further detail, which model is the safest, most defensible answer?","options":["Psychodynamic psychotherapy","Eye movement desensitization and reprocessing (EMDR) alone","Trauma-Focused CBT (TF-CBT)","Play therapy"],"correct":2,"rationale":"TF-CBT is the gold-standard trauma therapy with the strongest empirical support in youth — when a vignette asks for 'the' trauma therapy without more detail, TF-CBT is the safest, most defensible answer."}];
+const STORAGE_KEY = "nurs5230_examTherapyComponents_state";
+const EXAM_TITLE = "Therapy Components Drill";
+const EXAM_SUBTITLE = "PRACTICE (TF-CBT), OARS & Spirit (MI), FRAMES, Change Theory Stages, Yalom's Factors, Tuckman's Stages, Eating Disorder & Trauma Therapy Models";
+const TOPIC_COUNT = 10;
+
+function seededShuffle(arr, seed) {
+  const a = arr.slice(); let s = seed;
+  for (let i = a.length - 1; i > 0; i--) {
+    s = (s * 9301 + 49297) % 233280;
+    const j = Math.floor((s / 233280) * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let state = loadState();
+
+function defaultState() {
+  return { screen: "landing", idx: 0, answers: {}, submitted: {}, order: QUESTIONS.map((_,i)=>i) };
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return defaultState();
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function startQuiz() {
+  state = defaultState();
+  state.screen = "quiz";
+  saveState();
+  render();
+}
+
+function resumeOrStart() {
+  if (state.screen === "quiz" || state.screen === "summary") { render(); return; }
+  startQuiz();
+}
+
+function selectOption(qIdx, optIdx) {
+  if (state.submitted[qIdx]) return;
+  state.answers[qIdx] = optIdx;
+  saveState();
+  render();
+}
+
+function submitAnswer(qIdx) {
+  if (state.answers[qIdx] === undefined) return;
+  state.submitted[qIdx] = true;
+  saveState();
+  render();
+}
+
+function nextQuestion() {
+  if (state.idx < QUESTIONS.length - 1) { state.idx++; saveState(); render(); }
+  else { finishQuiz(); }
+}
+function prevQuestion() {
+  if (state.idx > 0) { state.idx--; saveState(); render(); }
+}
+function finishQuiz() {
+  state.screen = "summary";
+  saveState();
+  render();
+}
+function restart() {
+  state = defaultState();
+  saveState();
+  render();
+}
+
+function computeScore() {
+  let correct = 0;
+  const byTopic = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!byTopic[q.topic]) byTopic[q.topic] = { correct: 0, total: 0 };
+    byTopic[q.topic].total++;
+    if (state.submitted[i] && state.answers[i] === q.correct) {
+      correct++;
+      byTopic[q.topic].correct++;
+    }
+  });
+  return { correct, total: QUESTIONS.length, byTopic };
+}
+
+function render() {
+  const app = document.getElementById("app");
+  if (state.screen === "landing") app.innerHTML = renderLanding();
+  else if (state.screen === "quiz") app.innerHTML = renderQuiz();
+  else app.innerHTML = renderSummary();
+  attachHandlers();
+  window.scrollTo(0,0);
+}
+
+function renderLanding() {
+  const hasProgress = Object.keys(state.submitted).length > 0 && state.screen !== "landing";
+  return `
+  <div class="card">
+    <span class="badge">NURS 5230 &middot; Practice Exam</span>
+    <h1>${escapeHtml(EXAM_TITLE)}</h1>
+    <h2>${escapeHtml(EXAM_SUBTITLE)}</h2>
+    <p style="color:var(--text-muted); font-size:0.95rem;">${QUESTIONS.length} vignette-style questions &middot; covers ${TOPIC_COUNT} topics from your instructor's study guide &middot; instant rationale after each answer &middot; final score + topic breakdown at the end.</p>
+    <div class="row">
+      <button class="btn" id="start-btn">Start Exam</button>
+    </div>
+  </div>
+  <footer>Self-graded practice tool. Not affiliated with your program.</footer>
+  `;
+}
+
+function renderQuiz() {
+  const i = state.idx;
+  const q = QUESTIONS[i];
+  const submitted = !!state.submitted[i];
+  const selected = state.answers[i];
+  const pct = Math.round((i / QUESTIONS.length) * 100);
+  const letters = ["A","B","C","D"];
+
+  let optionsHtml = q.options.map((opt, oi) => {
+    let cls = "option";
+    if (submitted) {
+      if (oi === q.correct) cls += " correct";
+      else if (oi === selected) cls += " incorrect";
+    } else if (selected === oi) cls += " selected";
+    return `<div class="${cls}" data-oi="${oi}">
+      <span class="letter">${letters[oi]}.</span>
+      <span>${escapeHtml(opt)}</span>
+    </div>`;
+  }).join("");
+
+  let rationaleHtml = "";
+  if (submitted) {
+    const isCorrect = selected === q.correct;
+    rationaleHtml = `<div class="rationale ${isCorrect ? "correct-box" : "incorrect-box"}">
+      <span class="rationale-label">${isCorrect ? "Correct" : "Incorrect"} &mdash; ${escapeHtml(letters[q.correct])}. ${escapeHtml(q.options[q.correct])}</span>
+      ${escapeHtml(q.rationale)}
+    </div>`;
+  }
+
+  return `
+  <div class="card">
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="qnum">Question ${i+1} of ${QUESTIONS.length}</div>
+    <div class="topic-tag">${escapeHtml(q.topic)}</div>
+    ${q.vignette ? `<div class="vignette">${escapeHtml(q.vignette)}</div>` : ""}
+    <p class="question-text">${escapeHtml(q.question)}</p>
+    <div id="options">${optionsHtml}</div>
+    ${rationaleHtml}
+    <div class="row">
+      <button class="btn secondary" id="back-btn" ${i===0?"disabled":""}>Back</button>
+      ${submitted
+        ? `<button class="btn" id="next-btn">${i === QUESTIONS.length-1 ? "See Results" : "Next"}</button>`
+        : `<button class="btn" id="submit-btn" ${selected===undefined?"disabled":""}>Submit Answer</button>`
+      }
+    </div>
+  </div>
+  `;
+}
+
+function renderSummary() {
+  const { correct, total, byTopic } = computeScore();
+  const pct = Math.round((correct/total)*100);
+  const rows = Object.keys(byTopic).map(t => {
+    const s = byTopic[t];
+    return `<tr><td>${escapeHtml(t)}</td><td>${s.correct}/${s.total}</td></tr>`;
+  }).join("");
+  return `
+  <div class="card">
+    <span class="badge">Results</span>
+    <h1>${escapeHtml(EXAM_TITLE)}</h1>
+    <div class="summary-stat">
+      <div class="summary-score">${correct}/${total}</div>
+      <div class="summary-pct">${pct}% correct</div>
+    </div>
+    <table class="topics">
+      <thead><tr><th>Topic</th><th>Score</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="row">
+      <button class="btn" id="restart-btn">Retake Exam</button>
+    </div>
+  </div>
+  `;
+}
+
+function attachHandlers() {
+  const startBtn = document.getElementById("start-btn");
+  if (startBtn) startBtn.onclick = startQuiz;
+  const restartBtn = document.getElementById("restart-btn");
+  if (restartBtn) restartBtn.onclick = restart;
+  const backBtn = document.getElementById("back-btn");
+  if (backBtn) backBtn.onclick = prevQuestion;
+  const nextBtn = document.getElementById("next-btn");
+  if (nextBtn) nextBtn.onclick = nextQuestion;
+  const submitBtn = document.getElementById("submit-btn");
+  if (submitBtn) submitBtn.onclick = () => submitAnswer(state.idx);
+  document.querySelectorAll(".option").forEach(el => {
+    el.onclick = () => selectOption(state.idx, parseInt(el.dataset.oi,10));
+  });
+}
+
+render();
+</script>
+</body>
+</html>
